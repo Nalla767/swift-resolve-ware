@@ -102,64 +102,6 @@ function Dashboard() {
         }
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Total orders" value={stats.total} hint={`${stats.inProgress} in progress`} icon={ClipboardList} to="/orders" />
-        <KpiCard label="Critical orders" value={stats.critical} hint="Highest priority band" tone="critical" icon={Flame} to="/orders" />
-        <KpiCard label="Ready for dispatch" value={stats.readyDispatch} hint={`${stats.atRisk} orders at SLA risk`} tone="info" icon={Truck} to="/dispatch" />
-        <KpiCard label="Fulfilment rate" value={`${stats.fulfilmentRate}%`} hint="Completed vs total orders" tone="success" icon={GaugeIcon} to="/analytics" />
-        <KpiCard label="Low stock SKUs" value={stats.lowStock} hint="At or below reorder level" tone="warning" icon={Boxes} to="/inventory" />
-        <KpiCard label="Out of stock SKUs" value={stats.outOfStock} hint="Replenishment required" tone="critical" icon={PackageX} to="/inventory" />
-        <KpiCard label="Active exceptions" value={stats.activeExceptions} hint="Open, investigating or escalated" tone="warning" icon={AlertTriangle} to="/exceptions" />
-        <KpiCard label="Pending decisions" value={decisions.length} hint="Awaiting operator action" tone="primary" icon={Brain} to="/decision-center" />
-      </div>
-
-      {/* Bottleneck */}
-      <Card className="gap-4 border-warning/40 bg-warning/5 p-5">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-warning/40 bg-warning/15 text-warning">
-              <Timer className="size-5" />
-            </span>
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-warning">Bottleneck detected</p>
-              <h2 className="font-display text-xl font-bold">{bn.stage} is the constraint right now</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Queue: <span className="font-semibold text-foreground">{bn.queue} orders</span> · Average processing:{" "}
-                <span className="font-semibold text-foreground">{bn.actual} min</span> · Target:{" "}
-                <span className="font-semibold text-foreground">{bn.target} min</span> · Running{" "}
-                <span className="font-semibold text-warning">{bn.over}% over target</span>
-              </p>
-              <p className="mt-2 rounded-lg border border-warning/30 bg-warning/10 px-3 py-2 text-sm">
-                <span className="font-semibold">Recommendation:</span> {bn.recommendation}
-              </p>
-            </div>
-          </div>
-          <Button asChild variant="outline" size="sm">
-            <Link to="/analytics">
-              Bottleneck analysis <ArrowRight className="size-3.5" />
-            </Link>
-          </Button>
-        </div>
-        <div className="grid gap-2 sm:grid-cols-5">
-          {STAGE_TIMES.map((s) => {
-            const ratio = s.actual / s.target;
-            return (
-              <div key={s.stage} className="rounded-lg border border-border bg-card p-3">
-                <p className="text-xs text-muted-foreground">{s.stage}</p>
-                <p className="font-display text-lg font-bold tabular-nums">{s.actual}m</p>
-                <div className="mt-2 h-1.5 rounded-full bg-secondary">
-                  <div
-                    className={ratio > 1 ? "h-1.5 rounded-full bg-critical" : "h-1.5 rounded-full bg-success"}
-                    style={{ width: `${Math.min(100, (s.actual / (s.target * 2)) * 100)}%` }}
-                  />
-                </div>
-                <p className="mt-1 text-[11px] text-muted-foreground">Queue {STAGE_QUEUES[s.stage]} · target {s.target}m</p>
-              </div>
-            );
-          })}
-        </div>
-      </Card>
-
       {/* Charts */}
       <div className="grid gap-4 xl:grid-cols-3">
         <Card className="p-5 xl:col-span-2">
@@ -236,6 +178,53 @@ function Dashboard() {
         </Card>
       </div>
 
+      {/* Bottleneck */}
+      <Card className="gap-4 border-warning/40 bg-warning/5 p-5">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-warning/40 bg-warning/15 text-warning">
+              <Timer className="size-5" />
+            </span>
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-warning">Bottleneck detected</p>
+              <h2 className="font-display text-xl font-bold">{bn.stage} is the constraint right now</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Queue: <span className="font-semibold text-foreground">{bn.queue} orders</span> · Average processing:{" "}
+                <span className="font-semibold text-foreground">{bn.actual} min</span> · Target:{" "}
+                <span className="font-semibold text-foreground">{bn.target} min</span> · Running{" "}
+                <span className="font-semibold text-warning">{bn.over}% over target</span>
+              </p>
+              <p className="mt-2 rounded-lg border border-warning/30 bg-warning/10 px-3 py-2 text-sm">
+                <span className="font-semibold">Recommendation:</span> {bn.recommendation}
+              </p>
+            </div>
+          </div>
+          <Button asChild variant="outline" size="sm">
+            <Link to="/analytics">
+              Bottleneck analysis <ArrowRight className="size-3.5" />
+            </Link>
+          </Button>
+        </div>
+        <div className="grid gap-2 sm:grid-cols-5">
+          {STAGE_TIMES.map((s) => {
+            const ratio = s.actual / s.target;
+            return (
+              <div key={s.stage} className="rounded-lg border border-border bg-card p-3">
+                <p className="text-xs text-muted-foreground">{s.stage}</p>
+                <p className="font-display text-lg font-bold tabular-nums">{s.actual}m</p>
+                <div className="mt-2 h-1.5 rounded-full bg-secondary">
+                  <div
+                    className={ratio > 1 ? "h-1.5 rounded-full bg-critical" : "h-1.5 rounded-full bg-success"}
+                    style={{ width: `${Math.min(100, (s.actual / (s.target * 2)) * 100)}%` }}
+                  />
+                </div>
+                <p className="mt-1 text-[11px] text-muted-foreground">Queue {STAGE_QUEUES[s.stage]} · target {s.target}m</p>
+              </div>
+            );
+          })}
+        </div>
+      </Card>
+
       {/* Priority queue + activity */}
       <div className="grid gap-4 xl:grid-cols-3">
         <Card className="p-5 xl:col-span-2">
@@ -300,6 +289,18 @@ function Dashboard() {
             </ol>
           )}
         </Card>
+      </div>
+
+      {/* KPI summary */}
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Total orders" value={stats.total} hint={`${stats.inProgress} in progress`} icon={ClipboardList} to="/orders" />
+        <KpiCard label="Critical orders" value={stats.critical} hint="Highest priority band" tone="critical" icon={Flame} to="/orders" />
+        <KpiCard label="Ready for dispatch" value={stats.readyDispatch} hint={`${stats.atRisk} orders at SLA risk`} tone="info" icon={Truck} to="/dispatch" />
+        <KpiCard label="Fulfilment rate" value={`${stats.fulfilmentRate}%`} hint="Completed vs total orders" tone="success" icon={GaugeIcon} to="/analytics" />
+        <KpiCard label="Low stock SKUs" value={stats.lowStock} hint="At or below reorder level" tone="warning" icon={Boxes} to="/inventory" />
+        <KpiCard label="Out of stock SKUs" value={stats.outOfStock} hint="Replenishment required" tone="critical" icon={PackageX} to="/inventory" />
+        <KpiCard label="Active exceptions" value={stats.activeExceptions} hint="Open, investigating or escalated" tone="warning" icon={AlertTriangle} to="/exceptions" />
+        <KpiCard label="Pending decisions" value={decisions.length} hint="Awaiting operator action" tone="primary" icon={Brain} to="/decision-center" />
       </div>
     </>
   );
