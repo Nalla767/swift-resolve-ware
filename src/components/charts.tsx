@@ -52,6 +52,33 @@ export function ChartFrame({ children, height = 260 }: { children: React.ReactEl
   );
 }
 
+/** Compact summary strip rendered directly below a chart with visible percentages. */
+export function ChartLegend({ items }: { items: { name: string; value: number; color?: string }[] }) {
+  const total = items.reduce((sum, i) => sum + (Number(i.value) || 0), 0);
+  if (!items.length) return null;
+  return (
+    <div className="mt-2 flex flex-wrap gap-1.5">
+      {items.map((it, i) => (
+        <div
+          key={it.name}
+          className="flex items-center gap-1.5 rounded-md border border-border bg-surface px-2 py-1 text-[11px] leading-none"
+        >
+          <span
+            className="size-2 shrink-0 rounded-full"
+            style={{ background: it.color ?? CHART_COLORS[i % CHART_COLORS.length] }}
+          />
+          <span className="text-muted-foreground">{it.name}</span>
+          <span className="font-medium tabular-nums">{it.value}</span>
+          <span className="tabular-nums text-primary">
+            {total > 0 ? Math.round((Number(it.value) / total) * 100) : 0}%
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+
 export function BarSeries({
   data,
   x,
