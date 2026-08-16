@@ -10,7 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AllocationRouteImport } from './routes/allocation'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DispatchRouteImport } from './routes/dispatch'
+import { Route as PackingRouteImport } from './routes/packing'
+import { Route as PickingRouteImport } from './routes/picking'
+import { Route as QualityCheckRouteImport } from './routes/quality-check'
 import { Route as InventoryIndexRouteImport } from './routes/inventory/index'
 import { Route as InventorySkuRouteImport } from './routes/inventory/$sku'
 import { Route as LoginAdminRouteImport } from './routes/login/admin'
@@ -25,9 +30,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AllocationRoute = AllocationRouteImport.update({
+  id: '/allocation',
+  path: '/allocation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DispatchRoute = DispatchRouteImport.update({
+  id: '/dispatch',
+  path: '/dispatch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PackingRoute = PackingRouteImport.update({
+  id: '/packing',
+  path: '/packing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PickingRoute = PickingRouteImport.update({
+  id: '/picking',
+  path: '/picking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QualityCheckRoute = QualityCheckRouteImport.update({
+  id: '/quality-check',
+  path: '/quality-check',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InventoryIndexRoute = InventoryIndexRouteImport.update({
@@ -73,7 +103,12 @@ const OrdersNewRoute = OrdersNewRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/allocation': typeof AllocationRoute
   '/dashboard': typeof DashboardRoute
+  '/dispatch': typeof DispatchRoute
+  '/packing': typeof PackingRoute
+  '/picking': typeof PickingRoute
+  '/quality-check': typeof QualityCheckRoute
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
@@ -85,7 +120,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/allocation': typeof AllocationRoute
   '/dashboard': typeof DashboardRoute
+  '/dispatch': typeof DispatchRoute
+  '/packing': typeof PackingRoute
+  '/picking': typeof PickingRoute
+  '/quality-check': typeof QualityCheckRoute
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
@@ -98,7 +138,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/allocation': typeof AllocationRoute
   '/dashboard': typeof DashboardRoute
+  '/dispatch': typeof DispatchRoute
+  '/packing': typeof PackingRoute
+  '/picking': typeof PickingRoute
+  '/quality-check': typeof QualityCheckRoute
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
@@ -112,7 +157,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/allocation'
     | '/dashboard'
+    | '/dispatch'
+    | '/packing'
+    | '/picking'
+    | '/quality-check'
     | '/inventory/$sku'
     | '/login/admin'
     | '/login/customer'
@@ -124,7 +174,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/allocation'
     | '/dashboard'
+    | '/dispatch'
+    | '/packing'
+    | '/picking'
+    | '/quality-check'
     | '/inventory/$sku'
     | '/login/admin'
     | '/login/customer'
@@ -136,7 +191,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/allocation'
     | '/dashboard'
+    | '/dispatch'
+    | '/packing'
+    | '/picking'
+    | '/quality-check'
     | '/inventory/$sku'
     | '/login/admin'
     | '/login/customer'
@@ -149,7 +209,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AllocationRoute: typeof AllocationRoute
   DashboardRoute: typeof DashboardRoute
+  DispatchRoute: typeof DispatchRoute
+  PackingRoute: typeof PackingRoute
+  PickingRoute: typeof PickingRoute
+  QualityCheckRoute: typeof QualityCheckRoute
   InventorySkuRoute: typeof InventorySkuRoute
   LoginAdminRoute: typeof LoginAdminRoute
   LoginCustomerRoute: typeof LoginCustomerRoute
@@ -169,11 +234,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/allocation': {
+      id: '/allocation'
+      path: '/allocation'
+      fullPath: '/allocation'
+      preLoaderRoute: typeof AllocationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dispatch': {
+      id: '/dispatch'
+      path: '/dispatch'
+      fullPath: '/dispatch'
+      preLoaderRoute: typeof DispatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/packing': {
+      id: '/packing'
+      path: '/packing'
+      fullPath: '/packing'
+      preLoaderRoute: typeof PackingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/picking': {
+      id: '/picking'
+      path: '/picking'
+      fullPath: '/picking'
+      preLoaderRoute: typeof PickingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quality-check': {
+      id: '/quality-check'
+      path: '/quality-check'
+      fullPath: '/quality-check'
+      preLoaderRoute: typeof QualityCheckRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inventory/': {
@@ -237,7 +337,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AllocationRoute: AllocationRoute,
   DashboardRoute: DashboardRoute,
+  DispatchRoute: DispatchRoute,
+  PackingRoute: PackingRoute,
+  PickingRoute: PickingRoute,
+  QualityCheckRoute: QualityCheckRoute,
   InventorySkuRoute: InventorySkuRoute,
   LoginAdminRoute: LoginAdminRoute,
   LoginCustomerRoute: LoginCustomerRoute,
