@@ -175,30 +175,6 @@ function Dashboard() {
       {/* Charts */}
 
       <div className="grid gap-4 xl:grid-cols-3">
-        <Card className="p-5 xl:col-span-2">
-          <SectionTitle
-            title="Fulfilment trend"
-            hint="Orders created vs completed"
-            right={
-              <Tabs value={range} onValueChange={setRange}>
-                <TabsList>
-                  <TabsTrigger value="3">3 days</TabsTrigger>
-                  <TabsTrigger value="7">7 days</TabsTrigger>
-                </TabsList>
-              </Tabs>
-            }
-          />
-          <TrendArea
-            data={trend}
-            x="day"
-            series={[
-              { key: "created", name: "Created", color: "var(--color-chart-5)" },
-              { key: "completed", name: "Completed", color: "var(--color-chart-2)" },
-            ]}
-            height={270}
-          />
-        </Card>
-
         <Card className="p-5">
           <SectionTitle title="Orders by priority" hint="Rule-based priority scoring" />
           <Donut data={priorityData} height={270} />
