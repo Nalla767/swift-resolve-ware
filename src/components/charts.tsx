@@ -28,7 +28,7 @@ export const CHART_COLORS = [
   "var(--color-chart-6)",
 ];
 
-const axis = { fill: "var(--color-muted-foreground)", stroke: "none", fontSize: 11 };
+const axis = { fill: "var(--color-foreground)", stroke: "none", fontSize: 11 };
 
 const tooltipStyle = {
   contentStyle: {
