@@ -20,6 +20,10 @@ import { Route as PackingRouteImport } from './routes/packing'
 import { Route as PickingRouteImport } from './routes/picking'
 import { Route as QualityCheckRouteImport } from './routes/quality-check'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as CustomerDashboardRouteImport } from './routes/customer/dashboard'
+import { Route as CustomerNotificationsRouteImport } from './routes/customer/notifications'
+import { Route as CustomerOrdersRouteImport } from './routes/customer/orders'
+import { Route as CustomerProfileRouteImport } from './routes/customer/profile'
 import { Route as ExceptionsIndexRouteImport } from './routes/exceptions/index'
 import { Route as ExceptionsExceptionIdRouteImport } from './routes/exceptions/$exceptionId'
 import { Route as InventoryIndexRouteImport } from './routes/inventory/index'
@@ -30,6 +34,7 @@ import { Route as LoginWorkerRouteImport } from './routes/login/worker'
 import { Route as OrdersIndexRouteImport } from './routes/orders/index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders/$orderId'
 import { Route as OrdersNewRouteImport } from './routes/orders/new'
+import { Route as WorkerDashboardRouteImport } from './routes/worker/dashboard'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -86,6 +91,26 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CustomerDashboardRoute = CustomerDashboardRouteImport.update({
+  id: '/customer/dashboard',
+  path: '/customer/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomerNotificationsRoute = CustomerNotificationsRouteImport.update({
+  id: '/customer/notifications',
+  path: '/customer/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomerOrdersRoute = CustomerOrdersRouteImport.update({
+  id: '/customer/orders',
+  path: '/customer/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomerProfileRoute = CustomerProfileRouteImport.update({
+  id: '/customer/profile',
+  path: '/customer/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExceptionsIndexRoute = ExceptionsIndexRouteImport.update({
   id: '/exceptions/',
   path: '/exceptions/',
@@ -136,6 +161,11 @@ const OrdersNewRoute = OrdersNewRouteImport.update({
   path: '/orders/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkerDashboardRoute = WorkerDashboardRouteImport.update({
+  id: '/worker/dashboard',
+  path: '/worker/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -149,6 +179,10 @@ export interface FileRoutesByFullPath {
   '/picking': typeof PickingRoute
   '/quality-check': typeof QualityCheckRoute
   '/settings': typeof SettingsRoute
+  '/customer/dashboard': typeof CustomerDashboardRoute
+  '/customer/notifications': typeof CustomerNotificationsRoute
+  '/customer/orders': typeof CustomerOrdersRoute
+  '/customer/profile': typeof CustomerProfileRoute
   '/exceptions/$exceptionId': typeof ExceptionsExceptionIdRoute
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
@@ -156,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/login/worker': typeof LoginWorkerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/orders/new': typeof OrdersNewRoute
+  '/worker/dashboard': typeof WorkerDashboardRoute
   '/exceptions/': typeof ExceptionsIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/orders/': typeof OrdersIndexRoute
@@ -172,6 +207,10 @@ export interface FileRoutesByTo {
   '/picking': typeof PickingRoute
   '/quality-check': typeof QualityCheckRoute
   '/settings': typeof SettingsRoute
+  '/customer/dashboard': typeof CustomerDashboardRoute
+  '/customer/notifications': typeof CustomerNotificationsRoute
+  '/customer/orders': typeof CustomerOrdersRoute
+  '/customer/profile': typeof CustomerProfileRoute
   '/exceptions/$exceptionId': typeof ExceptionsExceptionIdRoute
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
@@ -179,6 +218,7 @@ export interface FileRoutesByTo {
   '/login/worker': typeof LoginWorkerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/orders/new': typeof OrdersNewRoute
+  '/worker/dashboard': typeof WorkerDashboardRoute
   '/exceptions': typeof ExceptionsIndexRoute
   '/inventory': typeof InventoryIndexRoute
   '/orders': typeof OrdersIndexRoute
@@ -196,6 +236,10 @@ export interface FileRoutesById {
   '/picking': typeof PickingRoute
   '/quality-check': typeof QualityCheckRoute
   '/settings': typeof SettingsRoute
+  '/customer/dashboard': typeof CustomerDashboardRoute
+  '/customer/notifications': typeof CustomerNotificationsRoute
+  '/customer/orders': typeof CustomerOrdersRoute
+  '/customer/profile': typeof CustomerProfileRoute
   '/exceptions/$exceptionId': typeof ExceptionsExceptionIdRoute
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
@@ -203,6 +247,7 @@ export interface FileRoutesById {
   '/login/worker': typeof LoginWorkerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/orders/new': typeof OrdersNewRoute
+  '/worker/dashboard': typeof WorkerDashboardRoute
   '/exceptions/': typeof ExceptionsIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/orders/': typeof OrdersIndexRoute
@@ -221,6 +266,10 @@ export interface FileRouteTypes {
     | '/picking'
     | '/quality-check'
     | '/settings'
+    | '/customer/dashboard'
+    | '/customer/notifications'
+    | '/customer/orders'
+    | '/customer/profile'
     | '/exceptions/$exceptionId'
     | '/inventory/$sku'
     | '/login/admin'
@@ -228,6 +277,7 @@ export interface FileRouteTypes {
     | '/login/worker'
     | '/orders/$orderId'
     | '/orders/new'
+    | '/worker/dashboard'
     | '/exceptions/'
     | '/inventory/'
     | '/orders/'
@@ -244,6 +294,10 @@ export interface FileRouteTypes {
     | '/picking'
     | '/quality-check'
     | '/settings'
+    | '/customer/dashboard'
+    | '/customer/notifications'
+    | '/customer/orders'
+    | '/customer/profile'
     | '/exceptions/$exceptionId'
     | '/inventory/$sku'
     | '/login/admin'
@@ -251,6 +305,7 @@ export interface FileRouteTypes {
     | '/login/worker'
     | '/orders/$orderId'
     | '/orders/new'
+    | '/worker/dashboard'
     | '/exceptions'
     | '/inventory'
     | '/orders'
@@ -267,6 +322,10 @@ export interface FileRouteTypes {
     | '/picking'
     | '/quality-check'
     | '/settings'
+    | '/customer/dashboard'
+    | '/customer/notifications'
+    | '/customer/orders'
+    | '/customer/profile'
     | '/exceptions/$exceptionId'
     | '/inventory/$sku'
     | '/login/admin'
@@ -274,6 +333,7 @@ export interface FileRouteTypes {
     | '/login/worker'
     | '/orders/$orderId'
     | '/orders/new'
+    | '/worker/dashboard'
     | '/exceptions/'
     | '/inventory/'
     | '/orders/'
@@ -291,6 +351,10 @@ export interface RootRouteChildren {
   PickingRoute: typeof PickingRoute
   QualityCheckRoute: typeof QualityCheckRoute
   SettingsRoute: typeof SettingsRoute
+  CustomerDashboardRoute: typeof CustomerDashboardRoute
+  CustomerNotificationsRoute: typeof CustomerNotificationsRoute
+  CustomerOrdersRoute: typeof CustomerOrdersRoute
+  CustomerProfileRoute: typeof CustomerProfileRoute
   ExceptionsExceptionIdRoute: typeof ExceptionsExceptionIdRoute
   InventorySkuRoute: typeof InventorySkuRoute
   LoginAdminRoute: typeof LoginAdminRoute
@@ -298,6 +362,7 @@ export interface RootRouteChildren {
   LoginWorkerRoute: typeof LoginWorkerRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   OrdersNewRoute: typeof OrdersNewRoute
+  WorkerDashboardRoute: typeof WorkerDashboardRoute
   ExceptionsIndexRoute: typeof ExceptionsIndexRoute
   InventoryIndexRoute: typeof InventoryIndexRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
@@ -382,6 +447,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/customer/dashboard': {
+      id: '/customer/dashboard'
+      path: '/customer/dashboard'
+      fullPath: '/customer/dashboard'
+      preLoaderRoute: typeof CustomerDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customer/notifications': {
+      id: '/customer/notifications'
+      path: '/customer/notifications'
+      fullPath: '/customer/notifications'
+      preLoaderRoute: typeof CustomerNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customer/orders': {
+      id: '/customer/orders'
+      path: '/customer/orders'
+      fullPath: '/customer/orders'
+      preLoaderRoute: typeof CustomerOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customer/profile': {
+      id: '/customer/profile'
+      path: '/customer/profile'
+      fullPath: '/customer/profile'
+      preLoaderRoute: typeof CustomerProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/exceptions/': {
       id: '/exceptions/'
       path: '/exceptions'
@@ -452,6 +545,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrdersNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/worker/dashboard': {
+      id: '/worker/dashboard'
+      path: '/worker/dashboard'
+      fullPath: '/worker/dashboard'
+      preLoaderRoute: typeof WorkerDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -467,6 +567,10 @@ const rootRouteChildren: RootRouteChildren = {
   PickingRoute: PickingRoute,
   QualityCheckRoute: QualityCheckRoute,
   SettingsRoute: SettingsRoute,
+  CustomerDashboardRoute: CustomerDashboardRoute,
+  CustomerNotificationsRoute: CustomerNotificationsRoute,
+  CustomerOrdersRoute: CustomerOrdersRoute,
+  CustomerProfileRoute: CustomerProfileRoute,
   ExceptionsExceptionIdRoute: ExceptionsExceptionIdRoute,
   InventorySkuRoute: InventorySkuRoute,
   LoginAdminRoute: LoginAdminRoute,
@@ -474,6 +578,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginWorkerRoute: LoginWorkerRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   OrdersNewRoute: OrdersNewRoute,
+  WorkerDashboardRoute: WorkerDashboardRoute,
   ExceptionsIndexRoute: ExceptionsIndexRoute,
   InventoryIndexRoute: InventoryIndexRoute,
   OrdersIndexRoute: OrdersIndexRoute,
