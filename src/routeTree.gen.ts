@@ -10,13 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LoginAdminRouteImport } from './routes/login/admin'
 import { Route as LoginCustomerRouteImport } from './routes/login/customer'
 import { Route as LoginWorkerRouteImport } from './routes/login/worker'
+import { Route as OrdersIndexRouteImport } from './routes/orders/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginAdminRoute = LoginAdminRouteImport.update({
@@ -34,39 +41,71 @@ const LoginWorkerRoute = LoginWorkerRouteImport.update({
   path: '/login/worker',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrdersIndexRoute = OrdersIndexRouteImport.update({
+  id: '/orders/',
+  path: '/orders/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
   '/login/worker': typeof LoginWorkerRoute
+  '/orders/': typeof OrdersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
   '/login/worker': typeof LoginWorkerRoute
+  '/orders': typeof OrdersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
   '/login/worker': typeof LoginWorkerRoute
+  '/orders/': typeof OrdersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login/admin' | '/login/customer' | '/login/worker'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/login/admin'
+    | '/login/customer'
+    | '/login/worker'
+    | '/orders/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login/admin' | '/login/customer' | '/login/worker'
-  id: '__root__' | '/' | '/login/admin' | '/login/customer' | '/login/worker'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/login/admin'
+    | '/login/customer'
+    | '/login/worker'
+    | '/orders'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/login/admin'
+    | '/login/customer'
+    | '/login/worker'
+    | '/orders/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
   LoginAdminRoute: typeof LoginAdminRoute
   LoginCustomerRoute: typeof LoginCustomerRoute
   LoginWorkerRoute: typeof LoginWorkerRoute
+  OrdersIndexRoute: typeof OrdersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -76,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login/admin': {
@@ -99,14 +145,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginWorkerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/orders/': {
+      id: '/orders/'
+      path: '/orders'
+      fullPath: '/orders/'
+      preLoaderRoute: typeof OrdersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
   LoginAdminRoute: LoginAdminRoute,
   LoginCustomerRoute: LoginCustomerRoute,
   LoginWorkerRoute: LoginWorkerRoute,
+  OrdersIndexRoute: OrdersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
