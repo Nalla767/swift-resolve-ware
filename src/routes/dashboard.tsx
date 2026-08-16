@@ -290,6 +290,18 @@ function Dashboard() {
           )}
         </Card>
       </div>
+
+      {/* KPI summary */}
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Total orders" value={stats.total} hint={`${stats.inProgress} in progress`} icon={ClipboardList} to="/orders" />
+        <KpiCard label="Critical orders" value={stats.critical} hint="Highest priority band" tone="critical" icon={Flame} to="/orders" />
+        <KpiCard label="Ready for dispatch" value={stats.readyDispatch} hint={`${stats.atRisk} orders at SLA risk`} tone="info" icon={Truck} to="/dispatch" />
+        <KpiCard label="Fulfilment rate" value={`${stats.fulfilmentRate}%`} hint="Completed vs total orders" tone="success" icon={GaugeIcon} to="/analytics" />
+        <KpiCard label="Low stock SKUs" value={stats.lowStock} hint="At or below reorder level" tone="warning" icon={Boxes} to="/inventory" />
+        <KpiCard label="Out of stock SKUs" value={stats.outOfStock} hint="Replenishment required" tone="critical" icon={PackageX} to="/inventory" />
+        <KpiCard label="Active exceptions" value={stats.activeExceptions} hint="Open, investigating or escalated" tone="warning" icon={AlertTriangle} to="/exceptions" />
+        <KpiCard label="Pending decisions" value={decisions.length} hint="Awaiting operator action" tone="primary" icon={Brain} to="/decision-center" />
+      </div>
     </>
   );
 }
