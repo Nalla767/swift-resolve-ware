@@ -154,8 +154,8 @@ export function LoginScreen({ role, title, tagline, description, bullets, redire
                   <DialogHeader>
                     <DialogTitle>Reset your password</DialogTitle>
                     <DialogDescription>
-                      In this demo environment password resets are handled by the warehouse IT desk. Use the demo credentials
-                      below to continue, or contact it-desk@smartfulfill.io.
+                      Password resets are handled by the warehouse IT desk. Use the sample credentials below to continue, or contact
+                      it-desk@smartfulfill.io.
                     </DialogDescription>
                   </DialogHeader>
                 </DialogContent>
@@ -176,7 +176,7 @@ export function LoginScreen({ role, title, tagline, description, bullets, redire
           </form>
 
           <Card className="mt-6 gap-2 border-dashed p-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">Demo credentials</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">Sample credentials</p>
             <p className="font-mono text-sm">{demo.email}</p>
             <p className="font-mono text-sm">{demo.password}</p>
             <Button
