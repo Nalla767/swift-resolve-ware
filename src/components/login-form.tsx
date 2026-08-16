@@ -14,6 +14,7 @@ import { useStore } from "@/lib/store";
 import { DEMO_USERS } from "@/lib/mock-data";
 import type { Role } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type Props = {
   role: Role;
@@ -64,7 +65,10 @@ export function LoginScreen({ role, title, tagline, description, bullets, redire
   const demo = DEMO_USERS[role];
 
   return (
-    <div className="grid min-h-screen lg:grid-cols-2">
+    <div className="relative grid min-h-screen lg:grid-cols-2">
+      <div className="absolute right-4 top-4 z-20">
+        <ThemeToggle />
+      </div>
       <div className="relative hidden flex-col justify-between overflow-hidden border-r border-border bg-sidebar p-10 lg:flex">
         <div className="grid-lines absolute inset-0 opacity-60" />
         <div className="relative">
