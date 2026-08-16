@@ -420,3 +420,13 @@ export const DEMO_USERS = {
   worker: { email: "diego@smartfulfill.io", password: "worker123", name: "Diego Alvarez" },
   customer: { email: "ops@northwind.example", password: "customer123", name: "Northwind Retail" },
 };
+
+/** Weekly roll-up used by the dashboard progress panel. */
+export const WEEKLY_TREND = [
+  { day: "Wk 26", completed: 231, created: 258, rate: 90 },
+  { day: "Wk 27", completed: 248, created: 262, rate: 95 },
+  { day: "Wk 28", completed: 219, created: 271, rate: 81 },
+  { day: "Wk 29", completed: 266, created: 279, rate: 95 },
+  { day: "Wk 30", completed: 241, created: 288, rate: 84 },
+  { day: "Wk 31", completed: 288, created: 296, rate: 97 },
+];
