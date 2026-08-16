@@ -60,8 +60,6 @@ export function bottleneck() {
 function Dashboard() {
   const { orders, inventory, exceptions, decisions, activity } = useStore();
   const stats = useStats();
-  const [range, setRange] = useState("7");
-
   const [progressRange, setProgressRange] = useState("daily");
 
   const progressData = progressRange === "weekly" ? WEEKLY_TREND : FULFILMENT_TREND;
