@@ -28,7 +28,7 @@ export const CHART_COLORS = [
   "var(--color-chart-6)",
 ];
 
-const axis = { fill: "var(--color-foreground)", stroke: "none", fontSize: 11 };
+const axis = { fill: "var(--color-chart-text)", stroke: "none", fontSize: 11, fontWeight: 500 };
 
 const tooltipStyle = {
   contentStyle: {
@@ -38,11 +38,11 @@ const tooltipStyle = {
     fontSize: 12,
     color: "var(--color-popover-foreground)",
   },
-  labelStyle: { color: "var(--color-foreground)", fontSize: 11 },
-  cursor: { fill: "var(--color-foreground)", opacity: 0.06 },
+  labelStyle: { color: "var(--color-chart-text)", fontSize: 11, fontWeight: 600 },
+  cursor: { fill: "var(--color-chart-text)", opacity: 0.06 },
 };
 
-const legendStyle = { fontSize: 11, color: "var(--color-foreground)" };
+const legendStyle = { fontSize: 11, color: "var(--color-chart-text)", fontWeight: 500 };
 
 export function ChartFrame({ children, height = 260 }: { children: React.ReactElement; height?: number }) {
   return (
