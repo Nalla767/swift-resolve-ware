@@ -16,14 +16,15 @@ import {
 import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { BarSeries, ColoredBars, Donut, Gauge, TrendArea } from "@/components/charts";
+import { BarSeries, ChartLegend, ColoredBars, Donut, Gauge, TrendArea } from "@/components/charts";
 import { EmptyState, KpiCard, PageHeader, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
 import { PriorityBadge, StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fmtRelative, inventoryStatus } from "@/lib/engine";
-import { FULFILMENT_TREND, STAGE_QUEUES, STAGE_TIMES } from "@/lib/mock-data";
+import { FULFILMENT_TREND, STAGE_QUEUES, STAGE_TIMES, WEEKLY_TREND } from "@/lib/mock-data";
 import { useStats, useStore } from "@/lib/store";
 import { STAGE_LABEL } from "@/lib/types";
 
@@ -61,7 +62,14 @@ function Dashboard() {
   const stats = useStats();
   const [range, setRange] = useState("7");
 
+  const [progressRange, setProgressRange] = useState("daily");
+
+  const progressData = progressRange === "weekly" ? WEEKLY_TREND : FULFILMENT_TREND;
+  const avgCompleted = Math.round(progressData.reduce((s, d) => s + d.completed, 0) / progressData.length);
+  const avgRate = Math.round(progressData.reduce((s, d) => s + d.rate, 0) / progressData.length);
+
   const trend = useMemo(() => (range === "3" ? FULFILMENT_TREND.slice(-3) : FULFILMENT_TREND), [range]);
+  const inProgressPct = Math.round((stats.inProgress / Math.max(1, stats.total)) * 100);
   const bn = bottleneck();
 
   const stageData = stats.stageCounts.map((s) => ({ stage: STAGE_LABEL[s.stage], count: s.count }));
