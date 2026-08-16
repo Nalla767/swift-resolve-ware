@@ -69,7 +69,7 @@ export function ChartLegend({ items }: { items: { name: string; value: number; c
             className="size-2 shrink-0 rounded-full"
             style={{ background: it.color ?? CHART_COLORS[i % CHART_COLORS.length] }}
           />
-          <span className="text-muted-foreground">{it.name}</span>
+          <span className="text-chart-text">{it.name}</span>
           <span className="font-medium tabular-nums">{it.value}</span>
           <span className="tabular-nums text-primary">
             {total > 0 ? Math.round((Number(it.value) / total) * 100) : 0}%
