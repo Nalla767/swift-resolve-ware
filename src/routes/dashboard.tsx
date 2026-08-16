@@ -68,7 +68,6 @@ function Dashboard() {
   const avgCompleted = Math.round(progressData.reduce((s, d) => s + d.completed, 0) / progressData.length);
   const avgRate = Math.round(progressData.reduce((s, d) => s + d.rate, 0) / progressData.length);
 
-  const trend = useMemo(() => (range === "3" ? FULFILMENT_TREND.slice(-3) : FULFILMENT_TREND), [range]);
   const inProgressPct = Math.round((stats.inProgress / Math.max(1, stats.total)) * 100);
   const bn = bottleneck();
 
