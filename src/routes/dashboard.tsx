@@ -13,7 +13,7 @@ import {
   Timer,
   Truck,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { BarSeries, ChartLegend, ColoredBars, Donut, Gauge, TrendArea } from "@/components/charts";
@@ -60,15 +60,12 @@ export function bottleneck() {
 function Dashboard() {
   const { orders, inventory, exceptions, decisions, activity } = useStore();
   const stats = useStats();
-  const [range, setRange] = useState("7");
-
   const [progressRange, setProgressRange] = useState("daily");
 
   const progressData = progressRange === "weekly" ? WEEKLY_TREND : FULFILMENT_TREND;
   const avgCompleted = Math.round(progressData.reduce((s, d) => s + d.completed, 0) / progressData.length);
   const avgRate = Math.round(progressData.reduce((s, d) => s + d.rate, 0) / progressData.length);
 
-  const trend = useMemo(() => (range === "3" ? FULFILMENT_TREND.slice(-3) : FULFILMENT_TREND), [range]);
   const inProgressPct = Math.round((stats.inProgress / Math.max(1, stats.total)) * 100);
   const bn = bottleneck();
 
@@ -178,30 +175,6 @@ function Dashboard() {
       {/* Charts */}
 
       <div className="grid gap-4 xl:grid-cols-3">
-        <Card className="p-5 xl:col-span-2">
-          <SectionTitle
-            title="Fulfilment trend"
-            hint="Orders created vs completed"
-            right={
-              <Tabs value={range} onValueChange={setRange}>
-                <TabsList>
-                  <TabsTrigger value="3">3 days</TabsTrigger>
-                  <TabsTrigger value="7">7 days</TabsTrigger>
-                </TabsList>
-              </Tabs>
-            }
-          />
-          <TrendArea
-            data={trend}
-            x="day"
-            series={[
-              { key: "created", name: "Created", color: "var(--color-chart-5)" },
-              { key: "completed", name: "Completed", color: "var(--color-chart-2)" },
-            ]}
-            height={270}
-          />
-        </Card>
-
         <Card className="p-5">
           <SectionTitle title="Orders by priority" hint="Rule-based priority scoring" />
           <Donut data={priorityData} height={270} />
