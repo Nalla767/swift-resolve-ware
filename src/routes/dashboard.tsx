@@ -13,7 +13,7 @@ import {
   Timer,
   Truck,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { BarSeries, ChartLegend, ColoredBars, Donut, Gauge, TrendArea } from "@/components/charts";
