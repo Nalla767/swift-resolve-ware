@@ -4,7 +4,8 @@ import { User } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { PageHeader, SectionTitle, StatLine } from "@/components/shared";
 import { Card } from "@/components/ui/card";
-import { useCustomerOrders, useStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
+import type { Order } from "@/lib/types";
 
 export const Route = createFileRoute("/customer/profile")({
   head: () => ({
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/customer/profile")({
 
 function CustomerProfile() {
   const { user } = useStore();
-  const orders = useCustomerOrders();
+  const orders: Order[] = useStore().orders.filter((o) => o.customerEmail === user?.email || o.customer === user?.name);
 
   return (
     <>
@@ -39,10 +40,10 @@ function CustomerProfile() {
         </Card>
         <Card className="p-5">
           <SectionTitle title="Delivery" />
-          <StatLine label="Default address" value={orders[0]?.destination ?? "Amsterdam, NL"} />
+          <StatLine label="Default address" value={"Amsterdam, NL"} />
           <StatLine label="Preferred carrier" value="Express Logistics" />
           <StatLine label="Orders placed" value={orders.length} />
-          <StatLine label="Delivered" value={orders.filter((o) => o.stage === "delivered").length} />
+          <StatLine label="Delivered" value={orders.filter((o) => o.stage === "completed").length} />
         </Card>
       </div>
     </>

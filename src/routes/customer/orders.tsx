@@ -6,10 +6,10 @@ import { EmptyState, PageHeader, SectionTitle, StatLine } from "@/components/sha
 import { StageBadge } from "@/components/status";
 import { Card } from "@/components/ui/card";
 import { fmtDate } from "@/lib/engine";
-import { useCustomerOrders } from "@/lib/store";
-import { STAGE_LABEL, type Stage } from "@/lib/types";
+import { useStore } from "@/lib/store";
+import { STAGE_LABEL, STAGES, type Order, type Stage } from "@/lib/types";
 
-const CUSTOMER_STEPS: Stage[] = ["placed", "allocation", "picking", "packing", "qc", "dispatch", "shipped", "delivered"];
+const CUSTOMER_STEPS: Stage[] = STAGES;
 
 export const Route = createFileRoute("/customer/orders")({
   head: () => ({
@@ -28,7 +28,8 @@ export const Route = createFileRoute("/customer/orders")({
 });
 
 function CustomerOrders() {
-  const orders = useCustomerOrders();
+  const { orders: all, user } = useStore();
+  const orders: Order[] = all.filter((o) => o.customerEmail === user?.email || o.customer === user?.name);
 
   return (
     <>
@@ -65,7 +66,7 @@ function CustomerOrders() {
 
                 <SectionTitle title="Items" />
                 <ul className="space-y-1 text-sm">
-                  {o.items.map((it) => (
+                  {o.items.map((it: Order["items"][number]) => (
                     <li key={it.sku} className="flex justify-between border-b border-border/60 py-1">
                       <span>{it.name}</span>
                       <span className="tabular-nums text-muted-foreground">× {it.qty}</span>
@@ -74,8 +75,8 @@ function CustomerOrders() {
                 </ul>
 
                 <div className="mt-3 grid gap-1 sm:grid-cols-2">
-                  <StatLine label="Estimated delivery" value={fmtDate(o.slaDue)} />
-                  <StatLine label="Destination" value={o.destination ?? "—"} />
+                  <StatLine label="Estimated delivery" value={fmtDate(o.slaDeadline)} />
+                  <StatLine label="Recipient" value={o.customer} />
                 </div>
               </Card>
             );

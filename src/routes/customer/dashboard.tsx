@@ -7,7 +7,8 @@ import { StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { fmtDate } from "@/lib/engine";
-import { useCustomerOrders, useStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
+import type { Order } from "@/lib/types";
 
 export const Route = createFileRoute("/customer/dashboard")({
   head: () => ({
@@ -27,10 +28,10 @@ export const Route = createFileRoute("/customer/dashboard")({
 
 function CustomerDashboard() {
   const { user } = useStore();
-  const orders = useCustomerOrders();
-  const active = orders.filter((o) => o.stage !== "delivered" && o.stage !== "cancelled");
-  const delivered = orders.filter((o) => o.stage === "delivered");
-  const shipped = orders.filter((o) => o.stage === "shipped");
+  const orders: Order[] = useStore().orders.filter((o) => o.customerEmail === user?.email || o.customer === user?.name);
+  const active = orders.filter((o) => o.stage !== "completed");
+  const delivered = orders.filter((o) => o.stage === "completed");
+  const shipped = orders.filter((o) => o.stage === "dispatch");
 
   return (
     <>
@@ -58,7 +59,7 @@ function CustomerDashboard() {
                 <p className="text-xs text-muted-foreground">Placed {fmtDate(o.createdAt)} · {o.items.length} items</p>
               </div>
               <StageBadge s={o.stage} />
-              <p className="text-xs text-muted-foreground">Expected {fmtDate(o.slaDue)}</p>
+              <p className="text-xs text-muted-foreground">Expected {fmtDate(o.slaDeadline)}</p>
               <Button asChild size="sm" variant="outline" className="ml-auto">
                 <Link to="/customer/orders">Track order</Link>
               </Button>
