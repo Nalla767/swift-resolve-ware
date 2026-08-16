@@ -111,7 +111,7 @@ export function BarSeries({
             </>
           )}
           <Tooltip {...tooltipStyle} />
-          {bars.length > 1 && <Legend wrapperStyle={{ fontSize: 11 }} />}
+          {bars.length > 1 && <Legend wrapperStyle={legendStyle} />}
           {bars.map((b, i) => (
             <Bar key={b.key} dataKey={b.key} name={b.name} fill={b.color ?? CHART_COLORS[i % CHART_COLORS.length]} radius={[4, 4, 0, 0]} maxBarSize={38} />
           ))}
@@ -220,7 +220,7 @@ export function TrendArea({
         <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} />
         <YAxis tick={axis} tickLine={false} axisLine={false} />
         <Tooltip {...tooltipStyle} />
-        <Legend wrapperStyle={{ fontSize: 11 }} />
+<Legend wrapperStyle={legendStyle} />
         {series.map((s, i) => (
           <Area
             key={s.key}
@@ -255,7 +255,7 @@ export function TrendLine({
         <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} />
         <YAxis tick={axis} tickLine={false} axisLine={false} />
         <Tooltip {...tooltipStyle} />
-        <Legend wrapperStyle={{ fontSize: 11 }} />
+        <Legend wrapperStyle={legendStyle} />
         {series.map((s, i) => (
           <Line key={s.key} type="monotone" dataKey={s.key} name={s.name} stroke={s.color ?? CHART_COLORS[i % CHART_COLORS.length]} strokeWidth={2} dot={{ r: 3 }} />
         ))}
