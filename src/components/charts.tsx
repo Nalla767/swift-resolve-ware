@@ -38,8 +38,8 @@ const tooltipStyle = {
     fontSize: 12,
     color: "var(--color-popover-foreground)",
   },
-  labelStyle: { color: "var(--color-muted-foreground)", fontSize: 11 },
-  cursor: { fill: "var(--color-muted-foreground)", opacity: 0.08 },
+  labelStyle: { color: "var(--color-foreground)", fontSize: 11 },
+  cursor: { fill: "var(--color-foreground)", opacity: 0.06 },
 };
 
 const legendStyle = { fontSize: 11, color: "var(--color-foreground)" };
