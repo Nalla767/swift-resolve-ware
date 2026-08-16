@@ -104,7 +104,7 @@ const ORDER_SEEDS: OrderSeed[] = [
 
 export function seedOrders(inventory: InventoryItem[]): Order[] {
   return ORDER_SEEDS.map((s) => {
-    const [customer, customerEmail, customerTier] = CUSTOMERS[s.c];
+    const [customer, customerEmail, customerTier] = CUSTOMERS[s.c]!;
     const items: OrderItem[] = s.items.map(([sku, qty]) => {
       const p = inventory.find((i) => i.sku === sku)!;
       const allocated = s.alloc === "accepted" ? Math.min(qty, qty) : 0;

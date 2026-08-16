@@ -6,7 +6,7 @@ export type User = {
   email: string;
   role: Role;
   /** for customer role: the customer name used on orders */
-  customer?: string;
+  customer?: string | undefined;
 };
 
 export type Stage =
@@ -95,15 +95,15 @@ export type Order = {
   reasons: string[];
   customerTier: "platinum" | "gold" | "standard";
   allocationStatus: "pending" | "accepted" | "partial" | "hold" | "rejected";
-  picker?: string;
+  picker?: string | undefined;
   pickStatus: "queued" | "in_progress" | "done";
   packChecks: string[];
   qcChecks: string[];
-  carrier?: string;
-  trackingId?: string;
+  carrier?: string | undefined;
+  trackingId?: string | undefined;
   dispatchPriority: boolean;
   timeline: TimelineEvent[];
-  delivered?: boolean;
+  delivered?: boolean | undefined;
 };
 
 export type ExceptionType =
@@ -127,14 +127,14 @@ export type ExceptionStatus =
 export type WarehouseException = {
   id: string;
   type: ExceptionType;
-  orderId?: string;
-  sku?: string;
+  orderId?: string | undefined;
+  sku?: string | undefined;
   severity: "critical" | "high" | "medium" | "low";
   detectedAt: string;
   status: ExceptionStatus;
   problem: string;
   recommendation: string;
-  resolution?: string;
+  resolution?: string | undefined;
   owner: string;
 };
 
@@ -144,8 +144,8 @@ export type PendingDecision = {
   id: string;
   kind: DecisionKind;
   title: string;
-  orderId?: string;
-  sku?: string;
+  orderId?: string | undefined;
+  sku?: string | undefined;
   severity: "critical" | "high" | "medium";
   context: string[];
   recommendation: string;
