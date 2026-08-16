@@ -102,7 +102,73 @@ function Dashboard() {
         }
       />
 
+      {/* Total progress */}
+      <Card className="p-5">
+        <SectionTitle
+          title="Total progress"
+          hint="Overall fulfilment completion and throughput over time"
+          right={
+            <Tabs value={progressRange} onValueChange={setProgressRange}>
+              <TabsList>
+                <TabsTrigger value="daily">Daily</TabsTrigger>
+                <TabsTrigger value="weekly">Weekly</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          }
+        />
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,300px)_1fr]">
+          <div className="space-y-4">
+            <div>
+              <div className="flex items-end justify-between">
+                <span className="text-xs uppercase tracking-wide text-muted-foreground">Orders completed</span>
+                <span className="font-mono text-2xl font-semibold">{stats.fulfilmentRate}%</span>
+              </div>
+              <Progress value={stats.fulfilmentRate} className="mt-2 h-2" />
+              <p className="mt-1 text-xs text-muted-foreground">
+                {orders.filter((o) => o.stage === "completed").length} of {stats.total} orders fulfilled
+              </p>
+            </div>
+            <div>
+              <div className="flex items-end justify-between">
+                <span className="text-xs uppercase tracking-wide text-muted-foreground">In progress</span>
+                <span className="font-mono text-2xl font-semibold">{inProgressPct}%</span>
+              </div>
+              <Progress value={inProgressPct} className="mt-2 h-2" />
+              <p className="mt-1 text-xs text-muted-foreground">{stats.inProgress} orders moving through the workflow</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3 pt-1">
+              <div className="rounded-lg border border-border/60 p-3">
+                <div className="text-xs text-muted-foreground">{progressRange === "daily" ? "Avg / day" : "Avg / week"}</div>
+                <div className="font-mono text-lg font-semibold">{avgCompleted}</div>
+              </div>
+              <div className="rounded-lg border border-border/60 p-3">
+                <div className="text-xs text-muted-foreground">Completion rate</div>
+                <div className="font-mono text-lg font-semibold">{avgRate}%</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <TrendArea
+              data={progressData}
+              x="day"
+              series={[
+                { key: "created", name: "Created", color: "var(--color-chart-5)" },
+                { key: "completed", name: "Completed", color: "var(--color-chart-2)" },
+              ]}
+              height={240}
+            />
+            <ChartLegend
+              items={[
+                { name: "Created", value: progressData.reduce((s, d) => s + d.created, 0), color: "var(--color-chart-5)" },
+                { name: "Completed", value: progressData.reduce((s, d) => s + d.completed, 0), color: "var(--color-chart-2)" },
+              ]}
+            />
+          </div>
+        </div>
+      </Card>
+
       {/* Charts */}
+
       <div className="grid gap-4 xl:grid-cols-3">
         <Card className="p-5 xl:col-span-2">
           <SectionTitle
