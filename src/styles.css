@@ -221,3 +221,15 @@ html.light,
 @utility pulse-critical {
   animation: pulse-ring 2s infinite;
 }
+
+html.light body {
+  background-image:
+    radial-gradient(900px 500px at 12% -10%, oklch(0.55 0.12 197 / 8%), transparent 60%),
+    radial-gradient(700px 420px at 100% 0%, oklch(0.55 0.14 280 / 6%), transparent 55%);
+}
+
+html.light .grid-lines {
+  background-image:
+    linear-gradient(to right, oklch(0 0 0 / 5%) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0 0 0 / 5%) 1px, transparent 1px);
+}
