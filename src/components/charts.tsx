@@ -93,27 +93,38 @@ export function BarSeries({
   layout?: "horizontal" | "vertical";
 }) {
   return (
-    <ChartFrame height={height}>
-      <BarChart data={data} layout={layout} margin={{ top: 8, right: 8, bottom: 0, left: layout === "vertical" ? 24 : 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-        {layout === "horizontal" ? (
-          <>
-            <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} />
-            <YAxis tick={axis} tickLine={false} axisLine={false} allowDecimals={false} />
-          </>
-        ) : (
-          <>
-            <XAxis type="number" tick={axis} tickLine={false} axisLine={false} />
-            <YAxis type="category" dataKey={x} tick={axis} tickLine={false} axisLine={false} width={110} />
-          </>
-        )}
-        <Tooltip {...tooltipStyle} />
-        {bars.length > 1 && <Legend wrapperStyle={{ fontSize: 11 }} />}
-        {bars.map((b, i) => (
-          <Bar key={b.key} dataKey={b.key} name={b.name} fill={b.color ?? CHART_COLORS[i % CHART_COLORS.length]} radius={[4, 4, 0, 0]} maxBarSize={38} />
-        ))}
-      </BarChart>
-    </ChartFrame>
+    <div>
+      <ChartFrame height={height}>
+        <BarChart data={data} layout={layout} margin={{ top: 8, right: 8, bottom: 0, left: layout === "vertical" ? 24 : 0 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+          {layout === "horizontal" ? (
+            <>
+              <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} />
+              <YAxis tick={axis} tickLine={false} axisLine={false} allowDecimals={false} />
+            </>
+          ) : (
+            <>
+              <XAxis type="number" tick={axis} tickLine={false} axisLine={false} />
+              <YAxis type="category" dataKey={x} tick={axis} tickLine={false} axisLine={false} width={110} />
+            </>
+          )}
+          <Tooltip {...tooltipStyle} />
+          {bars.length > 1 && <Legend wrapperStyle={{ fontSize: 11 }} />}
+          {bars.map((b, i) => (
+            <Bar key={b.key} dataKey={b.key} name={b.name} fill={b.color ?? CHART_COLORS[i % CHART_COLORS.length]} radius={[4, 4, 0, 0]} maxBarSize={38} />
+          ))}
+        </BarChart>
+      </ChartFrame>
+      {bars.length === 1 && (
+        <ChartLegend
+          items={data.map((d, i) => ({
+            name: String(d[x] ?? ""),
+            value: Number(d[bars[0].key] ?? 0),
+            color: bars[0].color ?? CHART_COLORS[i % CHART_COLORS.length],
+          }))}
+        />
+      )}
+    </div>
   );
 }
 
@@ -129,19 +140,28 @@ export function ColoredBars({
   height?: number;
 }) {
   return (
-    <ChartFrame height={height}>
-      <BarChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-        <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} interval={0} angle={-12} height={44} textAnchor="end" />
-        <YAxis tick={axis} tickLine={false} axisLine={false} allowDecimals={false} />
-        <Tooltip {...tooltipStyle} />
-        <Bar dataKey={y} radius={[4, 4, 0, 0]} maxBarSize={44}>
-          {data.map((d, i) => (
-            <Cell key={i} fill={(d.color as string) ?? CHART_COLORS[i % CHART_COLORS.length]} />
-          ))}
-        </Bar>
-      </BarChart>
-    </ChartFrame>
+    <div>
+      <ChartFrame height={height}>
+        <BarChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+          <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} interval={0} angle={-12} height={44} textAnchor="end" />
+          <YAxis tick={axis} tickLine={false} axisLine={false} allowDecimals={false} />
+          <Tooltip {...tooltipStyle} />
+          <Bar dataKey={y} radius={[4, 4, 0, 0]} maxBarSize={44}>
+            {data.map((d, i) => (
+              <Cell key={i} fill={(d.color as string) ?? CHART_COLORS[i % CHART_COLORS.length]} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ChartFrame>
+      <ChartLegend
+        items={data.map((d, i) => ({
+          name: String(d[x] ?? ""),
+          value: Number(d[y] ?? 0),
+          color: (d.color as string) ?? CHART_COLORS[i % CHART_COLORS.length],
+        }))}
+      />
+    </div>
   );
 }
 
@@ -155,19 +175,22 @@ export function Donut({
   inner?: number;
 }) {
   return (
-    <ChartFrame height={height}>
-      <PieChart>
-        <Pie data={data} dataKey="value" nameKey="name" innerRadius={inner} outerRadius={92} paddingAngle={2} stroke="var(--color-background)">
-          {data.map((d, i) => (
-            <Cell key={d.name} fill={d.color ?? CHART_COLORS[i % CHART_COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip {...tooltipStyle} />
-        <Legend wrapperStyle={{ fontSize: 11 }} />
-      </PieChart>
-    </ChartFrame>
+    <div>
+      <ChartFrame height={height}>
+        <PieChart>
+          <Pie data={data} dataKey="value" nameKey="name" innerRadius={inner} outerRadius={92} paddingAngle={2} stroke="var(--color-background)">
+            {data.map((d, i) => (
+              <Cell key={d.name} fill={d.color ?? CHART_COLORS[i % CHART_COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip {...tooltipStyle} />
+        </PieChart>
+      </ChartFrame>
+      <ChartLegend items={data} />
+    </div>
   );
 }
+
 
 export function TrendArea({
   data,
