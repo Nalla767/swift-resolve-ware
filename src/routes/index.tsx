@@ -69,7 +69,7 @@ function Landing() {
         </div>
         <Button asChild size="sm">
           <Link to="/login/admin">
-            Launch demo <ArrowRight className="size-4" />
+            Launch app <ArrowRight className="size-4" />
           </Link>
         </Button>
       </header>

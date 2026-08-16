@@ -110,7 +110,7 @@ function useStoreValue() {
   const login = useCallback((role: Role, email: string, password: string) => {
     const demo = DEMO_USERS[role];
     if (email.trim().toLowerCase() !== demo.email || password !== demo.password) {
-      return { ok: false as const, error: "Invalid credentials for this role. Use the demo credentials shown below." };
+      return { ok: false as const, error: "Invalid credentials for this role. Use the sample credentials shown below." };
     }
     const user: User = {
       id: `U-${role}`,
@@ -605,7 +605,7 @@ function useStoreValue() {
 
   const resetDemo = useCallback(() => {
     setState((s) => ({ ...initialState(), user: s.user }));
-    toast.success("Demo data reset");
+    toast.success("Sample data reset");
   }, []);
 
   return {
