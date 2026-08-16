@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ActivityRouteImport } from './routes/activity'
 import { Route as AllocationRouteImport } from './routes/allocation'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DecisionCenterRouteImport } from './routes/decision-center'
 import { Route as DispatchRouteImport } from './routes/dispatch'
 import { Route as PackingRouteImport } from './routes/packing'
 import { Route as PickingRouteImport } from './routes/picking'
 import { Route as QualityCheckRouteImport } from './routes/quality-check'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ExceptionsIndexRouteImport } from './routes/exceptions/index'
+import { Route as ExceptionsExceptionIdRouteImport } from './routes/exceptions/$exceptionId'
 import { Route as InventoryIndexRouteImport } from './routes/inventory/index'
 import { Route as InventorySkuRouteImport } from './routes/inventory/$sku'
 import { Route as LoginAdminRouteImport } from './routes/login/admin'
@@ -30,14 +36,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ActivityRoute = ActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AllocationRoute = AllocationRouteImport.update({
   id: '/allocation',
   path: '/allocation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DecisionCenterRoute = DecisionCenterRouteImport.update({
+  id: '/decision-center',
+  path: '/decision-center',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DispatchRoute = DispatchRouteImport.update({
@@ -58,6 +79,21 @@ const PickingRoute = PickingRouteImport.update({
 const QualityCheckRoute = QualityCheckRouteImport.update({
   id: '/quality-check',
   path: '/quality-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExceptionsIndexRoute = ExceptionsIndexRouteImport.update({
+  id: '/exceptions/',
+  path: '/exceptions/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExceptionsExceptionIdRoute = ExceptionsExceptionIdRouteImport.update({
+  id: '/exceptions/$exceptionId',
+  path: '/exceptions/$exceptionId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InventoryIndexRoute = InventoryIndexRouteImport.update({
@@ -103,53 +139,71 @@ const OrdersNewRoute = OrdersNewRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/activity': typeof ActivityRoute
   '/allocation': typeof AllocationRoute
+  '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
+  '/decision-center': typeof DecisionCenterRoute
   '/dispatch': typeof DispatchRoute
   '/packing': typeof PackingRoute
   '/picking': typeof PickingRoute
   '/quality-check': typeof QualityCheckRoute
+  '/settings': typeof SettingsRoute
+  '/exceptions/$exceptionId': typeof ExceptionsExceptionIdRoute
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
   '/login/worker': typeof LoginWorkerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/orders/new': typeof OrdersNewRoute
+  '/exceptions/': typeof ExceptionsIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/orders/': typeof OrdersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/activity': typeof ActivityRoute
   '/allocation': typeof AllocationRoute
+  '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
+  '/decision-center': typeof DecisionCenterRoute
   '/dispatch': typeof DispatchRoute
   '/packing': typeof PackingRoute
   '/picking': typeof PickingRoute
   '/quality-check': typeof QualityCheckRoute
+  '/settings': typeof SettingsRoute
+  '/exceptions/$exceptionId': typeof ExceptionsExceptionIdRoute
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
   '/login/worker': typeof LoginWorkerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/orders/new': typeof OrdersNewRoute
+  '/exceptions': typeof ExceptionsIndexRoute
   '/inventory': typeof InventoryIndexRoute
   '/orders': typeof OrdersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/activity': typeof ActivityRoute
   '/allocation': typeof AllocationRoute
+  '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
+  '/decision-center': typeof DecisionCenterRoute
   '/dispatch': typeof DispatchRoute
   '/packing': typeof PackingRoute
   '/picking': typeof PickingRoute
   '/quality-check': typeof QualityCheckRoute
+  '/settings': typeof SettingsRoute
+  '/exceptions/$exceptionId': typeof ExceptionsExceptionIdRoute
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
   '/login/worker': typeof LoginWorkerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/orders/new': typeof OrdersNewRoute
+  '/exceptions/': typeof ExceptionsIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/orders/': typeof OrdersIndexRoute
 }
@@ -157,70 +211,94 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/activity'
     | '/allocation'
+    | '/analytics'
     | '/dashboard'
+    | '/decision-center'
     | '/dispatch'
     | '/packing'
     | '/picking'
     | '/quality-check'
+    | '/settings'
+    | '/exceptions/$exceptionId'
     | '/inventory/$sku'
     | '/login/admin'
     | '/login/customer'
     | '/login/worker'
     | '/orders/$orderId'
     | '/orders/new'
+    | '/exceptions/'
     | '/inventory/'
     | '/orders/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/activity'
     | '/allocation'
+    | '/analytics'
     | '/dashboard'
+    | '/decision-center'
     | '/dispatch'
     | '/packing'
     | '/picking'
     | '/quality-check'
+    | '/settings'
+    | '/exceptions/$exceptionId'
     | '/inventory/$sku'
     | '/login/admin'
     | '/login/customer'
     | '/login/worker'
     | '/orders/$orderId'
     | '/orders/new'
+    | '/exceptions'
     | '/inventory'
     | '/orders'
   id:
     | '__root__'
     | '/'
+    | '/activity'
     | '/allocation'
+    | '/analytics'
     | '/dashboard'
+    | '/decision-center'
     | '/dispatch'
     | '/packing'
     | '/picking'
     | '/quality-check'
+    | '/settings'
+    | '/exceptions/$exceptionId'
     | '/inventory/$sku'
     | '/login/admin'
     | '/login/customer'
     | '/login/worker'
     | '/orders/$orderId'
     | '/orders/new'
+    | '/exceptions/'
     | '/inventory/'
     | '/orders/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ActivityRoute: typeof ActivityRoute
   AllocationRoute: typeof AllocationRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   DashboardRoute: typeof DashboardRoute
+  DecisionCenterRoute: typeof DecisionCenterRoute
   DispatchRoute: typeof DispatchRoute
   PackingRoute: typeof PackingRoute
   PickingRoute: typeof PickingRoute
   QualityCheckRoute: typeof QualityCheckRoute
+  SettingsRoute: typeof SettingsRoute
+  ExceptionsExceptionIdRoute: typeof ExceptionsExceptionIdRoute
   InventorySkuRoute: typeof InventorySkuRoute
   LoginAdminRoute: typeof LoginAdminRoute
   LoginCustomerRoute: typeof LoginCustomerRoute
   LoginWorkerRoute: typeof LoginWorkerRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   OrdersNewRoute: typeof OrdersNewRoute
+  ExceptionsIndexRoute: typeof ExceptionsIndexRoute
   InventoryIndexRoute: typeof InventoryIndexRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
 }
@@ -234,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/activity': {
+      id: '/activity'
+      path: '/activity'
+      fullPath: '/activity'
+      preLoaderRoute: typeof ActivityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/allocation': {
       id: '/allocation'
       path: '/allocation'
@@ -241,11 +326,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AllocationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/decision-center': {
+      id: '/decision-center'
+      path: '/decision-center'
+      fullPath: '/decision-center'
+      preLoaderRoute: typeof DecisionCenterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dispatch': {
@@ -274,6 +373,27 @@ declare module '@tanstack/react-router' {
       path: '/quality-check'
       fullPath: '/quality-check'
       preLoaderRoute: typeof QualityCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exceptions/': {
+      id: '/exceptions/'
+      path: '/exceptions'
+      fullPath: '/exceptions/'
+      preLoaderRoute: typeof ExceptionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exceptions/$exceptionId': {
+      id: '/exceptions/$exceptionId'
+      path: '/exceptions/$exceptionId'
+      fullPath: '/exceptions/$exceptionId'
+      preLoaderRoute: typeof ExceptionsExceptionIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inventory/': {
@@ -337,18 +457,24 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ActivityRoute: ActivityRoute,
   AllocationRoute: AllocationRoute,
+  AnalyticsRoute: AnalyticsRoute,
   DashboardRoute: DashboardRoute,
+  DecisionCenterRoute: DecisionCenterRoute,
   DispatchRoute: DispatchRoute,
   PackingRoute: PackingRoute,
   PickingRoute: PickingRoute,
   QualityCheckRoute: QualityCheckRoute,
+  SettingsRoute: SettingsRoute,
+  ExceptionsExceptionIdRoute: ExceptionsExceptionIdRoute,
   InventorySkuRoute: InventorySkuRoute,
   LoginAdminRoute: LoginAdminRoute,
   LoginCustomerRoute: LoginCustomerRoute,
   LoginWorkerRoute: LoginWorkerRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   OrdersNewRoute: OrdersNewRoute,
+  ExceptionsIndexRoute: ExceptionsIndexRoute,
   InventoryIndexRoute: InventoryIndexRoute,
   OrdersIndexRoute: OrdersIndexRoute,
 }
