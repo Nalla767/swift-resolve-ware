@@ -3,7 +3,8 @@ import { Brain, Check, Pencil, Rocket, ShieldAlert, X } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { CategoryDonut } from "@/components/charts";
+import { EmptyState, Insight, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { Pill, SeverityBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -73,7 +74,7 @@ function DecisionCenter() {
             <Insight
               text={
                 topKind
-                  ? `${topKind.label ?? topKind.name} is the largest open decision category — ${topKind.value} of ${decisions.length} pending item(s); ${criticalCount} carry critical severity.`
+                  ? `${topKind.name} is the largest open decision category — ${topKind.value} of ${decisions.length} pending item(s); ${criticalCount} carry critical severity.`
                   : ""
               }
             />
