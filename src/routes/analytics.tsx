@@ -3,7 +3,7 @@ import { BarChart3, Timer } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { BarSeries, ColoredBars, Donut, Gauge, TrendArea, TrendLine } from "@/components/charts";
+import { BarSeries, ColoredBars, Donut, Gauge, RankedBars, TrendArea, TrendLine } from "@/components/charts";
 import { KpiCard, PageHeader, RefreshButton, SectionTitle, StatLine, TableShell, Td, Th } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
