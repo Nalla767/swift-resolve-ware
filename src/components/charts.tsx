@@ -327,14 +327,19 @@ export function CategoryDonut({
               data={slices}
               dataKey="value"
               nameKey="name"
+              cx="50%"
+              cy="50%"
               innerRadius="58%"
               outerRadius="88%"
               paddingAngle={2}
+              minAngle={4}
+              isAnimationActive={false}
               stroke="var(--color-background)"
               strokeWidth={2}
               onClick={onSelect ? (d: { name?: string }) => d?.name && onSelect(d.name) : undefined}
               cursor={onSelect ? "pointer" : undefined}
             >
+
               {slices.map((d) => (
                 <Cell key={d.name} fill={d.color} />
               ))}
