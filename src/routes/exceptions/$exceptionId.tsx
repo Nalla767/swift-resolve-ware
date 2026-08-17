@@ -1,5 +1,5 @@
 import { Link, createFileRoute, useParams } from "@tanstack/react-router";
-import { AlertTriangle, ArrowLeft, ArrowRight, CheckCircle2, Search, ShieldAlert } from "lucide-react";
+import { AlertTriangle, ArrowRight, CheckCircle2, Search, ShieldAlert } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
@@ -58,13 +58,8 @@ function ExceptionDetail() {
 
   return (
     <>
-      <Button asChild variant="ghost" size="sm" className="w-fit">
-        <Link to="/exceptions">
-          <ArrowLeft className="size-4" /> All exceptions
-        </Link>
-      </Button>
-
       <BackLink to="/exceptions" label="Back to exceptions" />
+
       <PageHeader
         eyebrow={ex.id}
         title={ex.type}

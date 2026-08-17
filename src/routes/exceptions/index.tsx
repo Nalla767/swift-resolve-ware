@@ -86,12 +86,6 @@ function Exceptions() {
         icon={AlertTriangle}
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Active exceptions" value={open.length} tone="warning" icon={AlertTriangle} />
-        <KpiCard label="Critical" value={exceptions.filter((e) => e.severity === "critical" && e.status !== "resolved").length} tone="critical" icon={AlertTriangle} />
-        <KpiCard label="Escalated" value={exceptions.filter((e) => e.status === "escalated").length} tone="critical" icon={AlertTriangle} />
-        <KpiCard label="Resolved" value={exceptions.filter((e) => e.status === "resolved").length} tone="success" icon={AlertTriangle} />
-      </div>
 
       <Card className="p-5">
         <SectionTitle
@@ -120,6 +114,13 @@ function Exceptions() {
           </>
         )}
       </Card>
+
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Active exceptions" value={open.length} tone="warning" icon={AlertTriangle} />
+        <KpiCard label="Critical" value={exceptions.filter((e) => e.severity === "critical" && e.status !== "resolved").length} tone="critical" icon={AlertTriangle} />
+        <KpiCard label="Escalated" value={exceptions.filter((e) => e.status === "escalated").length} tone="critical" icon={AlertTriangle} />
+        <KpiCard label="Resolved" value={exceptions.filter((e) => e.status === "resolved").length} tone="success" icon={AlertTriangle} />
+      </div>
 
       <Card className="gap-3 p-4">
         <div className="grid gap-3 md:grid-cols-[1fr_auto_auto]">
