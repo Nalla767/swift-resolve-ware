@@ -58,7 +58,7 @@ export function bottleneck() {
 }
 
 function Dashboard() {
-  const { orders, inventory, exceptions, decisions, activity } = useStore();
+  const { orders, inventory, decisions, activity } = useStore();
   const stats = useStats();
   const [progressRange, setProgressRange] = useState("daily");
 
