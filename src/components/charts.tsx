@@ -282,12 +282,11 @@ export function Gauge({ value, label, height = 200 }: { value: number; label: st
 }
 
 /**
- * Horizontal ranked bar chart (highest → lowest) with severity-driven colour,
- * count + percentage tooltip and optional click-to-filter.
+ * Horizontal ranked bar list (highest → lowest) with per-category colour,
+ * high-contrast labels, counts and percentages. Optional click-to-filter.
  */
 export function RankedBars({
   data,
-  height,
   onSelect,
   unit = "incidents",
 }: {
@@ -298,42 +297,43 @@ export function RankedBars({
 }) {
   const sorted = [...data].sort((a, b) => b.value - a.value);
   const total = sorted.reduce((s, d) => s + d.value, 0);
+  const max = Math.max(1, ...sorted.map((d) => d.value));
 
   return (
-    <div>
-      <ChartFrame height={height ?? Math.max(200, sorted.length * 34 + 24)}>
-        <BarChart data={sorted} layout="vertical" margin={{ top: 4, right: 36, bottom: 0, left: 8 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" horizontal={false} />
-          <XAxis type="number" tick={axis} tickLine={false} axisLine={false} allowDecimals={false} />
-          <YAxis type="category" dataKey="name" tick={axis} tickLine={false} axisLine={false} width={130} />
-          <Tooltip
-            {...tooltipStyle}
-            cursor={{ fill: "var(--color-chart-text)", opacity: 0.06 }}
-            content={({ active, payload }) => {
-              if (!active || !payload?.length) return null;
-              const p = payload[0]!.payload as { name: string; value: number };
-              const pct = total > 0 ? Math.round((p.value / total) * 100) : 0;
-              return (
-                <div className="rounded-lg border border-border bg-popover px-3 py-2 text-xs text-popover-foreground shadow-md">
-                  <p className="font-semibold">{p.name}</p>
-                  <p className="tabular-nums">{p.value} {unit}</p>
-                  <p className="tabular-nums text-muted-foreground">{pct}% of total</p>
-                </div>
-              );
-            }}
-          />
-          <Bar
-            dataKey="value"
-            radius={[0, 6, 6, 0]}
-            maxBarSize={22}
-            {...(onSelect ? { onClick: (d: unknown) => onSelect((d as { name: string }).name), cursor: "pointer" } : {})}
-          >
-            {sorted.map((d, i) => (
-              <Cell key={d.name} fill={d.color ?? CHART_COLORS[i % CHART_COLORS.length]} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ChartFrame>
-    </div>
+    <ul className="flex flex-col gap-2.5">
+      {sorted.map((d, i) => {
+        const pct = total > 0 ? Math.round((d.value / total) * 100) : 0;
+        const color = d.color ?? CHART_COLORS[i % CHART_COLORS.length];
+        return (
+          <li key={d.name}>
+            <button
+              type="button"
+              onClick={onSelect ? () => onSelect(d.name) : undefined}
+              title={`${d.name} — ${d.value} ${unit} (${pct}%)`}
+              className="group w-full rounded-lg px-1.5 py-1 text-left transition-colors hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="flex min-w-0 items-center gap-2 text-sm font-medium text-chart-text">
+                  <span className="size-2.5 shrink-0 rounded-full" style={{ background: color }} />
+                  <span className="truncate">{d.name}</span>
+                </span>
+                <span className="shrink-0 text-xs tabular-nums text-chart-text">
+                  <span className="font-semibold">{d.value}</span>
+                  <span className="text-muted-foreground"> {unit} · </span>
+                  <span className="font-semibold text-primary">{pct}%</span>
+                </span>
+              </div>
+              <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-secondary">
+                <div
+                  className="h-full rounded-full transition-[width] duration-500"
+                  style={{ width: `${Math.max(4, (d.value / max) * 100)}%`, background: color }}
+                />
+              </div>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
+
