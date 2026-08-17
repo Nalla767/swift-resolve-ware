@@ -85,69 +85,6 @@ function Workforce() {
         icon={Users}
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Active workers" value={active} hint={`${workforce.length} on the roster`} tone="primary" icon={Users} />
-        <KpiCard label="Available now" value={available} hint="Idle and reassignable" tone="success" icon={Check} />
-        <KpiCard label="Tasks completed today" value={workforce.reduce((s, w) => s + w.tasksCompleted, 0)} tone="info" icon={ArrowRight} />
-        <KpiCard label="Average productivity" value={`${avgProductivity}%`} hint="Target 90%" tone={avgProductivity >= 90 ? "success" : "warning"} icon={GaugeIcon} />
-      </div>
-
-      <Card className="gap-4 border-warning/40 p-5">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <Pill t="warning">Bottleneck detected</Pill>
-            <h2 className="mt-2 font-display text-xl font-bold">{bottleneck.station} is running {bottleneck.over}% over its target handling time</h2>
-            <p className="text-sm text-muted-foreground">
-              Queue {bottleneck.queue} · Capacity {bottleneck.capacity} · Utilisation {bottleneck.utilisation}% · {bottleneck.workers} worker(s) assigned
-            </p>
-          </div>
-          <Pill t="critical">{bottleneck.slaRisk} order(s) at SLA risk</Pill>
-        </div>
-
-        <div className="grid gap-3 md:grid-cols-2">
-          <div className="rounded-xl border border-border bg-surface p-3 text-sm">
-            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Why</p>
-            <p className="mt-1">
-              {bottleneck.station} averages {bottleneck.processingMin} min against a {bottleneck.targetMin} min target, while {bottleneck.donor} is the least utilised station on the floor.
-            </p>
-          </div>
-          <div className="rounded-xl border border-primary/40 bg-primary/10 p-3 text-sm">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">Recommendation</p>
-            <p className="mt-1">{bottleneck.recommendation}</p>
-          </div>
-        </div>
-
-        <div className="grid gap-3 sm:grid-cols-3">
-          <Comparison label="Processing time" now={`${projected.processing.now} min`} next={`${projected.processing.next} min`} good />
-          <Comparison label="Delayed orders" now={String(projected.delayed.now)} next={String(projected.delayed.next)} good />
-          <Comparison label="Fulfilment" now={`${projected.fulfilment.now}%`} next={`${projected.fulfilment.next}%`} good />
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          <Button
-            size="sm"
-            disabled={!donorWorker}
-            onClick={() => donorWorker && reassignWorker(donorWorker.id, bottleneck.station)}
-          >
-            <Check className="size-4" /> Accept — move {donorWorker?.name ?? "a worker"} to {bottleneck.station}
-          </Button>
-          <Button asChild size="sm" variant="outline">
-            <Link to="/simulator">Modify in simulator</Link>
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => {
-              setRejected(true);
-              toast.message("Recommendation rejected", { description: "Kept the current staffing plan. The bottleneck stays visible until it clears." });
-            }}
-          >
-            <X className="size-4" /> Reject
-          </Button>
-          {rejected && <span className="self-center text-xs text-muted-foreground">Rejected — staffing unchanged.</span>}
-        </div>
-      </Card>
-
       <div className="grid gap-4 xl:grid-cols-3">
         <Card className="p-5 xl:col-span-2">
           <SectionTitle title="Required vs available capacity" hint="Orders waiting against what the assigned team can process per hour" />
@@ -173,6 +110,13 @@ function Workforce() {
             ))}
           </div>
         </Card>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Active workers" value={active} hint={`${workforce.length} on the roster`} tone="primary" icon={Users} />
+        <KpiCard label="Available now" value={available} hint="Idle and reassignable" tone="success" icon={Check} />
+        <KpiCard label="Tasks completed today" value={workforce.reduce((s, w) => s + w.tasksCompleted, 0)} tone="info" icon={ArrowRight} />
+        <KpiCard label="Average productivity" value={`${avgProductivity}%`} hint="Target 90%" tone={avgProductivity >= 90 ? "success" : "warning"} icon={GaugeIcon} />
       </div>
 
       <Card className="p-5">
@@ -250,6 +194,62 @@ function Workforce() {
           </tbody>
         </TableShell>
         {rows.length === 0 && <p className="mt-4 text-sm text-muted-foreground">No workers match the current filters.</p>}
+      </Card>
+
+      <Card className="gap-4 border-warning/40 p-5">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <Pill t="warning">Bottleneck detected</Pill>
+            <h2 className="mt-2 font-display text-xl font-bold">{bottleneck.station} is running {bottleneck.over}% over its target handling time</h2>
+            <p className="text-sm text-muted-foreground">
+              Queue {bottleneck.queue} · Capacity {bottleneck.capacity} · Utilisation {bottleneck.utilisation}% · {bottleneck.workers} worker(s) assigned
+            </p>
+          </div>
+          <Pill t="critical">{bottleneck.slaRisk} order(s) at SLA risk</Pill>
+        </div>
+
+        <div className="grid gap-3 md:grid-cols-2">
+          <div className="rounded-xl border border-border bg-surface p-3 text-sm">
+            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Why</p>
+            <p className="mt-1">
+              {bottleneck.station} averages {bottleneck.processingMin} min against a {bottleneck.targetMin} min target, while {bottleneck.donor} is the least utilised station on the floor.
+            </p>
+          </div>
+          <div className="rounded-xl border border-primary/40 bg-primary/10 p-3 text-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">Recommendation</p>
+            <p className="mt-1">{bottleneck.recommendation}</p>
+          </div>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Comparison label="Processing time" now={`${projected.processing.now} min`} next={`${projected.processing.next} min`} good />
+          <Comparison label="Delayed orders" now={String(projected.delayed.now)} next={String(projected.delayed.next)} good />
+          <Comparison label="Fulfilment" now={`${projected.fulfilment.now}%`} next={`${projected.fulfilment.next}%`} good />
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <Button
+            size="sm"
+            disabled={!donorWorker}
+            onClick={() => donorWorker && reassignWorker(donorWorker.id, bottleneck.station)}
+          >
+            <Check className="size-4" /> Accept — move {donorWorker?.name ?? "a worker"} to {bottleneck.station}
+          </Button>
+          <Button asChild size="sm" variant="outline">
+            <Link to="/simulator">Modify in simulator</Link>
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => {
+              setRejected(true);
+              toast.message("Recommendation rejected", { description: "Kept the current staffing plan. The bottleneck stays visible until it clears." });
+            }}
+          >
+            <X className="size-4" /> Reject
+          </Button>
+          {rejected && <span className="self-center text-xs text-muted-foreground">Rejected — staffing unchanged.</span>}
+        </div>
       </Card>
     </>
   );
