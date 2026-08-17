@@ -73,6 +73,8 @@ const StoreContext = createContext<Store | null>(null);
 
 function useStoreValue() {
   const [state, setState] = useState<State>(initialState);
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<string | null>(null);
+
 
   /* ------------------------------ primitives ----------------------------- */
 
