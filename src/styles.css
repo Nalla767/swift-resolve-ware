@@ -67,9 +67,11 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-chart-text: var(--chart-text);
+  --color-decision: var(--decision);
+  --color-decision-foreground: var(--decision-foreground);
 
   --shadow-panel: 0 1px 0 0 oklch(1 0 0 / 6%) inset, 0 18px 40px -24px oklch(0 0 0 / 80%);
-  --shadow-glow: 0 0 0 1px oklch(0.78 0.14 200 / 25%), 0 12px 40px -16px oklch(0.78 0.14 200 / 35%);
+  --shadow-glow: 0 0 0 1px oklch(0.64 0.15 258 / 25%), 0 12px 40px -16px oklch(0.64 0.15 258 / 30%);
 }
 
 :root {
@@ -82,8 +84,8 @@
   --card-foreground: oklch(0.95 0.008 250);
   --popover: oklch(0.21 0.02 252);
   --popover-foreground: oklch(0.95 0.008 250);
-  --primary: oklch(0.78 0.13 197);
-  --primary-foreground: oklch(0.19 0.02 250);
+  --primary: oklch(0.64 0.15 258);
+  --primary-foreground: oklch(0.98 0.005 250);
   --secondary: oklch(0.28 0.024 252);
   --secondary-foreground: oklch(0.93 0.008 250);
   --muted: oklch(0.26 0.02 252);
@@ -98,26 +100,28 @@
   --warning-foreground: oklch(0.2 0.03 78);
   --success: oklch(0.72 0.16 155);
   --success-foreground: oklch(0.18 0.03 155);
-  --info: oklch(0.7 0.13 250);
+  --info: oklch(0.75 0.12 220);
   --info-foreground: oklch(0.16 0.02 250);
   --border: oklch(0.36 0.022 252);
   --input: oklch(0.38 0.022 252);
-  --ring: oklch(0.78 0.13 197);
-  --chart-1: oklch(0.78 0.13 197);
+  --ring: oklch(0.64 0.15 258);
+  --chart-1: oklch(0.64 0.15 258);
   --chart-2: oklch(0.72 0.16 155);
   --chart-3: oklch(0.79 0.15 78);
   --chart-4: oklch(0.63 0.2 22);
-  --chart-5: oklch(0.7 0.13 280);
+  --chart-5: oklch(0.68 0.15 295);
   --chart-6: oklch(0.62 0.05 250);
   --sidebar: oklch(0.19 0.02 252);
   --sidebar-foreground: oklch(0.9 0.01 250);
-  --sidebar-primary: oklch(0.78 0.13 197);
-  --sidebar-primary-foreground: oklch(0.19 0.02 250);
+  --sidebar-primary: oklch(0.64 0.15 258);
+  --sidebar-primary-foreground: oklch(0.98 0.005 250);
   --sidebar-accent: oklch(0.26 0.024 252);
   --sidebar-accent-foreground: oklch(0.96 0.008 250);
   --sidebar-border: oklch(0.29 0.022 252);
-  --sidebar-ring: oklch(0.78 0.13 197);
+  --sidebar-ring: oklch(0.64 0.15 258);
   --chart-text: oklch(1 0 0);
+  --decision: oklch(0.68 0.15 295);
+  --decision-foreground: oklch(0.18 0.03 295);
 }
 
 .dark {
@@ -135,7 +139,7 @@ html.light,
   --card-foreground: oklch(0.19 0.02 250);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.19 0.02 250);
-  --primary: oklch(0.48 0.11 210);
+  --primary: oklch(0.42 0.14 258);
   --primary-foreground: oklch(0.99 0.005 250);
   --secondary: oklch(0.94 0.008 250);
   --secondary-foreground: oklch(0.24 0.02 250);
@@ -155,23 +159,25 @@ html.light,
   --info-foreground: oklch(0.99 0.005 250);
   --border: oklch(0.86 0.008 250);
   --input: oklch(0.86 0.008 250);
-  --ring: oklch(0.48 0.11 210);
+  --ring: oklch(0.42 0.14 258);
 
-  --chart-1: oklch(0.58 0.13 197);
+  --chart-1: oklch(0.45 0.14 258);
   --chart-2: oklch(0.58 0.15 155);
   --chart-3: oklch(0.62 0.14 70);
   --chart-4: oklch(0.55 0.19 25);
-  --chart-5: oklch(0.52 0.15 285);
+  --chart-5: oklch(0.5 0.16 295);
   --chart-6: oklch(0.55 0.03 250);
   --sidebar: oklch(0.99 0.003 250);
   --sidebar-foreground: oklch(0.22 0.02 250);
-  --sidebar-primary: oklch(0.48 0.11 210);
+  --sidebar-primary: oklch(0.42 0.14 258);
   --sidebar-primary-foreground: oklch(0.99 0.005 250);
   --sidebar-accent: oklch(0.93 0.008 250);
   --sidebar-accent-foreground: oklch(0.19 0.02 250);
   --sidebar-border: oklch(0.87 0.008 250);
-  --sidebar-ring: oklch(0.48 0.11 210);
+  --sidebar-ring: oklch(0.42 0.14 258);
   --chart-text: oklch(0.15 0 0);
+  --decision: oklch(0.5 0.16 295);
+  --decision-foreground: oklch(0.99 0.005 295);
 
   --shadow-panel: 0 1px 2px 0 oklch(0 0 0 / 6%), 0 12px 28px -22px oklch(0 0 0 / 40%);
 }
@@ -187,8 +193,8 @@ html.light,
     color: var(--color-foreground);
     font-family: var(--font-sans);
     background-image:
-      radial-gradient(900px 500px at 12% -10%, oklch(0.78 0.13 197 / 10%), transparent 60%),
-      radial-gradient(700px 420px at 100% 0%, oklch(0.7 0.13 280 / 8%), transparent 55%);
+      radial-gradient(900px 500px at 12% -10%, oklch(0.64 0.15 258 / 12%), transparent 60%),
+      radial-gradient(700px 420px at 100% 0%, oklch(0.68 0.15 295 / 7%), transparent 55%);
     background-attachment: fixed;
   }
 
@@ -229,8 +235,8 @@ html.light,
 
 html.light body {
   background-image:
-    radial-gradient(900px 500px at 12% -10%, oklch(0.55 0.12 197 / 8%), transparent 60%),
-    radial-gradient(700px 420px at 100% 0%, oklch(0.55 0.14 280 / 6%), transparent 55%);
+    radial-gradient(900px 500px at 12% -10%, oklch(0.45 0.14 258 / 8%), transparent 60%),
+    radial-gradient(700px 420px at 100% 0%, oklch(0.5 0.16 295 / 5%), transparent 55%);
 }
 
 html.light .grid-lines {
