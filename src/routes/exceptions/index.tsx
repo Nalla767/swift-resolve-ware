@@ -73,8 +73,9 @@ function Exceptions() {
       map.set(e.type, cur);
     }
     return [...map.entries()]
-      .map(([name, v]) => ({ name, value: v.value, color: SEVERITY_COLOR[v.sev] ?? "var(--color-info)" }))
+      .map(([name, v]) => ({ name, value: v.value }))
       .sort((a, b) => b.value - a.value);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exceptions]);
 
