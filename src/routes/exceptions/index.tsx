@@ -97,7 +97,7 @@ function Exceptions() {
       <Card className="p-5">
         <SectionTitle
           title="Active exceptions by category"
-          hint="Incident count per category, highest first — colour shows the worst severity in that category"
+          hint="Incident count and share of total per category, highest first — click a category to filter"
           right={
             type !== "all" ? (
               <Button size="sm" variant="ghost" onClick={() => setType("all")}>Clear category filter</Button>
