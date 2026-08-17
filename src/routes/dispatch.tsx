@@ -26,7 +26,7 @@ export const Route = createFileRoute("/dispatch")({
 
 function DispatchRoute() {
   const { user } = useStore();
-  const role: Role = user?.role === "worker" ? "worker" : "admin";
+  const role: Role[] = user?.role === "worker" ? ["worker"] : ["admin", "manager"];
   return (
     <AppShell role={role}>
       <Dispatch />

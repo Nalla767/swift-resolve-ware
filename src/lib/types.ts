@@ -1,4 +1,4 @@
-export type Role = "admin" | "worker" | "customer";
+export type Role = "admin" | "manager" | "worker" | "customer";
 
 export type User = {
   id: string;
@@ -188,3 +188,40 @@ export type Worker = {
   tasksToday: number;
   avgPickMin: number;
 };
+
+/* ------------------------- Ops intelligence layer ------------------------- */
+
+export type Station = "Picking" | "Packing" | "QC" | "Dispatch";
+
+export type WorkerAssignment = {
+  id: string;
+  name: string;
+  jobRole: "Picker" | "Packer" | "QC Inspector" | "Dispatch Handler";
+  zone: "A" | "B" | "C" | "D";
+  station: Station;
+  currentTask: string;
+  status: "active" | "idle" | "break" | "inactive";
+  tasksCompleted: number;
+  productivity: number;
+  exceptions: number;
+};
+
+export type FeedbackSource = "customer" | "worker";
+export type FeedbackStatus = "new" | "reviewing" | "in_progress" | "resolved" | "closed";
+
+export type Feedback = {
+  id: string;
+  source: FeedbackSource;
+  author: string;
+  orderId?: string | undefined;
+  sku?: string | undefined;
+  rating?: number | undefined;
+  category: string;
+  comment: string;
+  at: string;
+  status: FeedbackStatus;
+  response?: string | undefined;
+};
+
+export const CUSTOMER_FEEDBACK_CATEGORIES = ["Quality", "Packaging", "Delivery", "Availability", "Price", "Service"];
+export const WORKER_FEEDBACK_CATEGORIES = ["Availability", "Picking", "Packing", "Inventory Accuracy", "Location", "Equipment", "Workflow"];

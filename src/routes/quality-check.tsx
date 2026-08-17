@@ -29,7 +29,7 @@ export const Route = createFileRoute("/quality-check")({
 
 function QcRoute() {
   const { user } = useStore();
-  const role: Role = user?.role === "worker" ? "worker" : "admin";
+  const role: Role[] = user?.role === "worker" ? ["worker"] : ["admin", "manager"];
   return (
     <AppShell role={role}>
       <QualityCheck />

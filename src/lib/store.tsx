@@ -14,9 +14,14 @@ import {
   seedNotifications,
   seedOrders,
 } from "./mock-data";
+import { seedFeedback, seedWorkforce } from "./ops-data";
 import type {
   ActivityEvent,
   AppNotification,
+  Feedback,
+  FeedbackStatus,
+  Station,
+  WorkerAssignment,
   DecisionRecord,
   ExceptionStatus,
   ExceptionType,
@@ -42,6 +47,8 @@ type State = {
   history: DecisionRecord[];
   notifications: AppNotification[];
   activity: ActivityEvent[];
+  workforce: WorkerAssignment[];
+  feedback: Feedback[];
 };
 
 function initialState(): State {
@@ -55,6 +62,8 @@ function initialState(): State {
     history: seedDecisionHistory(),
     notifications: seedNotifications(),
     activity: seedActivity(),
+    workforce: seedWorkforce(),
+    feedback: seedFeedback(),
   };
 }
 
@@ -603,6 +612,86 @@ function useStoreValue() {
     setState((s) => ({ ...s, notifications: s.notifications.map((n) => ({ ...n, read: true })) }));
   }, []);
 
+  /* ------------------------------ workforce ------------------------------ */
+
+  const reassignWorker = useCallback((workerId: string, station: Station) => {
+    setState((s) => {
+      const w = s.workforce.find((x) => x.id === workerId);
+      if (!w) return s;
+      const operator = s.user?.name ?? "Operator";
+      let next: State = {
+        ...s,
+        workforce: s.workforce.map((x) =>
+          x.id === workerId
+            ? { ...x, station, status: "active" as const, currentTask: `Reassigned to ${station} — awaiting next task` }
+            : x,
+        ),
+      };
+      next = record(
+        next,
+        {
+          decision: `Reassign ${w.name} from ${w.station} to ${station}`,
+          reason: `${station} queue exceeded available capacity`,
+          result: `${station} capacity increased — queue drain time reduced`,
+          outcome: "accepted",
+        },
+        operator,
+      );
+      next = log(next, operator, "Workforce reassigned", `${w.name}: ${w.station} → ${station}`);
+      next = notify(next, {
+        title: `${w.name} moved to ${station}`,
+        body: "Workforce rebalanced — stage capacity and metrics updated.",
+        severity: "success",
+        href: "/workforce",
+      });
+      return next;
+    });
+    toast.success(`Reassigned to ${station} — capacity updated`);
+  }, []);
+
+  const setWorkerStatus = useCallback((workerId: string, status: WorkerAssignment["status"]) => {
+    setState((s) => {
+      const w = s.workforce.find((x) => x.id === workerId);
+      if (!w) return s;
+      const next: State = { ...s, workforce: s.workforce.map((x) => (x.id === workerId ? { ...x, status } : x)) };
+      return log(next, s.user?.name ?? "Operator", "Worker status updated", `${w.name} → ${status}`);
+    });
+    toast.success("Worker status updated");
+  }, []);
+
+  /* ------------------------------- feedback ------------------------------ */
+
+  const submitFeedback = useCallback(
+    (input: Omit<Feedback, "id" | "at" | "status">) => {
+      const id = uid("FB");
+      setState((s) => {
+        let next: State = { ...s, feedback: [{ ...input, id, at: stamp(), status: "new" as FeedbackStatus }, ...s.feedback] };
+        next = log(next, input.author, "Feedback submitted", `${input.category} · ${input.source}`);
+        next = notify(next, {
+          title: `New ${input.source} feedback`,
+          body: `${input.category} — ${input.comment.slice(0, 70)}`,
+          severity: input.rating && input.rating <= 2 ? "warning" : "info",
+          href: "/feedback",
+        });
+        return next;
+      });
+      toast.success("Feedback submitted — routed to the operations queue");
+      return id;
+    },
+    [],
+  );
+
+  const updateFeedback = useCallback((id: string, status: FeedbackStatus, response?: string) => {
+    setState((s) => {
+      const next: State = {
+        ...s,
+        feedback: s.feedback.map((f) => (f.id === id ? { ...f, status, response: response ?? f.response } : f)),
+      };
+      return log(next, s.user?.name ?? "Operator", "Feedback updated", `${id} → ${status.replace("_", " ")}`);
+    });
+    toast.success(`Feedback ${id} marked ${status.replace("_", " ")}`);
+  }, []);
+
   const resetDemo = useCallback(() => {
     setState((s) => ({ ...initialState(), user: s.user }));
     toast.success("Sample data reset");
@@ -629,6 +718,10 @@ function useStoreValue() {
     resolveDecision,
     markNotificationRead,
     markAllRead,
+    reassignWorker,
+    setWorkerStatus,
+    submitFeedback,
+    updateFeedback,
     resetDemo,
     PACK_CHECKS,
     QC_CHECKS,

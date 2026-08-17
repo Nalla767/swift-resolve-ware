@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
-import { ArrowRight, Inbox } from "lucide-react";
+import { ArrowRight, Inbox, Lightbulb } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -184,4 +184,65 @@ export function Th({ children, className }: { children?: React.ReactNode; classN
 
 export function Td({ children, className }: { children?: React.ReactNode; className?: string }) {
   return <td className={cn("px-4 py-3 align-middle", className)}>{children}</td>;
+}
+
+/** One-line actionable insight rendered under a chart or section. */
+export function Insight({ text, to, params }: { text: string; to?: string; params?: Record<string, string> }) {
+  const body = (
+    <p className="flex items-start gap-2 rounded-lg border border-info/30 bg-info/10 px-3 py-2 text-xs text-foreground">
+      <Lightbulb className="mt-0.5 size-3.5 shrink-0 text-info" />
+      <span className="flex-1">{text}</span>
+      {to && <ArrowRight className="mt-0.5 size-3.5 shrink-0 text-info" />}
+    </p>
+  );
+  return to ? (
+    <Link to={to} params={params as never} className="block transition-opacity hover:opacity-80">
+      {body}
+    </Link>
+  ) : (
+    body
+  );
+}
+
+/** Progress meter with current value, target and trend. */
+export function MetricMeter({
+  label,
+  value,
+  target,
+  trend,
+  suffix = "%",
+}: {
+  label: string;
+  value: number;
+  target: number;
+  trend?: number;
+  suffix?: string;
+}) {
+  const pct = Math.max(0, Math.min(100, (value / Math.max(1, target)) * 100));
+  const good = value >= target;
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-baseline justify-between gap-2">
+        <span className="text-xs font-medium text-muted-foreground">{label}</span>
+        <span className="flex items-baseline gap-2">
+          <span className="font-display text-sm font-bold tabular-nums">
+            {value}
+            {suffix}
+          </span>
+          {typeof trend === "number" && (
+            <span className={cn("text-[10px] font-semibold tabular-nums", trend >= 0 ? "text-success" : "text-critical")}>
+              {trend >= 0 ? "↑" : "↓"} {Math.abs(trend)}%
+            </span>
+          )}
+        </span>
+      </div>
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
+        <div className={cn("h-full rounded-full transition-all", good ? "bg-success" : pct > 75 ? "bg-warning" : "bg-critical")} style={{ width: `${pct}%` }} />
+      </div>
+      <p className="text-[10px] text-muted-foreground">
+        Target {target}
+        {suffix}
+      </p>
+    </div>
+  );
 }

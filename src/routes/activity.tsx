@@ -19,7 +19,7 @@ export const Route = createFileRoute("/activity")({
     ],
   }),
   component: () => (
-    <AppShell role="admin">
+    <AppShell role={["admin", "manager"]}>
       <ActivityPage />
     </AppShell>
   ),
