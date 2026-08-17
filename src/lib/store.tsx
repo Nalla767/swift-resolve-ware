@@ -703,12 +703,15 @@ function useStoreValue() {
       workforce: [...s.workforce],
       feedback: [...s.feedback],
     }));
+    setLastRefreshedAt(new Date().toISOString());
   }, []);
 
   const resetDemo = useCallback(() => {
     setState((s) => ({ ...initialState(), user: s.user }));
-    toast.success("Sample data reset");
+    setLastRefreshedAt(new Date().toISOString());
+    toast.success("Operations data restored to baseline");
   }, []);
+
 
   return {
     ...state,
