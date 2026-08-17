@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { ColoredBars, Donut } from "@/components/charts";
-import { EmptyState, Insight, KpiCard, PageHeader, RefreshButton, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { EmptyState, Insight, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { Pill } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";

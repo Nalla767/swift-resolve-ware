@@ -3,7 +3,7 @@ import { CheckCircle2, Clock, MapPin, Truck } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, KpiCard, PageHeader, RefreshButton, SectionTitle } from "@/components/shared";
+import { EmptyState, KpiCard, PageHeader, SectionTitle } from "@/components/shared";
 import { Pill, PriorityBadge, StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";

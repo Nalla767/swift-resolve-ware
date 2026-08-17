@@ -2,7 +2,7 @@ import { Link, createFileRoute, useParams } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeft, Box, Brain, PackageCheck, Scan, ShieldCheck, Truck } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
-import { BackLink, EmptyState, PageHeader, RefreshButton, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
+import { BackLink, EmptyState, PageHeader, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
 import { ExceptionBadge, Pill, PriorityBadge, RiskBadge, StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -88,7 +88,6 @@ function OrderDetail() {
                 <nextAction.icon className="size-4" /> {nextAction.label}
               </Link>
             </Button>
-            <RefreshButton />
           </>
         }
       />

@@ -3,7 +3,7 @@ import { Building2, HardHat, ShieldCheck, UserCog } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, KpiCard, PageHeader, RefreshButton, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { EmptyState, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { Pill, PriorityBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
