@@ -58,13 +58,8 @@ function ExceptionDetail() {
 
   return (
     <>
-      <Button asChild variant="ghost" size="sm" className="w-fit">
-        <Link to="/exceptions">
-          <ArrowLeft className="size-4" /> All exceptions
-        </Link>
-      </Button>
-
       <BackLink to="/exceptions" label="Back to exceptions" />
+
       <PageHeader
         eyebrow={ex.id}
         title={ex.type}
