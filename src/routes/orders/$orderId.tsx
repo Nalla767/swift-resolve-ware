@@ -2,7 +2,7 @@ import { Link, createFileRoute, useParams } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeft, Box, Brain, PackageCheck, Scan, ShieldCheck, Truck } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, PageHeader, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
+import { BackLink, EmptyState, PageHeader, RefreshButton, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
 import { ExceptionBadge, Pill, PriorityBadge, RiskBadge, StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -72,6 +72,7 @@ function OrderDetail() {
         </Link>
       </Button>
 
+      <BackLink to="/orders" label="Back to orders" />
       <PageHeader
         eyebrow={`Order ${order.id}`}
         title={order.customer}
@@ -88,6 +89,7 @@ function OrderDetail() {
               </Link>
             </Button>
           </>
+            <RefreshButton />
         }
       />
 

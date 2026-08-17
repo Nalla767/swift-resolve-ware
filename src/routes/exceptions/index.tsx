@@ -1,10 +1,10 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { AlertTriangle, Search } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { BarSeries } from "@/components/charts";
-import { EmptyState, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { RankedBars } from "@/components/charts";
+import { EmptyState, Insight, KpiCard, PageHeader, RefreshButton, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { ExceptionBadge, SeverityBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -54,11 +54,32 @@ function Exceptions() {
     [exceptions, q, status, type],
   );
 
-  const byType = Object.entries(
-    exceptions.reduce<Record<string, number>>((acc, e) => ({ ...acc, [e.type]: (acc[e.type] ?? 0) + 1 }), {}),
-  ).map(([name, count]) => ({ name, count }));
-
   const open = exceptions.filter((e) => e.status !== "resolved");
+
+  const SEVERITY_COLOR: Record<string, string> = {
+    critical: "var(--color-critical)",
+    high: "var(--color-warning)",
+    medium: "var(--color-chart-3)",
+    low: "var(--color-info)",
+  };
+  const RANK: Record<string, number> = { critical: 3, high: 2, medium: 1, low: 0 };
+
+  const byType = useMemo(() => {
+    const map = new Map<string, { value: number; sev: string }>();
+    for (const e of open) {
+      const cur = map.get(e.type) ?? { value: 0, sev: "low" };
+      cur.value += 1;
+      if ((RANK[e.severity] ?? 0) > (RANK[cur.sev] ?? 0)) cur.sev = e.severity;
+      map.set(e.type, cur);
+    }
+    return [...map.entries()]
+      .map(([name, v]) => ({ name, value: v.value, color: SEVERITY_COLOR[v.sev] ?? "var(--color-info)" }))
+      .sort((a, b) => b.value - a.value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exceptions]);
+
+  const topType = byType[0];
+  const totalOpen = open.length;
 
   return (
     <>
@@ -67,6 +88,7 @@ function Exceptions() {
         title="Exception management"
         description="Every exception carries the problem, the system's recommended decision and the resolution that was applied."
         icon={AlertTriangle}
+        actions={<RefreshButton />}
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -77,8 +99,31 @@ function Exceptions() {
       </div>
 
       <Card className="p-5">
-        <SectionTitle title="Exceptions by category" hint="Where the operation loses time" />
-        <BarSeries data={byType} x="name" bars={[{ key: "count", name: "Exceptions", color: "var(--color-chart-4)" }]} height={240} layout="vertical" />
+        <SectionTitle
+          title="Active exceptions by category"
+          hint="Incident count per category, highest first — colour shows the worst severity in that category"
+          right={
+            type !== "all" ? (
+              <Button size="sm" variant="ghost" onClick={() => setType("all")}>Clear category filter</Button>
+            ) : undefined
+          }
+        />
+        {byType.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-success/40 bg-success/5 py-12 text-center">
+            <CheckCircle2 className="size-7 text-success" />
+            <p className="font-semibold">All clear</p>
+            <p className="text-sm text-muted-foreground">All current warehouse exceptions are resolved.</p>
+          </div>
+        ) : (
+          <>
+            <RankedBars data={byType} onSelect={(name: string) => setType(name)} />
+            {topType && (
+              <Insight
+                text={`${topType.name} is the largest current exception category — ${topType.value} of ${totalOpen} open incident(s), ${Math.round((topType.value / Math.max(1, totalOpen)) * 100)}% of the total.`}
+              />
+            )}
+          </>
+        )}
       </Card>
 
       <Card className="gap-3 p-4">

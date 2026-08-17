@@ -3,7 +3,7 @@ import { AlertTriangle, ArrowLeft, ArrowRight, CheckCircle2, Search, ShieldAlert
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, PageHeader, SectionTitle, StatLine } from "@/components/shared";
+import { BackLink, EmptyState, PageHeader, RefreshButton, SectionTitle, StatLine } from "@/components/shared";
 import { ExceptionBadge, SeverityBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -64,6 +64,7 @@ function ExceptionDetail() {
         </Link>
       </Button>
 
+      <BackLink to="/exceptions" label="Back to exceptions" />
       <PageHeader
         eyebrow={ex.id}
         title={ex.type}
@@ -73,6 +74,7 @@ function ExceptionDetail() {
           <>
             <SeverityBadge s={ex.severity} />
             <ExceptionBadge s={ex.status} />
+            <RefreshButton />
           </>
         }
       />

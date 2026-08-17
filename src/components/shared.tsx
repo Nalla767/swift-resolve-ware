@@ -1,10 +1,12 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
-import { ArrowRight, Inbox, Lightbulb } from "lucide-react";
+import { ArrowLeft, ArrowRight, Inbox, Lightbulb, RotateCw } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useStore } from "@/lib/store";
 import { STAGES, STAGE_LABEL, type Stage } from "@/lib/types";
 import { Dot, type Tone } from "@/components/status";
 
@@ -243,6 +245,71 @@ export function MetricMeter({
         Target {target}
         {suffix}
       </p>
+    </div>
+  );
+}
+
+/* --------------------------- navigation controls -------------------------- */
+
+/** Consistent back control for secondary/detail pages. Preserves browser history. */
+export function BackLink({
+  to,
+  params,
+  label = "Back",
+}: {
+  to: string;
+  params?: Record<string, string>;
+  label?: string;
+}) {
+  const router = useRouter();
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      className="-ml-2 gap-1.5 text-muted-foreground hover:text-foreground"
+      aria-label={`Back to ${label.replace(/^Back to /i, "")}`}
+      onClick={() => {
+        if (typeof window !== "undefined" && window.history.length > 1) router.history.back();
+        else router.navigate({ to, params: params as never });
+      }}
+    >
+      <ArrowLeft className="size-4" />
+      {label}
+    </Button>
+  );
+}
+
+/** Consistent refresh control: re-reads shared state, keeps the page and filters. */
+export function RefreshButton({ className }: { className?: string }) {
+  const { refresh } = useStore();
+  const [busy, setBusy] = useState(false);
+
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      className={cn("gap-1.5", className)}
+      disabled={busy}
+      aria-label="Refresh data"
+      title="Refresh data"
+      onClick={() => {
+        setBusy(true);
+        refresh();
+        window.setTimeout(() => setBusy(false), 450);
+      }}
+    >
+      <RotateCw className={cn("size-4", busy && "animate-spin")} />
+      {busy ? "Refreshing…" : "Refresh"}
+    </Button>
+  );
+}
+
+/** Neutral loading block for data-driven sections. */
+export function LoadingState({ label = "Loading warehouse data…" }: { label?: string }) {
+  return (
+    <div className="flex items-center justify-center gap-3 rounded-xl border border-dashed border-border py-12 text-sm text-muted-foreground">
+      <span className="size-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+      {label}
     </div>
   );
 }
