@@ -90,6 +90,7 @@ function Dashboard() {
         icon={LayoutDashboard}
         actions={
           <>
+            <ThemeToggle withLabel />
             <RefreshButton />
             <Button asChild variant="outline" size="sm">
               <Link to="/decision-center">
