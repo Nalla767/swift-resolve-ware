@@ -238,3 +238,29 @@ html.light .grid-lines {
     linear-gradient(to right, oklch(0 0 0 / 5%) 1px, transparent 1px),
     linear-gradient(to bottom, oklch(0 0 0 / 5%) 1px, transparent 1px);
 }
+
+/* Theme-adaptive chart typography: any chart text follows the active theme. */
+.recharts-wrapper text,
+.recharts-text,
+.recharts-cartesian-axis-tick-value,
+.recharts-label,
+.recharts-pie-label-text {
+  fill: var(--chart-text) !important;
+}
+
+.recharts-legend-item-text,
+.recharts-default-tooltip .recharts-tooltip-label,
+.recharts-tooltip-wrapper {
+  color: var(--chart-text) !important;
+}
+
+.recharts-default-tooltip {
+  background: var(--popover) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px;
+  color: var(--popover-foreground) !important;
+}
+
+.recharts-cartesian-grid line {
+  stroke: var(--border);
+}

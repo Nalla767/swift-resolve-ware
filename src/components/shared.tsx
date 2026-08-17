@@ -105,7 +105,7 @@ export function WorkflowProgress({ stage, compact = false }: { stage: Stage; com
               <span
                 className={cn(
                   "truncate text-[10px] font-medium uppercase tracking-wide",
-                  current ? "text-primary" : done ? "text-muted-foreground" : "text-muted-foreground/80",
+                  current ? "text-primary" : done ? "text-muted-foreground" : "text-muted-foreground",
                 )}
               >
                 {STAGE_LABEL[s]}
