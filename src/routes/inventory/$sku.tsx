@@ -3,7 +3,7 @@ import { ArrowLeft, Boxes } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
 import { BarSeries } from "@/components/charts";
-import { BackLink, EmptyState, PageHeader, RefreshButton, SectionTitle, StatLine } from "@/components/shared";
+import { BackLink, EmptyState, PageHeader, SectionTitle, StatLine } from "@/components/shared";
 import { InventoryBadge, Pill } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -67,7 +67,7 @@ function SkuDetail() {
         title={item.name}
         description={`${item.category} · Zone ${item.zone} · Bin ${item.bin}`}
         icon={Boxes}
-        actions={<><InventoryBadge s={inventoryStatus(item)} /><RefreshButton /></>}
+        actions={<><InventoryBadge s={inventoryStatus(item)} /></>}
       />
 
       <div className="grid gap-4 xl:grid-cols-3">

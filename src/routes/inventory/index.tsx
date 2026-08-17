@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { Donut } from "@/components/charts";
-import { EmptyState, PageHeader, RefreshButton, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { EmptyState, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { InventoryBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -69,7 +69,6 @@ function Inventory() {
         title="Inventory"
         description="Live stock positions by zone and bin, with automatic replenishment detection at reorder level."
         icon={Boxes}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-4 xl:grid-cols-3">

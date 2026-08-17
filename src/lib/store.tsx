@@ -73,6 +73,8 @@ const StoreContext = createContext<Store | null>(null);
 
 function useStoreValue() {
   const [state, setState] = useState<State>(initialState);
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<string | null>(null);
+
 
   /* ------------------------------ primitives ----------------------------- */
 
@@ -119,7 +121,7 @@ function useStoreValue() {
   const login = useCallback((role: Role, email: string, password: string) => {
     const demo = DEMO_USERS[role];
     if (email.trim().toLowerCase() !== demo.email || password !== demo.password) {
-      return { ok: false as const, error: "Invalid credentials for this role. Use the sample credentials shown below." };
+      return { ok: false as const, error: "Invalid credentials for this role. Use the access credentials shown on this screen." };
     }
     const user: User = {
       id: `U-${role}`,
@@ -703,12 +705,15 @@ function useStoreValue() {
       workforce: [...s.workforce],
       feedback: [...s.feedback],
     }));
+    setLastRefreshedAt(new Date().toISOString());
   }, []);
 
   const resetDemo = useCallback(() => {
     setState((s) => ({ ...initialState(), user: s.user }));
-    toast.success("Sample data reset");
+    setLastRefreshedAt(new Date().toISOString());
+    toast.success("Operations data restored to baseline");
   }, []);
+
 
   return {
     ...state,
@@ -736,6 +741,8 @@ function useStoreValue() {
     submitFeedback,
     updateFeedback,
     refresh,
+    lastRefreshedAt,
+
     resetDemo,
     PACK_CHECKS,
     QC_CHECKS,

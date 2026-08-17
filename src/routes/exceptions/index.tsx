@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { CategoryDonut } from "@/components/charts";
-import { EmptyState, Insight, KpiCard, PageHeader, RefreshButton, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { EmptyState, Insight, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { ExceptionBadge, SeverityBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -84,7 +84,6 @@ function Exceptions() {
         title="Exception management"
         description="Every exception carries the problem, the system's recommended decision and the resolution that was applied."
         icon={AlertTriangle}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

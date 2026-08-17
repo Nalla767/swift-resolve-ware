@@ -18,7 +18,7 @@ export const Route = createFileRoute("/settings")({
   head: () => ({
     meta: [
       { title: "Warehouse Settings — SmartFulfill" },
-      { name: "description", content: "Configure SLA thresholds, priority weighting, worker roster and sample data for the warehouse." },
+      { name: "description", content: "Configure SLA thresholds, priority weighting, worker roster and operational baselines for the warehouse." },
       { property: "og:title", content: "Warehouse Settings — SmartFulfill" },
       { property: "og:description", content: "SLA thresholds, priority weights and worker roster configuration." },
     ],
@@ -45,7 +45,7 @@ function Settings() {
         icon={SettingsIcon}
         actions={
           <Button variant="outline" size="sm" onClick={resetDemo}>
-            <RotateCcw className="size-4" /> Reset sample data
+            <RotateCcw className="size-4" /> Restore baseline data
           </Button>
         }
       />

@@ -3,7 +3,7 @@ import { ClipboardList, Plus, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, PageHeader, RefreshButton, TableShell, Td, Th } from "@/components/shared";
+import { EmptyState, PageHeader, TableShell, Td, Th } from "@/components/shared";
 import { PriorityBadge, RiskBadge, StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -64,7 +64,6 @@ function Orders() {
         icon={ClipboardList}
         actions={
           <>
-          <RefreshButton />
           <Button asChild size="sm">
             <Link to="/orders/new">
               <Plus className="size-4" /> Create order

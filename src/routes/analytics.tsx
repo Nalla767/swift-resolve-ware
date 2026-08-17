@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { BarSeries, CategoryDonut, ColoredBars, Donut, Gauge, TrendArea, TrendLine } from "@/components/charts";
-import { KpiCard, PageHeader, RefreshButton, SectionTitle, StatLine, TableShell, Td, Th } from "@/components/shared";
+import { KpiCard, PageHeader, SectionTitle, StatLine, TableShell, Td, Th } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -60,7 +60,6 @@ function Analytics() {
         icon={BarChart3}
         actions={
           <>
-          <RefreshButton />
           <Tabs value={range} onValueChange={setRange}>
             <TabsList>
               <TabsTrigger value="1">Today</TabsTrigger>

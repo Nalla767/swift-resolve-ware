@@ -3,7 +3,7 @@ import { Building2, HardHat, ShieldCheck, UserCog } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, KpiCard, PageHeader, RefreshButton, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { EmptyState, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { Pill, PriorityBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -71,7 +71,6 @@ function Users() {
         title="User management"
         description="Everyone connected to the warehouse: administrators, managers, floor operators and customer accounts, with the activity behind each one."
         icon={UserCog}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

@@ -3,7 +3,7 @@ import { CheckCircle2, Clock, MapPin, Truck } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, KpiCard, PageHeader, RefreshButton, SectionTitle } from "@/components/shared";
+import { EmptyState, KpiCard, PageHeader, SectionTitle } from "@/components/shared";
 import { Pill, PriorityBadge, StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -56,7 +56,6 @@ function Tracking() {
         title="Live order tracking"
         description="Follow any order through every physical stage of fulfilment, with the live ETA and the carrier handling the final leg."
         icon={MapPin}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

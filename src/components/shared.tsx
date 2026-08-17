@@ -1,7 +1,9 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
 import { ArrowLeft, ArrowRight, Inbox, Lightbulb, RotateCw } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -16,29 +18,57 @@ export function PageHeader({
   description,
   icon: Icon,
   actions,
+  refreshable = true,
 }: {
   eyebrow: string;
   title: string;
   description: string;
   icon: LucideIcon;
   actions?: React.ReactNode;
+  /** Set false for read-only/static pages that have nothing to re-read. */
+  refreshable?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-4 border-b border-border pb-6 md:flex-row md:items-end md:justify-between">
-      <div className="flex items-start gap-4">
-        <div className="grid size-11 shrink-0 place-items-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
+      <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-4">
+        <div className="grid size-11 shrink-0 place-items-center rounded-xl border border-primary/30 bg-primary/10 text-primary shadow-sm">
           <Icon className="size-5" />
         </div>
-        <div>
+        <div className="min-w-0">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">{eyebrow}</p>
-          <h1 className="mt-1 text-2xl font-bold md:text-3xl">{title}</h1>
-          <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{description}</p>
+          <h1 className="mt-1 text-2xl font-bold leading-tight md:text-3xl">{title}</h1>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">{description}</p>
         </div>
       </div>
-      {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
+      {(actions || refreshable) && (
+        <div className="flex flex-wrap items-center gap-2 md:justify-end">
+          {actions}
+          {refreshable && (
+            <>
+              <LastUpdated />
+              <RefreshButton />
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
+
+/** Shows when the operational data on screen was last re-read. */
+export function LastUpdated() {
+  const { lastRefreshedAt } = useStore();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  const t = lastRefreshedAt ? new Date(lastRefreshedAt) : null;
+  return (
+    <span className="whitespace-nowrap text-xs text-muted-foreground">
+      Updated {t ? t.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "just now"}
+    </span>
+  );
+}
+
 
 export function KpiCard({
   label,
@@ -293,10 +323,20 @@ export function RefreshButton({ className }: { className?: string }) {
       aria-label="Refresh data"
       title="Refresh data"
       onClick={() => {
+        if (busy) return;
         setBusy(true);
-        refresh();
-        window.setTimeout(() => setBusy(false), 450);
+        try {
+          refresh();
+          window.setTimeout(() => {
+            setBusy(false);
+            toast.success("Operations data updated");
+          }, 450);
+        } catch {
+          setBusy(false);
+          toast.error("Could not update operations data");
+        }
       }}
+
     >
       <RotateCw className={cn("size-4", busy && "animate-spin")} />
       {busy ? "Refreshing…" : "Refresh"}
