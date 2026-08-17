@@ -1,5 +1,5 @@
 import { Link, createFileRoute, useParams } from "@tanstack/react-router";
-import { AlertTriangle, ArrowLeft, ArrowRight, CheckCircle2, Search, ShieldAlert } from "lucide-react";
+import { AlertTriangle, ArrowRight, CheckCircle2, Search, ShieldAlert } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
