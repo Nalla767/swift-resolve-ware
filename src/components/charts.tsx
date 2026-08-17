@@ -281,6 +281,100 @@ export function Gauge({ value, label, height = 200 }: { value: number; label: st
   );
 }
 
+/** Distinct, accessible palette for exception categories (8 slots). */
+export const CATEGORY_COLORS = [
+  "var(--color-chart-1)",
+  "var(--color-chart-2)",
+  "var(--color-chart-3)",
+  "var(--color-chart-4)",
+  "var(--color-chart-5)",
+  "var(--color-chart-6)",
+  "var(--color-info)",
+  "var(--color-warning)",
+];
+
+/**
+ * Interactive donut chart for categorical breakdowns: hover tooltip with count
+ * and percentage, plus a high-contrast grid legend below. Optional click-to-filter.
+ */
+export function CategoryDonut({
+  data,
+  height = 280,
+  onSelect,
+  unit = "incidents",
+}: {
+  data: { name: string; value: number; color?: string }[];
+  height?: number;
+  onSelect?: (name: string) => void;
+  unit?: string;
+}) {
+  const sorted = [...data].sort((a, b) => b.value - a.value);
+  const total = sorted.reduce((s, d) => s + d.value, 0);
+  const slices = sorted.map((d, i) => ({
+    ...d,
+    color: d.color ?? CATEGORY_COLORS[i % CATEGORY_COLORS.length],
+  }));
+  const pct = (v: number) => (total > 0 ? Math.round((v / total) * 100) : 0);
+
+  return (
+    <div>
+      <div className="relative" style={{ height }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={slices}
+              dataKey="value"
+              nameKey="name"
+              innerRadius="58%"
+              outerRadius="88%"
+              paddingAngle={2}
+              stroke="var(--color-background)"
+              strokeWidth={2}
+              onClick={onSelect ? (d: { name?: string }) => d?.name && onSelect(d.name) : undefined}
+              cursor={onSelect ? "pointer" : undefined}
+            >
+              {slices.map((d) => (
+                <Cell key={d.name} fill={d.color} />
+              ))}
+            </Pie>
+            <Tooltip
+              {...tooltipStyle}
+              formatter={(value: number, name: string) => [`${value} ${unit} · ${pct(Number(value))}%`, name]}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+          <span className="font-display text-3xl font-bold tabular-nums text-chart-text">{total}</span>
+          <span className="text-xs font-medium text-chart-text">{unit}</span>
+        </div>
+      </div>
+
+      <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+        {slices.map((d) => (
+          <li key={d.name}>
+            <button
+              type="button"
+              onClick={onSelect ? () => onSelect(d.name) : undefined}
+              title={`${d.name} — ${d.value} ${unit} (${pct(d.value)}%)`}
+              className="flex w-full items-center justify-between gap-3 rounded-lg border border-border bg-surface px-2.5 py-1.5 text-left transition-colors hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <span className="flex min-w-0 items-center gap-2 text-sm font-medium text-chart-text">
+                <span className="size-2.5 shrink-0 rounded-full" style={{ background: d.color }} />
+                <span className="truncate">{d.name}</span>
+              </span>
+              <span className="shrink-0 text-xs tabular-nums text-chart-text">
+                <span className="font-semibold">{d.value}</span>
+                <span className="text-muted-foreground"> · </span>
+                <span className="font-semibold text-primary">{pct(d.value)}%</span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /**
  * Horizontal ranked bar list (highest → lowest) with per-category colour,
  * high-contrast labels, counts and percentages. Optional click-to-filter.
@@ -295,6 +389,7 @@ export function RankedBars({
   onSelect?: (name: string) => void;
   unit?: string;
 }) {
+
   const sorted = [...data].sort((a, b) => b.value - a.value);
   const total = sorted.reduce((s, d) => s + d.value, 0);
   const max = Math.max(1, ...sorted.map((d) => d.value));
