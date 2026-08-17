@@ -27,7 +27,7 @@ const PRODUCTS: P[] = [
   ["SKU-1008", "Laptop Stand Aluminium", "Accessories", "B", "B-03", 18, 4, 0, 20, 59],
   ["SKU-1009", "Power Bank 20000mAh", "Power", "B", "B-04", 96, 18, 4, 30, 45],
   ["SKU-1010", "HDMI Cable 2m", "Cables", "B", "B-05", 340, 40, 0, 60, 12],
-  ["SKU-1011", "27\" 4K Monitor", "Displays", "C", "C-01", 22, 9, 1, 10, 379],
+  ["SKU-1011", "27-inch 4K Monitor", "Displays", "C", "C-01", 22, 9, 1, 10, 379],
   ["SKU-1012", "Webcam 1080p", "Peripherals", "C", "C-02", 9, 5, 0, 15, 69],
   ["SKU-1013", "Noise Cancelling Headset", "Audio", "C", "C-03", 31, 7, 2, 12, 199],
   ["SKU-1014", "Ergonomic Chair Cushion", "Accessories", "C", "C-04", 0, 0, 0, 10, 39],
@@ -296,6 +296,8 @@ export function seedDecisions(): PendingDecision[] {
       ],
       recommendation:
         "Allocate all 7 available units to ORD-1042 because it carries the higher priority score, place ORD-1051 on stock hold and create a replenishment task for 25 units.",
+      why: 'ORD-1042 scores higher on the priority engine (critical SLA, platinum customer) than ORD-1051, so scarce stock should follow the highest-risk order.',
+      expectedResult: 'ORD-1042 ships within SLA, ORD-1051 slips by ~1 day on backorder, and 25 replacement units are inbound.',
       createdAt: iso(-2),
     },
     {
@@ -311,6 +313,8 @@ export function seedDecisions(): PendingDecision[] {
         "Order is 4.2h from its SLA deadline",
       ],
       recommendation: "Replace the damaged unit using Bin B-12 and return the order to Packing.",
+      why: 'Replacement stock is on hand in the same zone, so swapping is faster than re-picking or cancelling the line.',
+      expectedResult: 'Order returns to Packing in ~8 minutes and still clears its SLA with 3.9h to spare.',
       createdAt: iso(-1.4),
     },
     {
@@ -325,6 +329,8 @@ export function seedDecisions(): PendingDecision[] {
         "Platinum customer — Northwind Retail",
       ],
       recommendation: "Move ORD-1050 into the priority dispatch queue and assign the next available carrier.",
+      why: 'The order is already past SLA and staged at the dock — only carrier assignment is blocking it.',
+      expectedResult: 'Package leaves on the next carrier run, capping the breach at one day for a platinum account.',
       createdAt: iso(-0.8),
     },
     {
@@ -339,6 +345,8 @@ export function seedDecisions(): PendingDecision[] {
         "SKU-1012 Webcam 1080p — 9 on hand (reorder 15)",
       ],
       recommendation: "Raise purchase requisitions for all four SKUs at 2× reorder level to cover the next 14 days of demand.",
+      why: 'All four SKUs are at or below reorder level while demand is steady, so stock-outs are likely within days.',
+      expectedResult: 'Cover for ~14 days of demand restored and four future allocation shortages avoided.',
       createdAt: iso(-5),
     },
   ];

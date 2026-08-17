@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 
 import { NOW, inventoryStatus, scoreOrder, slaRisk } from "./engine";
@@ -67,6 +67,31 @@ function initialState(): State {
   };
 }
 
+const SESSION_KEY = "smartfulfill.session";
+
+function readStoredUser(): User | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(SESSION_KEY) ?? window.localStorage.getItem(SESSION_KEY);
+    return raw ? (JSON.parse(raw) as User) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStoredUser(user: User | null, remember: boolean) {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.removeItem(SESSION_KEY);
+    window.localStorage.removeItem(SESSION_KEY);
+    if (!user) return;
+    const store = remember ? window.localStorage : window.sessionStorage;
+    store.setItem(SESSION_KEY, JSON.stringify(user));
+  } catch {
+    /* storage unavailable — session stays in memory only */
+  }
+}
+
 export type Store = ReturnType<typeof useStoreValue>;
 
 const StoreContext = createContext<Store | null>(null);
@@ -74,6 +99,7 @@ const StoreContext = createContext<Store | null>(null);
 function useStoreValue() {
   const [state, setState] = useState<State>(initialState);
   const [lastRefreshedAt, setLastRefreshedAt] = useState<string | null>(null);
+  const [authReady, setAuthReady] = useState(false);
 
 
   /* ------------------------------ primitives ----------------------------- */
@@ -118,7 +144,14 @@ function useStoreValue() {
 
   /* --------------------------------- auth -------------------------------- */
 
-  const login = useCallback((role: Role, email: string, password: string) => {
+  // Restore a previous session after hydration so a page refresh keeps the user signed in.
+  useEffect(() => {
+    const stored = readStoredUser();
+    if (stored) setState((s) => (s.user ? s : { ...s, user: stored }));
+    setAuthReady(true);
+  }, []);
+
+  const login = useCallback((role: Role, email: string, password: string, remember = true) => {
     const demo = DEMO_USERS[role];
     if (email.trim().toLowerCase() !== demo.email || password !== demo.password) {
       return { ok: false as const, error: "Invalid credentials for this role. Use the access credentials shown on this screen." };
@@ -130,11 +163,15 @@ function useStoreValue() {
       role,
       customer: role === "customer" ? "Northwind Retail" : undefined,
     };
+    writeStoredUser(user, remember);
     setState((s) => log({ ...s, user }, demo.name, "Signed in", `${role} portal session started`));
     return { ok: true as const, user };
   }, []);
 
-  const logout = useCallback(() => setState((s) => ({ ...s, user: null })), []);
+  const logout = useCallback(() => {
+    writeStoredUser(null, false);
+    setState((s) => ({ ...s, user: null }));
+  }, []);
 
   /* -------------------------------- orders ------------------------------- */
 
@@ -719,6 +756,7 @@ function useStoreValue() {
     ...state,
     login,
     logout,
+    authReady,
     createOrder,
     allocateOrder,
     startPicking,

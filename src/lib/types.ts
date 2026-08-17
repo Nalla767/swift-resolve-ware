@@ -149,6 +149,8 @@ export type PendingDecision = {
   severity: "critical" | "high" | "medium";
   context: string[];
   recommendation: string;
+  why?: string;
+  expectedResult?: string;
   createdAt: string;
 };
 

@@ -51,7 +51,7 @@ export function LoginScreen({ role, title, tagline, description, bullets, redire
 
     setLoading(true);
     window.setTimeout(() => {
-      const res = login(role, email, password);
+      const res = login(role, email, password, remember);
       setLoading(false);
       if (!res.ok) {
         setError(res.error);
