@@ -323,10 +323,20 @@ export function RefreshButton({ className }: { className?: string }) {
       aria-label="Refresh data"
       title="Refresh data"
       onClick={() => {
+        if (busy) return;
         setBusy(true);
-        refresh();
-        window.setTimeout(() => setBusy(false), 450);
+        try {
+          refresh();
+          window.setTimeout(() => {
+            setBusy(false);
+            toast.success("Operations data updated");
+          }, 450);
+        } catch {
+          setBusy(false);
+          toast.error("Could not update operations data");
+        }
       }}
+
     >
       <RotateCw className={cn("size-4", busy && "animate-spin")} />
       {busy ? "Refreshing…" : "Refresh"}
