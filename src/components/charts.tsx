@@ -280,3 +280,60 @@ export function Gauge({ value, label, height = 200 }: { value: number; label: st
     </div>
   );
 }
+
+/**
+ * Horizontal ranked bar chart (highest → lowest) with severity-driven colour,
+ * count + percentage tooltip and optional click-to-filter.
+ */
+export function RankedBars({
+  data,
+  height,
+  onSelect,
+  unit = "incidents",
+}: {
+  data: { name: string; value: number; color?: string }[];
+  height?: number;
+  onSelect?: (name: string) => void;
+  unit?: string;
+}) {
+  const sorted = [...data].sort((a, b) => b.value - a.value);
+  const total = sorted.reduce((s, d) => s + d.value, 0);
+
+  return (
+    <div>
+      <ChartFrame height={height ?? Math.max(200, sorted.length * 34 + 24)}>
+        <BarChart data={sorted} layout="vertical" margin={{ top: 4, right: 36, bottom: 0, left: 8 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" horizontal={false} />
+          <XAxis type="number" tick={axis} tickLine={false} axisLine={false} allowDecimals={false} />
+          <YAxis type="category" dataKey="name" tick={axis} tickLine={false} axisLine={false} width={130} />
+          <Tooltip
+            {...tooltipStyle}
+            cursor={{ fill: "var(--color-chart-text)", opacity: 0.06 }}
+            content={({ active, payload }) => {
+              if (!active || !payload?.length) return null;
+              const p = payload[0]!.payload as { name: string; value: number };
+              const pct = total > 0 ? Math.round((p.value / total) * 100) : 0;
+              return (
+                <div className="rounded-lg border border-border bg-popover px-3 py-2 text-xs text-popover-foreground shadow-md">
+                  <p className="font-semibold">{p.name}</p>
+                  <p className="tabular-nums">{p.value} {unit}</p>
+                  <p className="tabular-nums text-muted-foreground">{pct}% of total</p>
+                </div>
+              );
+            }}
+          />
+          <Bar
+            dataKey="value"
+            radius={[0, 6, 6, 0]}
+            maxBarSize={22}
+            {...(onSelect ? { onClick: (d: unknown) => onSelect((d as { name: string }).name), cursor: "pointer" } : {})}
+          >
+            {sorted.map((d, i) => (
+              <Cell key={d.name} fill={d.color ?? CHART_COLORS[i % CHART_COLORS.length]} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ChartFrame>
+    </div>
+  );
+}

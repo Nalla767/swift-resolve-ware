@@ -221,7 +221,32 @@ export type Feedback = {
   at: string;
   status: FeedbackStatus;
   response?: string | undefined;
+  priority?: "critical" | "high" | "medium" | "low" | undefined;
 };
 
-export const CUSTOMER_FEEDBACK_CATEGORIES = ["Quality", "Packaging", "Delivery", "Availability", "Price", "Service"];
-export const WORKER_FEEDBACK_CATEGORIES = ["Availability", "Picking", "Packing", "Inventory Accuracy", "Location", "Equipment", "Workflow"];
+export const CUSTOMER_FEEDBACK_CATEGORIES = [
+  "Product Quality",
+  "Packaging",
+  "Delivery",
+  "Availability",
+  "Price",
+  "Service",
+];
+export const WORKER_FEEDBACK_CATEGORIES = [
+  "Inventory Accuracy",
+  "Product Availability",
+  "Picking",
+  "Packing",
+  "Quality Check",
+  "Warehouse Location",
+  "Equipment",
+  "Workflow",
+];
+
+export const FEEDBACK_STATUS_LABEL: Record<FeedbackStatus, string> = {
+  new: "New",
+  reviewing: "Reviewing",
+  in_progress: "In Progress",
+  resolved: "Resolved",
+  closed: "Closed",
+};

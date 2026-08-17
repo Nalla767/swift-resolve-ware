@@ -186,7 +186,7 @@ function SidebarNav({ role, onNavigate }: { role: Role; onNavigate?: () => void 
     <nav className="flex flex-col gap-6 p-3">
       {groups.map((g) => (
         <div key={g.section}>
-          <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">{g.section}</p>
+          <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">{g.section}</p>
           <ul className="space-y-0.5">
             {g.items.map((item) => {
               const active = pathname === item.to || pathname.startsWith(item.to + "/");
@@ -278,7 +278,7 @@ function NotificationBell() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
+        <Button variant="ghost" size="icon" className="relative" aria-label="Notifications" title="Notifications">
           <Bell className="size-4" />
           {unread > 0 && (
             <span className="absolute -right-0.5 -top-0.5 grid size-4 place-items-center rounded-full bg-critical font-mono text-[9px] font-bold text-critical-foreground">
@@ -384,7 +384,7 @@ export function AppShell({ role, children }: { role: Role | Role[]; children: Re
         <header className="sticky top-0 z-30 flex h-16 items-center gap-2 border-b border-border bg-background/85 px-3 backdrop-blur md:px-6">
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open navigation">
+              <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open navigation" title="Menu">
                 <Menu className="size-5" />
               </Button>
             </SheetTrigger>
@@ -405,6 +405,8 @@ export function AppShell({ role, children }: { role: Role | Role[]; children: Re
 
           <button
             onClick={() => setSearchOpen(true)}
+            aria-label="Search orders, SKUs and customers"
+            title="Search (⌘K)"
             className="ml-auto flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm text-muted-foreground transition-colors hover:border-primary/40 lg:ml-0 lg:w-80"
           >
             <Search className="size-4" />
@@ -417,7 +419,7 @@ export function AppShell({ role, children }: { role: Role | Role[]; children: Re
             <NotificationBell />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="gap-2 px-2">
+                <Button variant="ghost" className="gap-2 px-2" aria-label="Account menu" title="Account">
                   <span className="grid size-8 place-items-center rounded-full bg-primary/15 font-display text-xs font-bold text-primary">{initials}</span>
                   <span className="hidden text-left leading-tight md:block">
                     <span className="block text-xs font-semibold">{user.name}</span>

@@ -692,6 +692,19 @@ function useStoreValue() {
     toast.success(`Feedback ${id} marked ${status.replace("_", " ")}`);
   }, []);
 
+  /** Re-reads the shared application state so KPIs, tables and charts recompute. */
+  const refresh = useCallback(() => {
+    setState((s) => ({
+      ...s,
+      inventory: [...s.inventory],
+      orders: [...s.orders],
+      exceptions: [...s.exceptions],
+      decisions: [...s.decisions],
+      workforce: [...s.workforce],
+      feedback: [...s.feedback],
+    }));
+  }, []);
+
   const resetDemo = useCallback(() => {
     setState((s) => ({ ...initialState(), user: s.user }));
     toast.success("Sample data reset");
@@ -722,6 +735,7 @@ function useStoreValue() {
     setWorkerStatus,
     submitFeedback,
     updateFeedback,
+    refresh,
     resetDemo,
     PACK_CHECKS,
     QC_CHECKS,
