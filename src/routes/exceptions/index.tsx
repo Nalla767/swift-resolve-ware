@@ -56,13 +56,8 @@ function Exceptions() {
 
   const open = exceptions.filter((e) => e.status !== "resolved");
 
-  const SEVERITY_COLOR: Record<string, string> = {
-    critical: "var(--color-critical)",
-    high: "var(--color-warning)",
-    medium: "var(--color-chart-3)",
-    low: "var(--color-info)",
-  };
   const RANK: Record<string, number> = { critical: 3, high: 2, medium: 1, low: 0 };
+
 
   const byType = useMemo(() => {
     const map = new Map<string, { value: number; sev: string }>();
@@ -73,8 +68,9 @@ function Exceptions() {
       map.set(e.type, cur);
     }
     return [...map.entries()]
-      .map(([name, v]) => ({ name, value: v.value, color: SEVERITY_COLOR[v.sev] ?? "var(--color-info)" }))
+      .map(([name, v]) => ({ name, value: v.value }))
       .sort((a, b) => b.value - a.value);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exceptions]);
 
@@ -101,7 +97,7 @@ function Exceptions() {
       <Card className="p-5">
         <SectionTitle
           title="Active exceptions by category"
-          hint="Incident count per category, highest first — colour shows the worst severity in that category"
+          hint="Incident count and share of total per category, highest first — click a category to filter"
           right={
             type !== "all" ? (
               <Button size="sm" variant="ghost" onClick={() => setType("all")}>Clear category filter</Button>
