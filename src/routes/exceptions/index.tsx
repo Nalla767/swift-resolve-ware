@@ -56,13 +56,8 @@ function Exceptions() {
 
   const open = exceptions.filter((e) => e.status !== "resolved");
 
-  const SEVERITY_COLOR: Record<string, string> = {
-    critical: "var(--color-critical)",
-    high: "var(--color-warning)",
-    medium: "var(--color-chart-3)",
-    low: "var(--color-info)",
-  };
   const RANK: Record<string, number> = { critical: 3, high: 2, medium: 1, low: 0 };
+
 
   const byType = useMemo(() => {
     const map = new Map<string, { value: number; sev: string }>();
