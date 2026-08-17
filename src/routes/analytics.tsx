@@ -71,31 +71,6 @@ function Analytics() {
         }
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Fulfilment rate" value={`${stats.fulfilmentRate}%`} tone="success" icon={BarChart3} hint={rangeLabel} />
-        <KpiCard label="Avg. processing time" value={`${(STAGE_TIMES.reduce((s, x) => s + x.actual, 0) / STAGE_TIMES.length).toFixed(1)}m`} tone="info" icon={Timer} hint="Across all five stages" />
-        <KpiCard label="QC failure rate" value="4.1%" tone="warning" icon={BarChart3} hint="Rolling 7-day average" />
-        <KpiCard label="Active exceptions" value={stats.activeExceptions} tone="critical" icon={BarChart3} hint={`${exceptions.length} total logged`} />
-      </div>
-
-      <Card className="gap-4 border-critical/40 bg-critical/5 p-5">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-critical">Bottleneck analysis</p>
-            <h2 className="font-display text-2xl font-bold">{bn.stage}</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Queue {bn.queue} orders · average {bn.actual} min against a {bn.target} min target ({bn.over}% over).
-            </p>
-            <p className="mt-2 rounded-lg border border-critical/30 bg-critical/10 px-3 py-2 text-sm">
-              <span className="font-semibold">Recommendation:</span> {bn.recommendation}
-            </p>
-          </div>
-          <div className="min-w-[220px]">
-            <Gauge value={Math.min(100, Math.round((bn.target / bn.actual) * 100))} label="Stage efficiency" height={170} />
-          </div>
-        </div>
-      </Card>
-
       <div className="grid gap-4 xl:grid-cols-3">
         <Card className="p-5 xl:col-span-2">
           <SectionTitle title="Orders over time" hint={`Created vs completed — ${rangeLabel}`} />
@@ -160,8 +135,34 @@ function Analytics() {
           <SectionTitle title="Exceptions" hint="By category — count and share of total" />
           <CategoryDonut data={excByType.map((e) => ({ name: e.name, value: e.count }))} height={240} />
         </Card>
+      </div>
 
+      <Card className="gap-4 border-critical/40 bg-critical/5 p-5">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-critical">Bottleneck analysis</p>
+            <h2 className="font-display text-2xl font-bold">{bn.stage}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Queue {bn.queue} orders · average {bn.actual} min against a {bn.target} min target ({bn.over}% over).
+            </p>
+            <p className="mt-2 rounded-lg border border-critical/30 bg-critical/10 px-3 py-2 text-sm">
+              <span className="font-semibold">Recommendation:</span> {bn.recommendation}
+            </p>
+          </div>
+          <div className="min-w-[220px]">
+            <Gauge value={Math.min(100, Math.round((bn.target / bn.actual) * 100))} label="Stage efficiency" height={170} />
+          </div>
+        </div>
+      </Card>
 
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Fulfilment rate" value={`${stats.fulfilmentRate}%`} tone="success" icon={BarChart3} hint={rangeLabel} />
+        <KpiCard label="Avg. processing time" value={`${(STAGE_TIMES.reduce((s, x) => s + x.actual, 0) / STAGE_TIMES.length).toFixed(1)}m`} tone="info" icon={Timer} hint="Across all five stages" />
+        <KpiCard label="QC failure rate" value="4.1%" tone="warning" icon={BarChart3} hint="Rolling 7-day average" />
+        <KpiCard label="Active exceptions" value={stats.activeExceptions} tone="critical" icon={BarChart3} hint={`${exceptions.length} total logged`} />
+      </div>
+
+      <div className="grid gap-4 xl:grid-cols-3">
         <Card className="p-5 xl:col-span-3">
           <SectionTitle title="Picking & packing performance" hint="Per operator, current shift" />
           <TableShell>
