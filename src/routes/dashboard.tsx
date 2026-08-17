@@ -18,7 +18,7 @@ import { useState } from "react";
 import { AppShell } from "@/components/app-shell";
 import { BarSeries, ChartLegend, ColoredBars, Donut, Gauge, TrendArea } from "@/components/charts";
 import { EmptyState, KpiCard, PageHeader, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
-import { ThemeToggle } from "@/components/theme-toggle";
+
 import { PriorityBadge, StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -91,7 +91,6 @@ function Dashboard() {
         icon={LayoutDashboard}
         actions={
           <>
-            <ThemeToggle withLabel />
             <Button asChild variant="outline" size="sm">
               <Link to="/decision-center">
                 <Brain className="size-4" /> Decision center ({decisions.length})
