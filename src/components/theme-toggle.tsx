@@ -10,7 +10,7 @@ function applyTheme(theme: Theme) {
   root.classList.toggle("dark", theme === "dark");
 }
 
-export function ThemeToggle({ className }: { className?: string }) {
+export function ThemeToggle({ className, withLabel = false }: { className?: string; withLabel?: boolean }) {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
@@ -26,16 +26,28 @@ export function ThemeToggle({ className }: { className?: string }) {
     localStorage.setItem("smartfulfill-theme", next);
   };
 
+  const label = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+
+  if (withLabel) {
+    return (
+      <Button variant="outline" size="sm" onClick={toggle} className={className} aria-label={label} title={label}>
+        {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+        Theme preview: {theme === "dark" ? "Dark" : "Light"}
+      </Button>
+    );
+  }
+
   return (
     <Button
       variant="ghost"
       size="icon"
       onClick={toggle}
       className={className}
-      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      aria-label={label}
       title={theme === "dark" ? "Light mode" : "Dark mode"}
     >
       {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
     </Button>
   );
 }
+
