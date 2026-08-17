@@ -321,16 +321,14 @@ export function CategoryDonut({
   return (
     <div>
       <div className="relative" style={{ height }}>
-        <ResponsiveContainer width="100%" height="100%">
+        <ChartFrame height={height}>
           <PieChart>
             <Pie
               data={slices}
               dataKey="value"
               nameKey="name"
-              cx="50%"
-              cy="50%"
-              innerRadius="58%"
-              outerRadius="88%"
+              innerRadius={Math.round(height * 0.26)}
+              outerRadius={Math.round(height * 0.4)}
               paddingAngle={2}
               minAngle={4}
               isAnimationActive={false}
@@ -339,7 +337,6 @@ export function CategoryDonut({
               onClick={onSelect ? (d: { name?: string }) => d?.name && onSelect(d.name) : undefined}
               cursor={onSelect ? "pointer" : undefined}
             >
-
               {slices.map((d) => (
                 <Cell key={d.name} fill={d.color} />
               ))}
@@ -349,7 +346,8 @@ export function CategoryDonut({
               formatter={(value: number, name: string) => [`${value} ${unit} · ${pct(Number(value))}%`, name]}
             />
           </PieChart>
-        </ResponsiveContainer>
+        </ChartFrame>
+
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
           <span className="font-display text-3xl font-bold tabular-nums text-chart-text">{total}</span>
           <span className="text-xs font-medium text-chart-text">{unit}</span>
