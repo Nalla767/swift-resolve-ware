@@ -35,9 +35,10 @@ function Allocation() {
   const [note, setNote] = useState("");
 
   const queue = orders
-    .filter((o) => ["pending", "hold", "partial"].includes(o.allocationStatus) && o.stage !== "completed")
+    .filter((o) => ["pending", "hold", "partial"].includes(o.allocationStatus) && ["created", "prioritized"].includes(o.stage))
     .sort((a, b) => b.score - a.score);
-  const allocated = orders.filter((o) => o.allocationStatus === "accepted" && ["allocated", "picking"].includes(o.stage));
+  const allocated = orders.filter((o) => ["accepted", "partial"].includes(o.allocationStatus) && ["allocated", "picking"].includes(o.stage));
+
 
   return (
     <>
