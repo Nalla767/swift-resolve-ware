@@ -59,12 +59,6 @@ function Finance() {
         icon={Coins}
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Revenue (fulfilled)" value={money(f.revenue)} tone="success" icon={TrendingUp} />
-        <KpiCard label="Fulfilment cost" value={money(f.cost)} hint="Inventory, labour, shipping, packaging" tone="warning" icon={Receipt} />
-        <KpiCard label="Profit" value={money(f.profit)} hint={`${f.margin}% margin`} tone="primary" icon={PiggyBank} />
-        <KpiCard label="Revenue at risk" value={money(riskValue)} hint={`${atRisk.length} critical order(s)`} tone="critical" icon={Coins} to="/orders" />
-      </div>
 
       <div className="grid gap-4 xl:grid-cols-3">
         <Card className="p-5 xl:col-span-2">
@@ -92,6 +86,13 @@ function Finance() {
             ))}
           </div>
         </Card>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Revenue (fulfilled)" value={money(f.revenue)} tone="success" icon={TrendingUp} />
+        <KpiCard label="Fulfilment cost" value={money(f.cost)} hint="Inventory, labour, shipping, packaging" tone="warning" icon={Receipt} />
+        <KpiCard label="Profit" value={money(f.profit)} hint={`${f.margin}% margin`} tone="primary" icon={PiggyBank} />
+        <KpiCard label="Revenue at risk" value={money(riskValue)} hint={`${atRisk.length} critical order(s)`} tone="critical" icon={Coins} to="/orders" />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-3">
