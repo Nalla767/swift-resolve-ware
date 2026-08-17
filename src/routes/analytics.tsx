@@ -68,6 +68,7 @@ function Analytics() {
               <TabsTrigger value="30">30 days</TabsTrigger>
             </TabsList>
           </Tabs>
+          </>
         }
       />
 

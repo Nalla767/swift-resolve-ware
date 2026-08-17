@@ -70,6 +70,7 @@ function Orders() {
               <Plus className="size-4" /> Create order
             </Link>
           </Button>
+          </>
         }
       />
 
