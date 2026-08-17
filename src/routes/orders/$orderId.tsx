@@ -180,7 +180,7 @@ function OrderDetail() {
                 <span className="absolute -left-[21px] top-1.5 size-2 rounded-full bg-primary" />
                 <p className="text-sm font-medium">{t.title}</p>
                 <p className="text-xs text-muted-foreground">{t.detail}</p>
-                <p className="text-[11px] text-muted-foreground/70">{fmtDate(t.at)}</p>
+                <p className="text-[11px] text-muted-foreground">{fmtDate(t.at)}</p>
               </li>
             ))}
           </ol>

@@ -329,7 +329,7 @@ function Dashboard() {
                   <span className="absolute -left-[21px] top-1.5 size-2 rounded-full bg-primary" />
                   <p className="text-sm font-medium">{a.event}</p>
                   <p className="text-xs text-muted-foreground">{a.detail}</p>
-                  <p className="text-[11px] text-muted-foreground/70">
+                  <p className="text-[11px] text-muted-foreground">
                     {a.actor} · {fmtRelative(a.at)}
                   </p>
                 </li>

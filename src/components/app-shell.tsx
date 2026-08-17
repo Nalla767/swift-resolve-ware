@@ -186,7 +186,7 @@ function SidebarNav({ role, onNavigate }: { role: Role; onNavigate?: () => void 
     <nav className="flex flex-col gap-6 p-3">
       {groups.map((g) => (
         <div key={g.section}>
-          <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/70">{g.section}</p>
+          <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">{g.section}</p>
           <ul className="space-y-0.5">
             {g.items.map((item) => {
               const active = pathname === item.to || pathname.startsWith(item.to + "/");
