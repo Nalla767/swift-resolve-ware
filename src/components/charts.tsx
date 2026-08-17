@@ -98,12 +98,12 @@ export function BarSeries({
   return (
     <div>
       <ChartFrame height={height}>
-        <BarChart data={data} layout={layout} margin={{ top: 8, right: 8, bottom: 0, left: layout === "vertical" ? 24 : 0 }}>
+        <BarChart data={data} layout={layout} margin={{ top: 8, right: 8, bottom: bars.length > 1 ? 8 : 0, left: layout === "vertical" ? 24 : 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
           {layout === "horizontal" ? (
             <>
-              <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} />
-              <YAxis tick={axis} tickLine={false} axisLine={false} allowDecimals={false} />
+              <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} interval={0} angle={-12} height={48} textAnchor="end" />
+              <YAxis tick={axis} tickLine={false} axisLine={false} allowDecimals={false} width={40} />
             </>
           ) : (
             <>
@@ -112,7 +112,8 @@ export function BarSeries({
             </>
           )}
           <Tooltip {...tooltipStyle} />
-          {bars.length > 1 && <Legend wrapperStyle={legendStyle} />}
+          {bars.length > 1 && <Legend wrapperStyle={legendStyle} verticalAlign="bottom" align="center" height={28} />}
+
           {bars.map((b, i) => (
             <Bar key={b.key} dataKey={b.key} name={b.name} fill={b.color ?? CHART_COLORS[i % CHART_COLORS.length]} radius={[4, 4, 0, 0]} maxBarSize={38} />
           ))}
