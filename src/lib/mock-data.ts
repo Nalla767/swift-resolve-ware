@@ -27,7 +27,7 @@ const PRODUCTS: P[] = [
   ["SKU-1008", "Laptop Stand Aluminium", "Accessories", "B", "B-03", 18, 4, 0, 20, 59],
   ["SKU-1009", "Power Bank 20000mAh", "Power", "B", "B-04", 96, 18, 4, 30, 45],
   ["SKU-1010", "HDMI Cable 2m", "Cables", "B", "B-05", 340, 40, 0, 60, 12],
-  ["SKU-1011", "27" 4K Monitor", "Displays", "C", "C-01", 22, 9, 1, 10, 379],
+  ["SKU-1011", "27-inch 4K Monitor", "Displays", "C", "C-01", 22, 9, 1, 10, 379],
   ["SKU-1012", "Webcam 1080p", "Peripherals", "C", "C-02", 9, 5, 0, 15, 69],
   ["SKU-1013", "Noise Cancelling Headset", "Audio", "C", "C-03", 31, 7, 2, 12, 199],
   ["SKU-1014", "Ergonomic Chair Cushion", "Accessories", "C", "C-04", 0, 0, 0, 10, 39],
