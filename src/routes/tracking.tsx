@@ -56,7 +56,6 @@ function Tracking() {
         title="Live order tracking"
         description="Follow any order through every physical stage of fulfilment, with the live ETA and the carrier handling the final leg."
         icon={MapPin}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

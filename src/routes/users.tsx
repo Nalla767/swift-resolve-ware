@@ -71,7 +71,6 @@ function Users() {
         title="User management"
         description="Everyone connected to the warehouse: administrators, managers, floor operators and customer accounts, with the activity behind each one."
         icon={UserCog}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

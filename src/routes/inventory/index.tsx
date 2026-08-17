@@ -69,7 +69,6 @@ function Inventory() {
         title="Inventory"
         description="Live stock positions by zone and bin, with automatic replenishment detection at reorder level."
         icon={Boxes}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-4 xl:grid-cols-3">

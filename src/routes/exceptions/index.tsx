@@ -84,7 +84,6 @@ function Exceptions() {
         title="Exception management"
         description="Every exception carries the problem, the system's recommended decision and the resolution that was applied."
         icon={AlertTriangle}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

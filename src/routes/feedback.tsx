@@ -197,7 +197,6 @@ function CustomerFeedback() {
         title="Share feedback"
         description="Tell us what happened so the warehouse team can resolve it quickly."
         icon={MessageSquare}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
@@ -339,7 +338,6 @@ function WorkerFeedback() {
         title="Report an issue"
         description="Tell us what happened so the warehouse team can resolve it quickly."
         icon={AlertTriangle}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
@@ -466,7 +464,6 @@ function FeedbackQueue() {
         title="Feedback center"
         description="Customers report on delivery and quality; workers report on stock accuracy, layout and equipment. Both land here and both drive fixes."
         icon={MessageSquare}
-        actions={<RefreshButton />}
       />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
