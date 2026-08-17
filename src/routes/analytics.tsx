@@ -24,7 +24,7 @@ export const Route = createFileRoute("/analytics")({
     ],
   }),
   component: () => (
-    <AppShell role="admin">
+    <AppShell role={["admin", "manager"]}>
       <Analytics />
     </AppShell>
   ),

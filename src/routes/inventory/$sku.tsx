@@ -20,7 +20,7 @@ export const Route = createFileRoute("/inventory/$sku")({
     ],
   }),
   component: () => (
-    <AppShell role="admin">
+    <AppShell role={["admin", "manager"]}>
       <SkuDetail />
     </AppShell>
   ),

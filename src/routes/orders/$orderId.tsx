@@ -19,7 +19,7 @@ export const Route = createFileRoute("/orders/$orderId")({
     ],
   }),
   component: () => (
-    <AppShell role="admin">
+    <AppShell role={["admin", "manager"]}>
       <OrderDetail />
     </AppShell>
   ),

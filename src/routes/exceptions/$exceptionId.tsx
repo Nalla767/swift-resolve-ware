@@ -26,7 +26,7 @@ export const Route = createFileRoute("/exceptions/$exceptionId")({
 
 function ExceptionRoute() {
   const { user } = useStore();
-  const role: Role = user?.role === "worker" ? "worker" : "admin";
+  const role: Role[] = user?.role === "worker" ? ["worker"] : ["admin", "manager"];
   return (
     <AppShell role={role}>
       <ExceptionDetail />

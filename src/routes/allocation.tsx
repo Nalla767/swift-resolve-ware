@@ -23,7 +23,7 @@ export const Route = createFileRoute("/allocation")({
     ],
   }),
   component: () => (
-    <AppShell role="admin">
+    <AppShell role={["admin", "manager"]}>
       <Allocation />
     </AppShell>
   ),

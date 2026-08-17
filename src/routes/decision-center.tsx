@@ -22,7 +22,7 @@ export const Route = createFileRoute("/decision-center")({
     ],
   }),
   component: () => (
-    <AppShell role="admin">
+    <AppShell role={["admin", "manager"]}>
       <DecisionCenter />
     </AppShell>
   ),

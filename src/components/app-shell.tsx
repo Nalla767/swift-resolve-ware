@@ -21,6 +21,13 @@ import {
   Truck,
   User as UserIcon,
   Warehouse,
+  Coins,
+  Grid3X3,
+  MessageSquare,
+  Radar,
+  SlidersHorizontal,
+  Users,
+  Map as MapIcon,
 } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
@@ -50,6 +57,8 @@ export function useNav(role: Role): { section: string; items: NavItem[] }[] {
         items: [
           { to: "/customer/dashboard", label: "Dashboard", icon: LayoutDashboard },
           { to: "/customer/orders", label: "My orders", icon: Package },
+          { to: "/tracking", label: "Track order", icon: MapIcon },
+          { to: "/feedback", label: "Feedback", icon: MessageSquare },
           { to: "/customer/notifications", label: "Notifications", icon: Bell },
           { to: "/customer/profile", label: "Profile", icon: UserIcon },
         ],
@@ -68,6 +77,52 @@ export function useNav(role: Role): { section: string; items: NavItem[] }[] {
           { to: "/quality-check", label: "Quality check", icon: ShieldCheck, badge: orders.filter((o) => o.stage === "qc").length },
           { to: "/dispatch", label: "Dispatch tasks", icon: Truck },
           { to: "/exceptions", label: "Exceptions", icon: AlertTriangle, badge: openExc },
+          { to: "/feedback", label: "Report feedback", icon: MessageSquare },
+        ],
+      },
+    ];
+  }
+
+  const intelligence = {
+    section: "Intelligence",
+    items: [
+      { to: "/decision-center", label: "Decision center", icon: Brain, badge: decisions.length },
+      { to: "/warehouse-operations", label: "Warehouse map", icon: Grid3X3 },
+      { to: "/workforce", label: "Workforce", icon: Users },
+      { to: "/simulator", label: "What-if simulator", icon: SlidersHorizontal },
+      { to: "/inventory-anomalies", label: "Inventory anomalies", icon: Radar },
+    ],
+  };
+
+  if (role === "manager") {
+    return [
+      {
+        section: "Operations",
+        items: [
+          { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+          { to: "/orders", label: "Orders", icon: ClipboardList },
+          { to: "/inventory", label: "Inventory", icon: Boxes },
+          { to: "/allocation", label: "Allocation", icon: Package, badge: orders.filter((o) => o.allocationStatus === "pending" && o.stage !== "completed").length },
+          { to: "/tracking", label: "Order tracking", icon: MapIcon },
+        ],
+      },
+      {
+        section: "Fulfilment flow",
+        items: [
+          { to: "/picking", label: "Picking", icon: Scan },
+          { to: "/packing", label: "Packing", icon: PackageCheck },
+          { to: "/quality-check", label: "Quality check", icon: ShieldCheck },
+          { to: "/dispatch", label: "Dispatch", icon: Truck },
+        ],
+      },
+      intelligence,
+      {
+        section: "Insight",
+        items: [
+          { to: "/exceptions", label: "Exceptions", icon: AlertTriangle, badge: openExc },
+          { to: "/analytics", label: "Analytics", icon: BarChart3 },
+          { to: "/feedback", label: "Feedback", icon: MessageSquare },
+          { to: "/activity", label: "Activity log", icon: Activity },
         ],
       },
     ];
@@ -80,6 +135,7 @@ export function useNav(role: Role): { section: string; items: NavItem[] }[] {
         { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
         { to: "/orders", label: "Orders", icon: ClipboardList },
         { to: "/inventory", label: "Inventory", icon: Boxes },
+        { to: "/tracking", label: "Order tracking", icon: MapIcon },
       ],
     },
     {
@@ -92,12 +148,15 @@ export function useNav(role: Role): { section: string; items: NavItem[] }[] {
         { to: "/dispatch", label: "Dispatch", icon: Truck },
       ],
     },
+    intelligence,
     {
       section: "Control",
       items: [
         { to: "/exceptions", label: "Exceptions", icon: AlertTriangle, badge: openExc },
-        { to: "/decision-center", label: "Decision center", icon: Brain, badge: decisions.length },
         { to: "/analytics", label: "Analytics", icon: BarChart3 },
+        { to: "/feedback", label: "Feedback", icon: MessageSquare },
+        { to: "/finance", label: "Finance", icon: Coins },
+        { to: "/users", label: "Users", icon: Users },
         { to: "/activity", label: "Activity log", icon: Activity },
         { to: "/settings", label: "Settings", icon: Settings },
       ],
@@ -262,17 +321,22 @@ function NotificationBell() {
   );
 }
 
-export function AppShell({ role, children }: { role: Role; children: ReactNode }) {
+const homeFor = (r: Role) =>
+  r === "worker" ? "/worker/dashboard" : r === "customer" ? "/customer/dashboard" : "/dashboard";
+
+export function AppShell({ role, children }: { role: Role | Role[]; children: ReactNode }) {
+  const roles = Array.isArray(role) ? role : [role];
+  const primary = roles[0]!;
   const { user, logout } = useStore();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    if (!user) navigate({ to: `/login/${role}` });
-    else if (user.role !== role)
-      navigate({ to: user.role === "admin" ? "/dashboard" : user.role === "worker" ? "/worker/dashboard" : "/customer/dashboard" });
-  }, [user, role, navigate]);
+    if (!user) navigate({ to: `/login/${primary === "manager" ? "manager" : primary}` });
+    else if (!roles.includes(user.role)) navigate({ to: homeFor(user.role) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, primary, navigate]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -290,7 +354,7 @@ export function AppShell({ role, children }: { role: Role; children: ReactNode }
     [user?.name],
   );
 
-  if (!user || user.role !== role) {
+  if (!user || !roles.includes(user.role)) {
     return (
       <div className="grid min-h-screen place-items-center">
         <div className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -308,10 +372,10 @@ export function AppShell({ role, children }: { role: Role; children: ReactNode }
           <Brand />
         </div>
         <ScrollArea className="flex-1">
-          <SidebarNav role={role} />
+          <SidebarNav role={user.role} />
         </ScrollArea>
         <div className="border-t border-sidebar-border p-3 text-[11px] text-muted-foreground">
-          <p className="font-medium capitalize text-foreground">{role} portal</p>
+          <p className="font-medium capitalize text-foreground">{user.role} portal</p>
           <p>Warehouse DC-01 · Rotterdam</p>
         </div>
       </aside>
@@ -330,7 +394,7 @@ export function AppShell({ role, children }: { role: Role; children: ReactNode }
                 <Brand />
               </div>
               <ScrollArea className="h-[calc(100vh-4rem)]">
-                <SidebarNav role={role} onNavigate={() => setMobileOpen(false)} />
+                <SidebarNav role={user.role} onNavigate={() => setMobileOpen(false)} />
               </ScrollArea>
             </SheetContent>
           </Sheet>
@@ -367,12 +431,12 @@ export function AppShell({ role, children }: { role: Role; children: ReactNode }
                   <p className="text-xs text-muted-foreground">{user.email}</p>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {role === "admin" && (
+                {user.role === "admin" && (
                   <DropdownMenuItem onClick={() => navigate({ to: "/settings" })}>
                     <Settings className="size-4" /> Settings
                   </DropdownMenuItem>
                 )}
-                {role === "customer" && (
+                {user.role === "customer" && (
                   <DropdownMenuItem onClick={() => navigate({ to: "/customer/profile" })}>
                     <UserIcon className="size-4" /> Profile
                   </DropdownMenuItem>

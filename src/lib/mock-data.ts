@@ -417,6 +417,7 @@ export const ZONES = [
 
 export const DEMO_USERS = {
   admin: { email: "admin@smartfulfill.io", password: "admin123", name: "Meera Chandra" },
+  manager: { email: "manager@smartfulfill.io", password: "manager123", name: "Rohan Whitfield" },
   worker: { email: "diego@smartfulfill.io", password: "worker123", name: "Diego Alvarez" },
   customer: { email: "ops@northwind.example", password: "customer123", name: "Northwind Retail" },
 };

@@ -16,10 +16,18 @@ import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DecisionCenterRouteImport } from './routes/decision-center'
 import { Route as DispatchRouteImport } from './routes/dispatch'
+import { Route as FeedbackRouteImport } from './routes/feedback'
+import { Route as FinanceRouteImport } from './routes/finance'
+import { Route as InventoryAnomaliesRouteImport } from './routes/inventory-anomalies'
 import { Route as PackingRouteImport } from './routes/packing'
 import { Route as PickingRouteImport } from './routes/picking'
 import { Route as QualityCheckRouteImport } from './routes/quality-check'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SimulatorRouteImport } from './routes/simulator'
+import { Route as TrackingRouteImport } from './routes/tracking'
+import { Route as UsersRouteImport } from './routes/users'
+import { Route as WarehouseOperationsRouteImport } from './routes/warehouse-operations'
+import { Route as WorkforceRouteImport } from './routes/workforce'
 import { Route as CustomerDashboardRouteImport } from './routes/customer/dashboard'
 import { Route as CustomerNotificationsRouteImport } from './routes/customer/notifications'
 import { Route as CustomerOrdersRouteImport } from './routes/customer/orders'
@@ -30,6 +38,7 @@ import { Route as InventoryIndexRouteImport } from './routes/inventory/index'
 import { Route as InventorySkuRouteImport } from './routes/inventory/$sku'
 import { Route as LoginAdminRouteImport } from './routes/login/admin'
 import { Route as LoginCustomerRouteImport } from './routes/login/customer'
+import { Route as LoginManagerRouteImport } from './routes/login/manager'
 import { Route as LoginWorkerRouteImport } from './routes/login/worker'
 import { Route as OrdersIndexRouteImport } from './routes/orders/index'
 import { Route as OrdersOrderIdRouteImport } from './routes/orders/$orderId'
@@ -71,6 +80,21 @@ const DispatchRoute = DispatchRouteImport.update({
   path: '/dispatch',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanceRoute = FinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InventoryAnomaliesRoute = InventoryAnomaliesRouteImport.update({
+  id: '/inventory-anomalies',
+  path: '/inventory-anomalies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PackingRoute = PackingRouteImport.update({
   id: '/packing',
   path: '/packing',
@@ -89,6 +113,31 @@ const QualityCheckRoute = QualityCheckRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SimulatorRoute = SimulatorRouteImport.update({
+  id: '/simulator',
+  path: '/simulator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackingRoute = TrackingRouteImport.update({
+  id: '/tracking',
+  path: '/tracking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WarehouseOperationsRoute = WarehouseOperationsRouteImport.update({
+  id: '/warehouse-operations',
+  path: '/warehouse-operations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkforceRoute = WorkforceRouteImport.update({
+  id: '/workforce',
+  path: '/workforce',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomerDashboardRoute = CustomerDashboardRouteImport.update({
@@ -141,6 +190,11 @@ const LoginCustomerRoute = LoginCustomerRouteImport.update({
   path: '/login/customer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginManagerRoute = LoginManagerRouteImport.update({
+  id: '/login/manager',
+  path: '/login/manager',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginWorkerRoute = LoginWorkerRouteImport.update({
   id: '/login/worker',
   path: '/login/worker',
@@ -175,10 +229,18 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/decision-center': typeof DecisionCenterRoute
   '/dispatch': typeof DispatchRoute
+  '/feedback': typeof FeedbackRoute
+  '/finance': typeof FinanceRoute
+  '/inventory-anomalies': typeof InventoryAnomaliesRoute
   '/packing': typeof PackingRoute
   '/picking': typeof PickingRoute
   '/quality-check': typeof QualityCheckRoute
   '/settings': typeof SettingsRoute
+  '/simulator': typeof SimulatorRoute
+  '/tracking': typeof TrackingRoute
+  '/users': typeof UsersRoute
+  '/warehouse-operations': typeof WarehouseOperationsRoute
+  '/workforce': typeof WorkforceRoute
   '/customer/dashboard': typeof CustomerDashboardRoute
   '/customer/notifications': typeof CustomerNotificationsRoute
   '/customer/orders': typeof CustomerOrdersRoute
@@ -187,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
+  '/login/manager': typeof LoginManagerRoute
   '/login/worker': typeof LoginWorkerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/orders/new': typeof OrdersNewRoute
@@ -203,10 +266,18 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/decision-center': typeof DecisionCenterRoute
   '/dispatch': typeof DispatchRoute
+  '/feedback': typeof FeedbackRoute
+  '/finance': typeof FinanceRoute
+  '/inventory-anomalies': typeof InventoryAnomaliesRoute
   '/packing': typeof PackingRoute
   '/picking': typeof PickingRoute
   '/quality-check': typeof QualityCheckRoute
   '/settings': typeof SettingsRoute
+  '/simulator': typeof SimulatorRoute
+  '/tracking': typeof TrackingRoute
+  '/users': typeof UsersRoute
+  '/warehouse-operations': typeof WarehouseOperationsRoute
+  '/workforce': typeof WorkforceRoute
   '/customer/dashboard': typeof CustomerDashboardRoute
   '/customer/notifications': typeof CustomerNotificationsRoute
   '/customer/orders': typeof CustomerOrdersRoute
@@ -215,6 +286,7 @@ export interface FileRoutesByTo {
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
+  '/login/manager': typeof LoginManagerRoute
   '/login/worker': typeof LoginWorkerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/orders/new': typeof OrdersNewRoute
@@ -232,10 +304,18 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/decision-center': typeof DecisionCenterRoute
   '/dispatch': typeof DispatchRoute
+  '/feedback': typeof FeedbackRoute
+  '/finance': typeof FinanceRoute
+  '/inventory-anomalies': typeof InventoryAnomaliesRoute
   '/packing': typeof PackingRoute
   '/picking': typeof PickingRoute
   '/quality-check': typeof QualityCheckRoute
   '/settings': typeof SettingsRoute
+  '/simulator': typeof SimulatorRoute
+  '/tracking': typeof TrackingRoute
+  '/users': typeof UsersRoute
+  '/warehouse-operations': typeof WarehouseOperationsRoute
+  '/workforce': typeof WorkforceRoute
   '/customer/dashboard': typeof CustomerDashboardRoute
   '/customer/notifications': typeof CustomerNotificationsRoute
   '/customer/orders': typeof CustomerOrdersRoute
@@ -244,6 +324,7 @@ export interface FileRoutesById {
   '/inventory/$sku': typeof InventorySkuRoute
   '/login/admin': typeof LoginAdminRoute
   '/login/customer': typeof LoginCustomerRoute
+  '/login/manager': typeof LoginManagerRoute
   '/login/worker': typeof LoginWorkerRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
   '/orders/new': typeof OrdersNewRoute
@@ -262,10 +343,18 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/decision-center'
     | '/dispatch'
+    | '/feedback'
+    | '/finance'
+    | '/inventory-anomalies'
     | '/packing'
     | '/picking'
     | '/quality-check'
     | '/settings'
+    | '/simulator'
+    | '/tracking'
+    | '/users'
+    | '/warehouse-operations'
+    | '/workforce'
     | '/customer/dashboard'
     | '/customer/notifications'
     | '/customer/orders'
@@ -274,6 +363,7 @@ export interface FileRouteTypes {
     | '/inventory/$sku'
     | '/login/admin'
     | '/login/customer'
+    | '/login/manager'
     | '/login/worker'
     | '/orders/$orderId'
     | '/orders/new'
@@ -290,10 +380,18 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/decision-center'
     | '/dispatch'
+    | '/feedback'
+    | '/finance'
+    | '/inventory-anomalies'
     | '/packing'
     | '/picking'
     | '/quality-check'
     | '/settings'
+    | '/simulator'
+    | '/tracking'
+    | '/users'
+    | '/warehouse-operations'
+    | '/workforce'
     | '/customer/dashboard'
     | '/customer/notifications'
     | '/customer/orders'
@@ -302,6 +400,7 @@ export interface FileRouteTypes {
     | '/inventory/$sku'
     | '/login/admin'
     | '/login/customer'
+    | '/login/manager'
     | '/login/worker'
     | '/orders/$orderId'
     | '/orders/new'
@@ -318,10 +417,18 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/decision-center'
     | '/dispatch'
+    | '/feedback'
+    | '/finance'
+    | '/inventory-anomalies'
     | '/packing'
     | '/picking'
     | '/quality-check'
     | '/settings'
+    | '/simulator'
+    | '/tracking'
+    | '/users'
+    | '/warehouse-operations'
+    | '/workforce'
     | '/customer/dashboard'
     | '/customer/notifications'
     | '/customer/orders'
@@ -330,6 +437,7 @@ export interface FileRouteTypes {
     | '/inventory/$sku'
     | '/login/admin'
     | '/login/customer'
+    | '/login/manager'
     | '/login/worker'
     | '/orders/$orderId'
     | '/orders/new'
@@ -347,10 +455,18 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   DecisionCenterRoute: typeof DecisionCenterRoute
   DispatchRoute: typeof DispatchRoute
+  FeedbackRoute: typeof FeedbackRoute
+  FinanceRoute: typeof FinanceRoute
+  InventoryAnomaliesRoute: typeof InventoryAnomaliesRoute
   PackingRoute: typeof PackingRoute
   PickingRoute: typeof PickingRoute
   QualityCheckRoute: typeof QualityCheckRoute
   SettingsRoute: typeof SettingsRoute
+  SimulatorRoute: typeof SimulatorRoute
+  TrackingRoute: typeof TrackingRoute
+  UsersRoute: typeof UsersRoute
+  WarehouseOperationsRoute: typeof WarehouseOperationsRoute
+  WorkforceRoute: typeof WorkforceRoute
   CustomerDashboardRoute: typeof CustomerDashboardRoute
   CustomerNotificationsRoute: typeof CustomerNotificationsRoute
   CustomerOrdersRoute: typeof CustomerOrdersRoute
@@ -359,6 +475,7 @@ export interface RootRouteChildren {
   InventorySkuRoute: typeof InventorySkuRoute
   LoginAdminRoute: typeof LoginAdminRoute
   LoginCustomerRoute: typeof LoginCustomerRoute
+  LoginManagerRoute: typeof LoginManagerRoute
   LoginWorkerRoute: typeof LoginWorkerRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
   OrdersNewRoute: typeof OrdersNewRoute
@@ -419,6 +536,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DispatchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finance': {
+      id: '/finance'
+      path: '/finance'
+      fullPath: '/finance'
+      preLoaderRoute: typeof FinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventory-anomalies': {
+      id: '/inventory-anomalies'
+      path: '/inventory-anomalies'
+      fullPath: '/inventory-anomalies'
+      preLoaderRoute: typeof InventoryAnomaliesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/packing': {
       id: '/packing'
       path: '/packing'
@@ -445,6 +583,41 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/simulator': {
+      id: '/simulator'
+      path: '/simulator'
+      fullPath: '/simulator'
+      preLoaderRoute: typeof SimulatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tracking': {
+      id: '/tracking'
+      path: '/tracking'
+      fullPath: '/tracking'
+      preLoaderRoute: typeof TrackingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/warehouse-operations': {
+      id: '/warehouse-operations'
+      path: '/warehouse-operations'
+      fullPath: '/warehouse-operations'
+      preLoaderRoute: typeof WarehouseOperationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workforce': {
+      id: '/workforce'
+      path: '/workforce'
+      fullPath: '/workforce'
+      preLoaderRoute: typeof WorkforceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customer/dashboard': {
@@ -517,6 +690,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginCustomerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login/manager': {
+      id: '/login/manager'
+      path: '/login/manager'
+      fullPath: '/login/manager'
+      preLoaderRoute: typeof LoginManagerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login/worker': {
       id: '/login/worker'
       path: '/login/worker'
@@ -563,10 +743,18 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   DecisionCenterRoute: DecisionCenterRoute,
   DispatchRoute: DispatchRoute,
+  FeedbackRoute: FeedbackRoute,
+  FinanceRoute: FinanceRoute,
+  InventoryAnomaliesRoute: InventoryAnomaliesRoute,
   PackingRoute: PackingRoute,
   PickingRoute: PickingRoute,
   QualityCheckRoute: QualityCheckRoute,
   SettingsRoute: SettingsRoute,
+  SimulatorRoute: SimulatorRoute,
+  TrackingRoute: TrackingRoute,
+  UsersRoute: UsersRoute,
+  WarehouseOperationsRoute: WarehouseOperationsRoute,
+  WorkforceRoute: WorkforceRoute,
   CustomerDashboardRoute: CustomerDashboardRoute,
   CustomerNotificationsRoute: CustomerNotificationsRoute,
   CustomerOrdersRoute: CustomerOrdersRoute,
@@ -575,6 +763,7 @@ const rootRouteChildren: RootRouteChildren = {
   InventorySkuRoute: InventorySkuRoute,
   LoginAdminRoute: LoginAdminRoute,
   LoginCustomerRoute: LoginCustomerRoute,
+  LoginManagerRoute: LoginManagerRoute,
   LoginWorkerRoute: LoginWorkerRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,
   OrdersNewRoute: OrdersNewRoute,

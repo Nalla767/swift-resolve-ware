@@ -38,7 +38,7 @@ export const Route = createFileRoute("/dashboard")({
     ],
   }),
   component: () => (
-    <AppShell role="admin">
+    <AppShell role={["admin", "manager"]}>
       <Dashboard />
     </AppShell>
   ),
