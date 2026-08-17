@@ -58,7 +58,7 @@ export function bottleneck() {
 }
 
 function Dashboard() {
-  const { orders, inventory, exceptions, decisions, activity } = useStore();
+  const { orders, inventory, decisions, activity } = useStore();
   const stats = useStats();
   const [progressRange, setProgressRange] = useState("daily");
 
@@ -80,9 +80,6 @@ function Dashboard() {
     value: s === "damaged" ? inventory.filter((x) => x.damaged > 0).length : inventory.filter((x) => inventoryStatus(x) === s).length,
     color: ["var(--color-success)", "var(--color-warning)", "var(--color-critical)", "var(--color-info)", "var(--color-chart-5)"][i]!,
   }));
-  const excByType = Object.entries(
-    exceptions.reduce<Record<string, number>>((acc, e) => ({ ...acc, [e.type]: (acc[e.type] ?? 0) + 1 }), {}),
-  ).map(([name, count]) => ({ name, count }));
 
   return (
     <>
@@ -214,16 +211,6 @@ function Dashboard() {
           </div>
         </Card>
 
-        <Card className="p-5 xl:col-span-3">
-          <SectionTitle title="Exceptions by category" hint="Where the operation is losing time" right={
-            <Button asChild variant="ghost" size="sm">
-              <Link to="/exceptions">
-                View all <ArrowRight className="size-3.5" />
-              </Link>
-            </Button>
-          } />
-          <BarSeries data={excByType} x="name" bars={[{ key: "count", name: "Exceptions", color: "var(--color-chart-4)" }]} height={240} layout="vertical" />
-        </Card>
       </div>
 
       {/* Bottleneck */}
