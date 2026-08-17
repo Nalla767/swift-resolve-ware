@@ -327,16 +327,17 @@ const homeFor = (r: Role) =>
 export function AppShell({ role, children }: { role: Role | Role[]; children: ReactNode }) {
   const roles = Array.isArray(role) ? role : [role];
   const primary = roles[0]!;
-  const { user, logout } = useStore();
+  const { user, logout, authReady } = useStore();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
+    if (!authReady) return;
     if (!user) navigate({ to: `/login/${primary === "manager" ? "manager" : primary}` });
     else if (!roles.includes(user.role)) navigate({ to: homeFor(user.role) });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, primary, navigate]);
+  }, [user, primary, navigate, authReady]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

@@ -99,6 +99,7 @@ const StoreContext = createContext<Store | null>(null);
 function useStoreValue() {
   const [state, setState] = useState<State>(initialState);
   const [lastRefreshedAt, setLastRefreshedAt] = useState<string | null>(null);
+  const [authReady, setAuthReady] = useState(false);
 
 
   /* ------------------------------ primitives ----------------------------- */
@@ -147,6 +148,7 @@ function useStoreValue() {
   useEffect(() => {
     const stored = readStoredUser();
     if (stored) setState((s) => (s.user ? s : { ...s, user: stored }));
+    setAuthReady(true);
   }, []);
 
   const login = useCallback((role: Role, email: string, password: string, remember = true) => {
@@ -754,6 +756,7 @@ function useStoreValue() {
     ...state,
     login,
     logout,
+    authReady,
     createOrder,
     allocateOrder,
     startPicking,
