@@ -58,12 +58,6 @@ function Tracking() {
         icon={MapPin}
       />
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Trackable orders" value={scoped.length} tone="primary" icon={MapPin} />
-        <KpiCard label="In transit" value={inTransit} tone="info" icon={Truck} />
-        <KpiCard label="Delivered" value={delivered} tone="success" icon={CheckCircle2} />
-        <KpiCard label="At SLA risk" value={atRisk} tone="critical" icon={Clock} to="/orders" />
-      </div>
 
       <div className="grid gap-4 xl:grid-cols-3">
         <Card className="p-5">
@@ -167,6 +161,13 @@ function Tracking() {
             </>
           )}
         </Card>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard label="Trackable orders" value={scoped.length} tone="primary" icon={MapPin} />
+        <KpiCard label="In transit" value={inTransit} tone="info" icon={Truck} />
+        <KpiCard label="Delivered" value={delivered} tone="success" icon={CheckCircle2} />
+        <KpiCard label="At SLA risk" value={atRisk} tone="critical" icon={Clock} to="/orders" />
       </div>
     </>
   );
