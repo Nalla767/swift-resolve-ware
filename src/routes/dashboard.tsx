@@ -80,9 +80,6 @@ function Dashboard() {
     value: s === "damaged" ? inventory.filter((x) => x.damaged > 0).length : inventory.filter((x) => inventoryStatus(x) === s).length,
     color: ["var(--color-success)", "var(--color-warning)", "var(--color-critical)", "var(--color-info)", "var(--color-chart-5)"][i]!,
   }));
-  const excByType = Object.entries(
-    exceptions.reduce<Record<string, number>>((acc, e) => ({ ...acc, [e.type]: (acc[e.type] ?? 0) + 1 }), {}),
-  ).map(([name, count]) => ({ name, count }));
 
   return (
     <>
