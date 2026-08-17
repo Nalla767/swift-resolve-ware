@@ -39,6 +39,7 @@ const tooltipStyle = {
     color: "var(--color-popover-foreground)",
   },
   labelStyle: { color: "var(--color-chart-text)", fontSize: 11, fontWeight: 600 },
+  itemStyle: { color: "var(--color-chart-text)", fontSize: 11 },
   cursor: { fill: "var(--color-chart-text)", opacity: 0.06 },
 };
 
