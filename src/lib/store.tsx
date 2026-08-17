@@ -741,6 +741,8 @@ function useStoreValue() {
     submitFeedback,
     updateFeedback,
     refresh,
+    lastRefreshedAt,
+
     resetDemo,
     PACK_CHECKS,
     QC_CHECKS,
