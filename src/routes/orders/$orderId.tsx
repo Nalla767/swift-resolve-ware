@@ -88,8 +88,8 @@ function OrderDetail() {
                 <nextAction.icon className="size-4" /> {nextAction.label}
               </Link>
             </Button>
-          </>
             <RefreshButton />
+          </>
         }
       />
 
