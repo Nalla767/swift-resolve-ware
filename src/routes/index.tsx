@@ -65,13 +65,8 @@ function Landing() {
           <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-[var(--shadow-glow)]">
             <Warehouse className="size-5" />
           </span>
-          <span className="font-display text-lg font-bold">SmartFulfill</span>
+        <span className="font-display text-lg font-bold">SmartFulfill</span>
         </div>
-        <Button asChild size="sm">
-          <Link to="/login/admin">
-            Launch app <ArrowRight className="size-4" />
-          </Link>
-        </Button>
       </header>
 
       <main className="relative mx-auto max-w-6xl px-5 pb-20">
