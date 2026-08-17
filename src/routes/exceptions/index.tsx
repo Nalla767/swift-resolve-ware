@@ -3,7 +3,7 @@ import { AlertTriangle, CheckCircle2, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { RankedBars } from "@/components/charts";
+import { CategoryDonut } from "@/components/charts";
 import { EmptyState, Insight, KpiCard, PageHeader, RefreshButton, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { ExceptionBadge, SeverityBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
@@ -112,7 +112,7 @@ function Exceptions() {
           </div>
         ) : (
           <>
-            <RankedBars data={byType} onSelect={(name: string) => setType(name)} />
+            <CategoryDonut data={byType} onSelect={(name: string) => setType(name)} />
             {topType && (
               <Insight
                 text={`${topType.name} is the largest current exception category — ${topType.value} of ${totalOpen} open incident(s), ${Math.round((topType.value / Math.max(1, totalOpen)) * 100)}% of the total.`}

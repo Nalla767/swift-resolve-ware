@@ -3,7 +3,7 @@ import { BarChart3, Timer } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { BarSeries, ColoredBars, Donut, Gauge, RankedBars, TrendArea, TrendLine } from "@/components/charts";
+import { BarSeries, CategoryDonut, ColoredBars, Donut, Gauge, TrendArea, TrendLine } from "@/components/charts";
 import { KpiCard, PageHeader, RefreshButton, SectionTitle, StatLine, TableShell, Td, Th } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -159,7 +159,7 @@ function Analytics() {
 
         <Card className="p-5">
           <SectionTitle title="Exceptions" hint="By category — count and share of total" />
-          <RankedBars data={excByType.map((e) => ({ name: e.name, value: e.count }))} />
+          <CategoryDonut data={excByType.map((e) => ({ name: e.name, value: e.count }))} height={240} />
         </Card>
 
 
