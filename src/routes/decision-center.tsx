@@ -41,18 +41,49 @@ function DecisionCenter() {
     qc: { label: "Quality", tone: "warning" as const },
   };
 
+  const byKind = Object.entries(
+    decisions.reduce<Record<string, number>>((acc, d) => {
+      const label = kindMeta[d.kind].label;
+      acc[label] = (acc[label] ?? 0) + 1;
+      return acc;
+    }, {}),
+  )
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value);
+
+  const criticalCount = decisions.filter((d) => d.severity === "critical").length;
+  const topKind = byKind[0];
+
   return (
     <>
       <PageHeader
-        eyebrow="Signature feature"
+        eyebrow="Detect → Analyse → Decide → Act → Measure"
         title="Decision center"
         description="SmartFulfill surfaces the problem, explains the reasoning and recommends the action. You accept, modify or reject — and the system state changes."
         icon={Brain}
       />
 
+      <Card className="p-5">
+        <SectionTitle title="Open decisions by category" hint="What the operation currently needs a human to decide" />
+        {byKind.length === 0 ? (
+          <p className="py-8 text-center text-sm text-muted-foreground">Nothing waiting on a decision right now.</p>
+        ) : (
+          <>
+            <CategoryDonut data={byKind} />
+            <Insight
+              text={
+                topKind
+                  ? `${topKind.label ?? topKind.name} is the largest open decision category — ${topKind.value} of ${decisions.length} pending item(s); ${criticalCount} carry critical severity.`
+                  : ""
+              }
+            />
+          </>
+        )}
+      </Card>
+
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard label="Pending decisions" value={decisions.length} tone="primary" icon={Brain} />
-        <KpiCard label="Critical" value={decisions.filter((d) => d.severity === "critical").length} tone="critical" icon={ShieldAlert} />
+        <KpiCard label="Critical" value={criticalCount} tone="critical" icon={ShieldAlert} />
         <KpiCard label="Decisions executed" value={history.length} tone="success" icon={Check} />
         <KpiCard label="Overrides" value={history.filter((h) => h.outcome !== "accepted").length} tone="warning" icon={Pencil} />
       </div>
@@ -91,7 +122,7 @@ function DecisionCenter() {
                 </div>
 
                 <div className="rounded-xl border border-border bg-surface p-3">
-                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Situation</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Problem</p>
                   <ul className="mt-1 space-y-1 text-sm">
                     {d.context.map((c) => (
                       <li key={c}>• {c}</li>
@@ -99,10 +130,25 @@ function DecisionCenter() {
                   </ul>
                 </div>
 
+                <div className="rounded-xl border border-border bg-surface p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Why this matters</p>
+                  <p className="mt-1 text-sm">
+                    {d.why ?? `Severity is ${d.severity} and the situation blocks the ${meta.label.toLowerCase()} step of the fulfilment flow.`}
+                  </p>
+                </div>
+
                 <div className="rounded-xl border border-primary/40 bg-primary/10 p-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">Recommendation</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">Recommended action</p>
                   <p className="mt-1 text-sm">{d.recommendation}</p>
                 </div>
+
+                <div className="rounded-xl border border-success/40 bg-success/10 p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-success">Expected result</p>
+                  <p className="mt-1 text-sm">
+                    {d.expectedResult ?? "Accepting updates orders, inventory and the activity log immediately, and the outcome is recorded in decision history."}
+                  </p>
+                </div>
+
 
                 <div className="flex flex-wrap gap-2">
                   {d.kind === "damage" ? (
