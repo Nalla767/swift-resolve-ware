@@ -158,9 +158,10 @@ function Analytics() {
         </Card>
 
         <Card className="p-5">
-          <SectionTitle title="Exceptions" hint="By category" />
-          <BarSeries data={excByType} x="name" bars={[{ key: "count", name: "Count", color: "var(--color-chart-4)" }]} height={250} layout="vertical" />
+          <SectionTitle title="Exceptions" hint="By category — count and share of total" />
+          <RankedBars data={excByType.map((e) => ({ name: e.name, value: e.count }))} />
         </Card>
+
 
         <Card className="p-5 xl:col-span-3">
           <SectionTitle title="Picking & packing performance" hint="Per operator, current shift" />
