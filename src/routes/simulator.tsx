@@ -86,6 +86,7 @@ function Simulator() {
   return (
     <>
       <PageHeader
+        accent="decision"
         eyebrow="What-if analysis"
         title="Operations simulator"
         description="Change staffing, incoming volume or stock availability and watch the projected operational outcome before you commit to it on the floor."

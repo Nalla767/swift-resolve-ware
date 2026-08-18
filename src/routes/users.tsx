@@ -67,6 +67,7 @@ function Users() {
   return (
     <>
       <PageHeader
+        accent="primary"
         eyebrow="Access and accounts"
         title="User management"
         description="Everyone connected to the warehouse: administrators, managers, floor operators and customer accounts, with the activity behind each one."

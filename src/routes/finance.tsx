@@ -53,6 +53,7 @@ function Finance() {
   return (
     <>
       <PageHeader
+        accent="warning"
         eyebrow="Commercial view"
         title="Finance overview"
         description="How operational performance converts into revenue, cost and margin — including the money currently exposed by delayed orders."

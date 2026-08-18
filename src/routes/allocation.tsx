@@ -43,6 +43,7 @@ function Allocation() {
   return (
     <>
       <PageHeader
+        accent="primary"
         eyebrow="Decision engine"
         title="Smart inventory allocation"
         description="When stock is scarce, SmartFulfill allocates to the highest priority score first, holds lower-priority demand and raises replenishment."

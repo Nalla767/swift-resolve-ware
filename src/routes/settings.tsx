@@ -39,6 +39,7 @@ function Settings() {
   return (
     <>
       <PageHeader
+        accent="primary"
         eyebrow="Configuration"
         title="Warehouse settings"
         description="Tune how SmartFulfill scores orders, flags SLA risk and reacts to shortages."

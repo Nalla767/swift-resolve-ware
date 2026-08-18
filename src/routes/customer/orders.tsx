@@ -33,7 +33,7 @@ function CustomerOrders() {
 
   return (
     <>
-      <PageHeader eyebrow="Tracking" title="My orders" description="A simple, honest view of where each order is right now." icon={Package} />
+      <PageHeader accent="info" eyebrow="Tracking" title="My orders" description="A simple, honest view of where each order is right now." icon={Package} />
 
       {orders.length === 0 ? (
         <EmptyState title="No orders yet" description="Orders placed with SmartFulfill will appear here." />

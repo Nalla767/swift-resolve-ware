@@ -63,6 +63,7 @@ function SkuDetail() {
 
       <BackLink to="/inventory" label="Back to inventory" />
       <PageHeader
+        accent="info"
         eyebrow={item.sku}
         title={item.name}
         description={`${item.category} · Zone ${item.zone} · Bin ${item.bin}`}

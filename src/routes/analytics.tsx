@@ -54,6 +54,7 @@ function Analytics() {
   return (
     <>
       <PageHeader
+        accent="warning"
         eyebrow="Intelligence"
         title="Warehouse analytics"
         description="Trends, stage performance and bottleneck analysis across the whole fulfilment operation."

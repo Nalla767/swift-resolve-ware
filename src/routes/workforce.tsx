@@ -79,6 +79,7 @@ function Workforce() {
   return (
     <>
       <PageHeader
+        accent="decision"
         eyebrow="Capacity intelligence"
         title="Workforce optimisation"
         description="Required capacity versus available capacity for every station, with a concrete reassignment that changes the floor when you accept it."

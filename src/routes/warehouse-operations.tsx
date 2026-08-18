@@ -76,6 +76,7 @@ function WarehouseOperations() {
   return (
     <>
       <PageHeader
+        accent="decision"
         eyebrow="Floor visibility"
         title="Warehouse operations map"
         description="A live digital layout of the floor. Switch the view to see where orders, stock, people, congestion or exceptions are concentrated."

@@ -74,6 +74,7 @@ function OrderDetail() {
 
       <BackLink to="/orders" label="Back to orders" />
       <PageHeader
+        accent="primary"
         eyebrow={`Order ${order.id}`}
         title={order.customer}
         description={`${order.items.length} line item(s) · ${money(order.value)} · created ${fmtRelative(order.createdAt)}`}

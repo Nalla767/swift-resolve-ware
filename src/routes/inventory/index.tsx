@@ -65,6 +65,7 @@ function Inventory() {
   return (
     <>
       <PageHeader
+        accent="info"
         eyebrow="Stock control"
         title="Inventory"
         description="Live stock positions by zone and bin, with automatic replenishment detection at reorder level."
