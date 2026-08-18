@@ -10,13 +10,12 @@ import {
   Gauge as GaugeIcon,
   LayoutDashboard,
   PackageX,
-  Timer,
   Truck,
 } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { BarSeries, ChartLegend, ColoredBars, Donut, FlowFunnel, Gauge, TrendArea } from "@/components/charts";
+import { BarSeries, ChartLegend, Donut, FlowFunnel, Gauge, TrendArea } from "@/components/charts";
 import { EmptyState, KpiCard, PageHeader, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
 
 import { PriorityBadge, StageBadge } from "@/components/status";
