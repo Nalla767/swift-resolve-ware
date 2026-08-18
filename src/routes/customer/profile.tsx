@@ -15,6 +15,7 @@ export const Route = createFileRoute("/customer/profile")({
       { property: "og:title", content: "My Profile — SmartFulfill" },
       { property: "og:description", content: "Account details and delivery preferences." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/customer/profile" }],
   }),
   component: () => (
     <AppShell role="customer">

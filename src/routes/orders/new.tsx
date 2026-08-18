@@ -24,6 +24,7 @@ export const Route = createFileRoute("/orders/new")({
       { property: "og:title", content: "Create Order — SmartFulfill" },
       { property: "og:description", content: "Order intake with live priority scoring and inventory availability preview." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/orders/new" }],
   }),
   component: () => (
     <AppShell role={["admin", "manager"]}>

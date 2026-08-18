@@ -22,6 +22,7 @@ export const Route = createFileRoute("/settings")({
       { property: "og:title", content: "Warehouse Settings — SmartFulfill" },
       { property: "og:description", content: "SLA thresholds, priority weights and worker roster configuration." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/settings" }],
   }),
   component: () => (
     <AppShell role="admin">

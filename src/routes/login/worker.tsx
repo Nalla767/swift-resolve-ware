@@ -10,6 +10,7 @@ export const Route = createFileRoute("/login/worker")({
       { property: "og:title", content: "Worker Sign In — SmartFulfill" },
       { property: "og:description", content: "Your assigned picking, packing and QC tasks in one focused queue." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/login/worker" }],
   }),
   component: WorkerLogin,
 });

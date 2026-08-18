@@ -23,6 +23,7 @@ export const Route = createFileRoute("/users")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/users" }],
   }),
   component: () => (
     <AppShell role={["admin"]}>

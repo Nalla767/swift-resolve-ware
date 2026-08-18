@@ -22,6 +22,7 @@ export const Route = createFileRoute("/picking")({
       { property: "og:title", content: "Picking Operations — SmartFulfill" },
       { property: "og:description", content: "Optimised pick routes across warehouse zones with live task status." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/picking" }],
   }),
   component: PickingRoute,
 });

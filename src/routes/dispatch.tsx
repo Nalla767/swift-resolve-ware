@@ -20,6 +20,7 @@ export const Route = createFileRoute("/dispatch")({
       { property: "og:title", content: "Dispatch Control — SmartFulfill" },
       { property: "og:description", content: "Ready, at-risk, delayed and dispatched orders in one queue." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/dispatch" }],
   }),
   component: DispatchRoute,
 });

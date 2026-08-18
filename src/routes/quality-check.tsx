@@ -23,6 +23,7 @@ export const Route = createFileRoute("/quality-check")({
       { property: "og:title", content: "Quality Check — SmartFulfill" },
       { property: "og:description", content: "Approve, reject or return orders to packing with a full audit trail." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/quality-check" }],
   }),
   component: QcRoute,
 });

@@ -17,6 +17,7 @@ export const Route = createFileRoute("/activity")({
       { property: "og:title", content: "Activity Timeline — SmartFulfill" },
       { property: "og:description", content: "Chronological audit trail of every warehouse event." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/activity" }],
   }),
   component: () => (
     <AppShell role={["admin", "manager"]}>

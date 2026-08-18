@@ -37,6 +37,7 @@ export const Route = createFileRoute("/dashboard")({
       { property: "og:title", content: "Operations Dashboard — SmartFulfill" },
       { property: "og:description", content: "Live warehouse command center with order flow, inventory health and bottleneck detection." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/dashboard" }],
   }),
   component: () => (
     <AppShell role={["admin", "manager"]}>

@@ -21,6 +21,7 @@ export const Route = createFileRoute("/inventory/")({
       { property: "og:title", content: "Inventory Control — SmartFulfill" },
       { property: "og:description", content: "Available, reserved and damaged stock with reorder-level detection." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/inventory" }],
   }),
   component: () => (
     <AppShell role={["admin", "manager"]}>

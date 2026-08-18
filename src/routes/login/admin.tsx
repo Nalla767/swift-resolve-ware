@@ -10,6 +10,7 @@ export const Route = createFileRoute("/login/admin")({
       { property: "og:title", content: "Admin Sign In — SmartFulfill" },
       { property: "og:description", content: "Full warehouse command center access for operations managers." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/login/admin" }],
   }),
   component: AdminLogin,
 });

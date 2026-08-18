@@ -23,6 +23,7 @@ export const Route = createFileRoute("/packing")({
       { property: "og:title", content: "Packing Station — SmartFulfill" },
       { property: "og:description", content: "Verification checklist, package details and exception resolution at the packing bench." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/packing" }],
   }),
   component: PackingRoute,
 });
