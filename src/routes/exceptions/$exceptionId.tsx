@@ -13,14 +13,17 @@ import { useStore } from "@/lib/store";
 import type { Role } from "@/lib/types";
 
 export const Route = createFileRoute("/exceptions/$exceptionId")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: "Exception Detail — SmartFulfill" },
-      { name: "description", content: "Problem, recommended decision and resolution actions for a single warehouse exception." },
-      { property: "og:title", content: "Exception Detail — SmartFulfill" },
+      { title: `Exception ${params.exceptionId} — SmartFulfill` },
+      { name: "description", content: `Problem, recommended decision and resolution actions for warehouse exception ${params.exceptionId}.` },
+      { property: "og:title", content: `Exception ${params.exceptionId} — SmartFulfill` },
       { property: "og:description", content: "Resolve, investigate or escalate a warehouse exception." },
+      { property: "og:url", content: `https://swift-resolve-ware.lovable.app/exceptions/${params.exceptionId}` },
     ],
+    links: [{ rel: "canonical", href: `https://swift-resolve-ware.lovable.app/exceptions/${params.exceptionId}` }],
   }),
+
   component: ExceptionRoute,
 });
 

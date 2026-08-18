@@ -15,6 +15,7 @@ export const Route = createFileRoute("/customer/notifications")({
       { property: "og:title", content: "Notifications — SmartFulfill" },
       { property: "og:description", content: "Order updates and delivery notices." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/customer/notifications" }],
   }),
   component: () => (
     <AppShell role="customer">

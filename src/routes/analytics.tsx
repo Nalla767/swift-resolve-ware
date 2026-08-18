@@ -22,6 +22,7 @@ export const Route = createFileRoute("/analytics")({
       { property: "og:title", content: "Warehouse Analytics — SmartFulfill" },
       { property: "og:description", content: "Deeper warehouse intelligence with automatic bottleneck detection." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/analytics" }],
   }),
   component: () => (
     <AppShell role={["admin", "manager"]}>

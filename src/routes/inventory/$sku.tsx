@@ -8,17 +8,53 @@ import { InventoryBadge, Pill } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { fmtDate, inventoryStatus, money } from "@/lib/engine";
+import { seedInventory } from "@/lib/mock-data";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/inventory/$sku")({
-  head: () => ({
-    meta: [
-      { title: "SKU Detail — SmartFulfill Inventory" },
-      { name: "description", content: "Stock position, bin location, movement history and linked orders for a single SKU." },
-      { property: "og:title", content: "SKU Detail — SmartFulfill Inventory" },
-      { property: "og:description", content: "Movement history and live stock position for a single SKU." },
-    ],
-  }),
+  head: ({ params }) => {
+    const item = seedInventory().find((i) => i.sku === params.sku);
+    const title = item ? `${item.name} (${item.sku}) — SmartFulfill Inventory` : "SKU Detail — SmartFulfill Inventory";
+    const description = item
+      ? `${item.name}: ${item.available} units available in zone ${item.zone}, bin ${item.bin}, reorder level ${item.reorderLevel}.`
+      : "Stock position, bin location, movement history and linked orders for a single SKU.";
+    const canonical = `https://swift-resolve-ware.lovable.app/inventory/${params.sku}`;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "product" },
+        { property: "og:url", content: canonical },
+      ],
+      links: [{ rel: "canonical", href: canonical }],
+      scripts: item
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Product",
+                name: item.name,
+                sku: item.sku,
+                category: item.category,
+                url: canonical,
+                offers: {
+                  "@type": "Offer",
+                  price: item.unitPrice,
+                  priceCurrency: "USD",
+                  url: canonical,
+                  availability:
+                    item.available > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+                },
+              }),
+            },
+          ]
+        : [],
+    };
+  },
+
   component: () => (
     <AppShell role={["admin", "manager"]}>
       <SkuDetail />

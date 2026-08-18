@@ -16,6 +16,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "SmartFulfill — Smart Warehouse Operations & Fulfilment" },
       { property: "og:description", content: "Visibility → Decision → Action → Resolution → Analytics for warehouse teams." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/" }],
   }),
   component: Landing,
 });

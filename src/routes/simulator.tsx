@@ -25,6 +25,7 @@ export const Route = createFileRoute("/simulator")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/simulator" }],
   }),
   component: () => (
     <AppShell role={["admin", "manager"]}>

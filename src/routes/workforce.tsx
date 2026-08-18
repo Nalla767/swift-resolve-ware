@@ -26,6 +26,7 @@ export const Route = createFileRoute("/workforce")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/workforce" }],
   }),
   component: () => (
     <AppShell role={["admin", "manager"]}>

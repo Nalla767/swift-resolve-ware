@@ -21,6 +21,7 @@ export const Route = createFileRoute("/decision-center")({
       { property: "og:title", content: "Decision Center — SmartFulfill" },
       { property: "og:description", content: "Accept, modify or reject system recommendations — every action changes real state." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/decision-center" }],
   }),
   component: () => (
     <AppShell role={["admin", "manager"]}>

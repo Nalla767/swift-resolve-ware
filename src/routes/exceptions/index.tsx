@@ -22,6 +22,7 @@ export const Route = createFileRoute("/exceptions/")({
       { property: "og:title", content: "Exception Management — SmartFulfill" },
       { property: "og:description", content: "Problem → recommended decision → resolution for every warehouse exception." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/exceptions" }],
   }),
   component: ExceptionsRoute,
 });

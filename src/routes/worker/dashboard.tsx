@@ -16,6 +16,7 @@ export const Route = createFileRoute("/worker/dashboard")({
       { property: "og:title", content: "Worker Dashboard — SmartFulfill" },
       { property: "og:description", content: "Simple task-focused view for warehouse floor operators." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/worker/dashboard" }],
   }),
   component: () => (
     <AppShell role="worker">

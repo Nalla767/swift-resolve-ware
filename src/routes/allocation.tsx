@@ -21,6 +21,7 @@ export const Route = createFileRoute("/allocation")({
       { property: "og:title", content: "Smart Allocation — SmartFulfill" },
       { property: "og:description", content: "Allocate scarce stock to the highest-priority orders with a transparent rationale." },
     ],
+    links: [{ rel: "canonical", href: "https://swift-resolve-ware.lovable.app/allocation" }],
   }),
   component: () => (
     <AppShell role={["admin", "manager"]}>
