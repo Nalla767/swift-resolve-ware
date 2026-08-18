@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { CategoryDonut } from "@/components/charts";
-import { EmptyState, Insight, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { EmptyState, ImpactPanel, Insight, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { Pill, SeverityBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -66,6 +66,8 @@ function DecisionCenter() {
         icon={Brain}
       />
 
+      <ImpactPanel />
+
       <Card className="p-5">
         <SectionTitle title="Open decisions by category" hint="What the operation currently needs a human to decide" />
         {byKind.length === 0 ? (
@@ -124,8 +126,13 @@ function DecisionCenter() {
                   )}
                 </div>
 
+                <div className="rounded-xl border border-critical/40 bg-critical/10 p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-critical">Problem</p>
+                  <p className="mt-1 text-sm">{d.title}</p>
+                </div>
+
                 <div className="rounded-xl border border-border bg-surface p-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Problem</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Evidence</p>
                   <ul className="mt-1 space-y-1 text-sm">
                     {d.context.map((c) => (
                       <li key={c}>• {c}</li>
@@ -133,10 +140,10 @@ function DecisionCenter() {
                   </ul>
                 </div>
 
-                <div className="rounded-xl border border-border bg-surface p-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Why this matters</p>
+                <div className="rounded-xl border border-warning/40 bg-warning/10 p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-warning">Risk if ignored</p>
                   <p className="mt-1 text-sm">
-                    {d.why ?? `Severity is ${d.severity} and the situation blocks the ${meta.label.toLowerCase()} step of the fulfilment flow.`}
+                    {d.why ?? `Severity is ${d.severity} — the situation blocks the ${meta.label.toLowerCase()} step and puts the order's SLA at risk.`}
                   </p>
                 </div>
 
@@ -146,7 +153,7 @@ function DecisionCenter() {
                 </div>
 
                 <div className="rounded-xl border border-success/40 bg-success/10 p-3">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-success">Expected result</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-success">Expected impact <span className="text-muted-foreground">(projected)</span></p>
                   <p className="mt-1 text-sm">
                     {d.expectedResult ?? "Accepting updates orders, inventory and the activity log immediately, and the outcome is recorded in decision history."}
                   </p>

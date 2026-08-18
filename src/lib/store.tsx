@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { toast } from "sonner";
 
 import { NOW, inventoryStatus, scoreOrder, slaRisk } from "./engine";
+import { opsMetrics, type ImpactSnapshot } from "./impact";
 import {
   DEMO_USERS,
   PACK_CHECKS,
@@ -49,6 +50,7 @@ type State = {
   activity: ActivityEvent[];
   workforce: WorkerAssignment[];
   feedback: Feedback[];
+  lastImpact: ImpactSnapshot | null;
 };
 
 function initialState(): State {
@@ -64,6 +66,7 @@ function initialState(): State {
     activity: seedActivity(),
     workforce: seedWorkforce(),
     feedback: seedFeedback(),
+    lastImpact: null,
   };
 }
 
@@ -140,6 +143,17 @@ function useStoreValue() {
   const record = (s: State, r: Omit<DecisionRecord, "id" | "at" | "operator">, operator: string): State => ({
     ...s,
     history: [{ ...r, id: uid("DH"), at: stamp(), operator }, ...s.history],
+  });
+
+  /** Captures measured before/after metrics either side of an executed action. */
+  const measure = (before: State, next: State, label: string): State => ({
+    ...next,
+    lastImpact: {
+      label,
+      at: stamp(),
+      before: opsMetrics(before.orders, before.inventory),
+      after: opsMetrics(next.orders, next.inventory),
+    },
   });
 
   /* --------------------------------- auth -------------------------------- */
@@ -367,7 +381,7 @@ function useStoreValue() {
       );
       next = log(next, operator, "Inventory allocated", `${orderId} moved to picking queue`);
       next = notify(next, { title: `${orderId} allocated`, body: "Stock reserved and released to the picking queue.", severity: "success", href: "/picking" });
-      return next;
+      return measure(s, next, `Allocation executed for ${orderId}`);
     });
     toast.success(mode === "reject" ? "Allocation rejected" : "Allocation executed — inventory and orders updated");
   }, []);
@@ -558,7 +572,7 @@ function useStoreValue() {
       );
       next = log(next, s.user?.name ?? "Dispatch Desk", "Dispatch completed", `${orderId} fulfilled and inventory updated`);
       next = notify(next, { title: `${orderId} dispatched`, body: "Fulfilment complete — analytics updated.", severity: "success", href: "/analytics" });
-      return next;
+      return measure(s, next, `${orderId} dispatched`);
     });
     toast.success("Order dispatched — inventory and analytics updated");
   }, []);
@@ -635,7 +649,7 @@ function useStoreValue() {
           operator,
         );
         next = log(next, operator, "Decision resolved", `${d.title} → ${outcome}`);
-        return next;
+        return measure(s, next, `${d.title} — ${outcome}`);
       });
       toast.success("Decision executed — system state updated");
     },

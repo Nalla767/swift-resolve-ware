@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { useStore } from "@/lib/store";
 import { STAGES, STAGE_LABEL, type Stage } from "@/lib/types";
 import { Dot, type Tone } from "@/components/status";
+import { IMPACT_ROWS } from "@/lib/impact";
 
 /** Coordinated per-section colour identities inside one SmartFulfill brand. */
 export type Accent = "primary" | "info" | "decision" | "warning" | "success" | "critical";
@@ -425,6 +426,56 @@ export function PipelineStrip({ current }: { current?: (typeof PIPELINE)[number]
                 />
               </div>
             </Link>
+          );
+        })}
+      </div>
+    </Card>
+  );
+}
+
+/* ------------------------- measured decision impact ----------------------- */
+
+/**
+ * Before → after comparison of measured operational metrics, captured either side
+ * of the last executed decision. Values are ACTUAL — nothing here is projected.
+ */
+export function ImpactPanel({ compact = false }: { compact?: boolean }) {
+  const { lastImpact } = useStore();
+  if (!lastImpact) return null;
+  const rows = IMPACT_ROWS.filter((r) => !compact || lastImpact.before[r.key] !== lastImpact.after[r.key] || r.key === "fulfilment");
+
+  return (
+    <Card className="gap-3 p-5">
+      <SectionTitle
+        title="Measured impact of the last decision"
+        hint={`${lastImpact.label} · recorded ${new Date(lastImpact.at).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", timeZone: "UTC" })} UTC`}
+        right={<span className="rounded-full border border-success/40 bg-success/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-success">Actual</span>}
+      />
+      <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+        {rows.map((r) => {
+          const before = lastImpact.before[r.key];
+          const after = lastImpact.after[r.key];
+          const delta = after - before;
+          const improved = r.higherIsBetter ? delta > 0 : delta < 0;
+          const tone = delta === 0 ? "text-muted-foreground" : improved ? "text-success" : "text-critical";
+          return (
+            <div key={r.key} className="rounded-xl border border-border bg-surface p-3">
+              <p className="text-[11px] font-medium text-muted-foreground">{r.label}</p>
+              <p className="mt-1 flex items-baseline gap-1.5 font-display text-sm font-bold tabular-nums">
+                <span className="text-muted-foreground">
+                  {before}
+                  {r.suffix}
+                </span>
+                <ArrowRight className="size-3 text-muted-foreground" />
+                <span>
+                  {after}
+                  {r.suffix}
+                </span>
+              </p>
+              <p className={cn("text-[11px] font-semibold tabular-nums", tone)}>
+                {delta === 0 ? "no change" : `${delta > 0 ? "+" : ""}${delta}${r.suffix}`}
+              </p>
+            </div>
           );
         })}
       </div>

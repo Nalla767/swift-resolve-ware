@@ -16,7 +16,7 @@ import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
 import { BarSeries, ChartLegend, Donut, FlowFunnel, Gauge, TrendArea } from "@/components/charts";
-import { EmptyState, KpiCard, PageHeader, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
+import { EmptyState, ImpactPanel, KpiCard, PageHeader, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
 
 import { PriorityBadge, StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
@@ -184,6 +184,8 @@ function Dashboard() {
           </div>
         </div>
       </Card>
+
+      <ImpactPanel />
 
       {/* Fulfilment flow */}
       <Card className="p-5">
