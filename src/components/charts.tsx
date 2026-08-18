@@ -437,3 +437,45 @@ export function RankedBars({
   );
 }
 
+
+/** Fulfilment flow funnel: one stage per step, congested stage highlighted. */
+export function FlowFunnel({
+  steps,
+  onSelect,
+  hotExclude = [],
+  hotStage,
+}: {
+  steps: { stage: string; count: number; to?: string }[];
+  onSelect?: (stage: string) => void;
+  hotExclude?: string[];
+  hotStage?: string;
+}) {
+  const max = Math.max(1, ...steps.map((s) => s.count));
+  const candidates = steps.filter((s) => !hotExclude.includes(s.stage));
+  const worst = hotStage ? { stage: hotStage, count: 1 } : candidates.reduce((a, b) => (b.count > a.count ? b : a), candidates[0] ?? { stage: "", count: 0 });
+  return (
+    <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
+      {steps.map((s) => {
+        const hot = s.stage === worst.stage && s.count > 0;
+        const pct = Math.round((s.count / max) * 100);
+        return (
+          <button
+            key={s.stage}
+            type="button"
+            onClick={() => onSelect?.(s.stage)}
+            className={`rounded-xl border p-3 text-left transition-colors ${
+              hot ? "border-warning/60 bg-warning/10" : "border-border bg-surface hover:border-primary/40"
+            }`}
+          >
+            <p className="truncate text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">{s.stage}</p>
+            <p className={`font-display text-2xl font-bold tabular-nums ${hot ? "text-warning" : ""}`}>{s.count}</p>
+            <div className="mt-2 h-1.5 rounded-full bg-secondary">
+              <div className={`h-1.5 rounded-full ${hot ? "bg-warning" : "bg-primary"}`} style={{ width: `${pct}%` }} />
+            </div>
+            <p className="mt-1 text-[11px] text-muted-foreground">{hot ? "Most congested" : `${pct}% of peak`}</p>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
