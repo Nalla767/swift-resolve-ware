@@ -442,16 +442,19 @@ export function RankedBars({
 export function FlowFunnel({
   steps,
   onSelect,
+  hotExclude = [],
 }: {
   steps: { stage: string; count: number; to?: string }[];
   onSelect?: (stage: string) => void;
+  hotExclude?: string[];
 }) {
   const max = Math.max(1, ...steps.map((s) => s.count));
-  const worst = steps.reduce((a, b) => (b.count > a.count ? b : a), steps[0] ?? { stage: "", count: 0 });
+  const candidates = steps.filter((s) => !hotExclude.includes(s.stage));
+  const worst = candidates.reduce((a, b) => (b.count > a.count ? b : a), candidates[0] ?? { stage: "", count: 0 });
   return (
     <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
       {steps.map((s) => {
-        const hot = s.count === worst.count && s.count > 0;
+        const hot = s.stage === worst.stage && s.count > 0;
         const pct = Math.round((s.count / max) * 100);
         return (
           <button
