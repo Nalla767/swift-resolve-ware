@@ -12,3 +12,6 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://swift-resolve-ware.lovable.app/sitemap.xml
+

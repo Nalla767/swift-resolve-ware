@@ -24,6 +24,7 @@ import { Route as PickingRouteImport } from './routes/picking'
 import { Route as QualityCheckRouteImport } from './routes/quality-check'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SimulatorRouteImport } from './routes/simulator'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TrackingRouteImport } from './routes/tracking'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as WarehouseOperationsRouteImport } from './routes/warehouse-operations'
@@ -118,6 +119,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const SimulatorRoute = SimulatorRouteImport.update({
   id: '/simulator',
   path: '/simulator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrackingRoute = TrackingRouteImport.update({
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/quality-check': typeof QualityCheckRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tracking': typeof TrackingRoute
   '/users': typeof UsersRoute
   '/warehouse-operations': typeof WarehouseOperationsRoute
@@ -274,6 +281,7 @@ export interface FileRoutesByTo {
   '/quality-check': typeof QualityCheckRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tracking': typeof TrackingRoute
   '/users': typeof UsersRoute
   '/warehouse-operations': typeof WarehouseOperationsRoute
@@ -312,6 +320,7 @@ export interface FileRoutesById {
   '/quality-check': typeof QualityCheckRoute
   '/settings': typeof SettingsRoute
   '/simulator': typeof SimulatorRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tracking': typeof TrackingRoute
   '/users': typeof UsersRoute
   '/warehouse-operations': typeof WarehouseOperationsRoute
@@ -351,6 +360,7 @@ export interface FileRouteTypes {
     | '/quality-check'
     | '/settings'
     | '/simulator'
+    | '/sitemap.xml'
     | '/tracking'
     | '/users'
     | '/warehouse-operations'
@@ -388,6 +398,7 @@ export interface FileRouteTypes {
     | '/quality-check'
     | '/settings'
     | '/simulator'
+    | '/sitemap.xml'
     | '/tracking'
     | '/users'
     | '/warehouse-operations'
@@ -425,6 +436,7 @@ export interface FileRouteTypes {
     | '/quality-check'
     | '/settings'
     | '/simulator'
+    | '/sitemap.xml'
     | '/tracking'
     | '/users'
     | '/warehouse-operations'
@@ -463,6 +475,7 @@ export interface RootRouteChildren {
   QualityCheckRoute: typeof QualityCheckRoute
   SettingsRoute: typeof SettingsRoute
   SimulatorRoute: typeof SimulatorRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrackingRoute: typeof TrackingRoute
   UsersRoute: typeof UsersRoute
   WarehouseOperationsRoute: typeof WarehouseOperationsRoute
@@ -590,6 +603,13 @@ declare module '@tanstack/react-router' {
       path: '/simulator'
       fullPath: '/simulator'
       preLoaderRoute: typeof SimulatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tracking': {
@@ -751,6 +771,7 @@ const rootRouteChildren: RootRouteChildren = {
   QualityCheckRoute: QualityCheckRoute,
   SettingsRoute: SettingsRoute,
   SimulatorRoute: SimulatorRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrackingRoute: TrackingRoute,
   UsersRoute: UsersRoute,
   WarehouseOperationsRoute: WarehouseOperationsRoute,
