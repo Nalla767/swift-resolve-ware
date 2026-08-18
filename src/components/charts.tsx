@@ -443,14 +443,16 @@ export function FlowFunnel({
   steps,
   onSelect,
   hotExclude = [],
+  hotStage,
 }: {
   steps: { stage: string; count: number; to?: string }[];
   onSelect?: (stage: string) => void;
   hotExclude?: string[];
+  hotStage?: string;
 }) {
   const max = Math.max(1, ...steps.map((s) => s.count));
   const candidates = steps.filter((s) => !hotExclude.includes(s.stage));
-  const worst = candidates.reduce((a, b) => (b.count > a.count ? b : a), candidates[0] ?? { stage: "", count: 0 });
+  const worst = hotStage ? { stage: hotStage, count: 1 } : candidates.reduce((a, b) => (b.count > a.count ? b : a), candidates[0] ?? { stage: "", count: 0 });
   return (
     <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
       {steps.map((s) => {

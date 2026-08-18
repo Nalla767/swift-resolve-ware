@@ -188,7 +188,7 @@ function Dashboard() {
       {/* Fulfilment flow */}
       <Card className="p-5">
         <SectionTitle title="Fulfilment flow" hint="Active orders at every stage — the most congested stage is highlighted" />
-        <FlowFunnel steps={stageData.map((s) => ({ stage: s.stage, count: s.count }))} hotExclude={["Completed", "Created"]} />
+        <FlowFunnel steps={stageData.map((s) => ({ stage: s.stage, count: s.count }))} hotExclude={["Completed", "Created"]} hotStage={bn.stage} />
       </Card>
 
       {/* Total progress */}
