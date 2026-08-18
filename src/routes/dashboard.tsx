@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { BarSeries, ChartLegend, ColoredBars, Donut, Gauge, TrendArea } from "@/components/charts";
+import { BarSeries, ChartLegend, ColoredBars, Donut, FlowFunnel, Gauge, TrendArea } from "@/components/charts";
 import { EmptyState, KpiCard, PageHeader, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
 
 import { PriorityBadge, StageBadge } from "@/components/status";
@@ -27,6 +27,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fmtRelative, inventoryStatus } from "@/lib/engine";
 import { FULFILMENT_TREND, STAGE_QUEUES, STAGE_TIMES, WEEKLY_TREND } from "@/lib/mock-data";
 import { useStats, useStore } from "@/lib/store";
+import { warehouseHealth } from "@/lib/ops";
 import { STAGE_LABEL } from "@/lib/types";
 
 export const Route = createFileRoute("/dashboard")({
@@ -59,7 +60,7 @@ export function bottleneck() {
 }
 
 function Dashboard() {
-  const { orders, inventory, decisions, activity } = useStore();
+  const { orders, inventory, decisions, activity, exceptions } = useStore();
   const stats = useStats();
   const [progressRange, setProgressRange] = useState("daily");
 
@@ -69,6 +70,9 @@ function Dashboard() {
 
   const inProgressPct = Math.round((stats.inProgress / Math.max(1, stats.total)) * 100);
   const bn = bottleneck();
+  const health = warehouseHealth(orders, inventory, exceptions);
+  const topDecision =
+    [...decisions].sort((a, b) => (a.severity === "critical" ? -1 : 0) - (b.severity === "critical" ? -1 : 0))[0] ?? null;
 
   const stageData = stats.stageCounts.map((s) => ({ stage: STAGE_LABEL[s.stage], count: s.count }));
   const priorityData = (["critical", "high", "normal", "low"] as const).map((p, i) => ({
