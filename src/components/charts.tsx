@@ -102,7 +102,7 @@ export function BarSeries({
           <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
           {layout === "horizontal" ? (
             <>
-              <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} interval={0} height={28} tickMargin={8} />
+              <XAxis dataKey={x} tick={{ fill: "var(--color-chart-text)", fontSize: 11 }} tickLine={false} axisLine={false} interval={0} height={30} />
               <YAxis tick={axis} tickLine={false} axisLine={false} allowDecimals={false} width={40} />
             </>
           ) : (
