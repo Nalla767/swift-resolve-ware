@@ -3,7 +3,7 @@ import { Boxes, Check, PackageSearch, Pencil, X } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, PageHeader, SectionTitle, StatLine } from "@/components/shared";
+import { EmptyState, PageHeader, PipelineStrip, SectionTitle, StatLine } from "@/components/shared";
 import { Pill, PriorityBadge, StageBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -49,6 +49,8 @@ function Allocation() {
         description="When stock is scarce, SmartFulfill allocates to the highest priority score first, holds lower-priority demand and raises replenishment."
         icon={PackageSearch}
       />
+
+      <PipelineStrip current="/allocation" />
 
       {queue.length === 0 ? (
         <EmptyState

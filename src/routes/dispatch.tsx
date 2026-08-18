@@ -2,7 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { Rocket, Truck } from "lucide-react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, KpiCard, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { EmptyState, KpiCard, PageHeader, PipelineStrip, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { Pill, RiskBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -118,6 +118,8 @@ function Dispatch() {
         description="Assign carriers, clear SLA risk and confirm handover. Dispatching an order reconciles reserved inventory automatically."
         icon={Truck}
       />
+
+      <PipelineStrip current="/dispatch" />
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard label="Ready" value={ready.length} tone="success" icon={Truck} hint="Within SLA" />
