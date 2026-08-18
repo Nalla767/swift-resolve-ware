@@ -79,21 +79,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SmartFulfill — Warehouse Operations Control" },
-      {
-        name: "description",
-        content:
-          "SmartFulfill is a smart warehouse operations and order fulfilment control center: visibility, decisions, execution and analytics in one system.",
-      },
       { name: "author", content: "SmartFulfill" },
-      { property: "og:title", content: "SmartFulfill — Warehouse Operations Control" },
-      {
-        property: "og:description",
-        content: "Order priority scoring, smart allocation, picking, packing, QC, dispatch and bottleneck analytics.",
-      },
+      { property: "og:site_name", content: "SmartFulfill" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
