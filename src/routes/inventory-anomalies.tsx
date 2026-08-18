@@ -67,6 +67,7 @@ function InventoryAnomalies() {
   return (
     <>
       <PageHeader
+        accent="critical"
         eyebrow="Inventory intelligence"
         title="Anomaly detection"
         description="Continuous rule-based checks across stock counts, damage rates, demand movement and dead stock — each one paired with a corrective action."

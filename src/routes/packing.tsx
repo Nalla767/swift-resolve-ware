@@ -49,6 +49,7 @@ function Packing() {
   return (
     <>
       <PageHeader
+        accent="success"
         eyebrow="Workstation"
         title="Packing"
         description="Each order must clear every verification gate before it can be sealed and sent to quality check."

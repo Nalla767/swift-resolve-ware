@@ -58,6 +58,7 @@ function Orders() {
   return (
     <>
       <PageHeader
+        accent="primary"
         eyebrow="Fulfilment"
         title="Order management"
         description="Every order in DC-01 with its priority score, SLA risk and current workflow stage."

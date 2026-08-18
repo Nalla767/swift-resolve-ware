@@ -90,6 +90,7 @@ function CreateOrder() {
       </Button>
 
       <PageHeader
+        accent="primary"
         eyebrow="Order intake"
         title="Create order"
         description="Order → priority calculation → inventory check → allocation recommendation, all triggered on submit."

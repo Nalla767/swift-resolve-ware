@@ -33,6 +33,7 @@ function ActivityPage() {
   return (
     <>
       <PageHeader
+        accent="primary"
         eyebrow="Audit trail"
         title="Activity timeline"
         description="Every state change in DC-01, newest first — order creation, priority assignment, allocation, picking, packing, QC and dispatch."

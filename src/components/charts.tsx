@@ -100,17 +100,23 @@ export function BarSeries({
       <ChartFrame height={height}>
         <BarChart data={data} layout={layout} margin={{ top: 8, right: 8, bottom: bars.length > 1 ? 8 : 0, left: layout === "vertical" ? 24 : 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-          {layout === "horizontal" ? (
-            <>
-              <XAxis dataKey={x} tick={axis} tickLine={false} axisLine={false} interval={0} angle={-12} height={48} textAnchor="end" />
-              <YAxis tick={axis} tickLine={false} axisLine={false} allowDecimals={false} width={40} />
-            </>
-          ) : (
-            <>
-              <XAxis type="number" tick={axis} tickLine={false} axisLine={false} />
-              <YAxis type="category" dataKey={x} tick={axis} tickLine={false} axisLine={false} width={110} />
-            </>
-          )}
+          <XAxis
+            {...(layout === "horizontal"
+              ? { dataKey: x, interval: 0, height: 30, tickMargin: 8 }
+              : { type: "number" as const })}
+            tick={axis}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis
+            {...(layout === "horizontal"
+              ? { allowDecimals: false, width: 40 }
+              : { type: "category" as const, dataKey: x, width: 110 })}
+            tick={axis}
+            tickLine={false}
+            axisLine={false}
+          />
+
           <Tooltip {...tooltipStyle} />
           {bars.length > 1 && <Legend wrapperStyle={legendStyle} verticalAlign="bottom" align="center" height={28} />}
 

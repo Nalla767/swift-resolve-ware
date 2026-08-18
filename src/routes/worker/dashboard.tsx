@@ -36,6 +36,7 @@ function WorkerDashboard() {
   return (
     <>
       <PageHeader
+        accent="success"
         eyebrow="My shift"
         title={`Good shift, ${user?.name?.split(" ")[0] ?? "operator"}`}
         description="Only what you need: your task queue, in priority order."

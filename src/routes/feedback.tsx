@@ -193,6 +193,7 @@ function CustomerFeedback() {
   return (
     <>
       <PageHeader
+        accent="info"
         eyebrow="Your experience"
         title="Share feedback"
         description="Tell us what happened so the warehouse team can resolve it quickly."
@@ -334,6 +335,7 @@ function WorkerFeedback() {
   return (
     <>
       <PageHeader
+        accent="info"
         eyebrow="Floor reporting"
         title="Report an issue"
         description="Tell us what happened so the warehouse team can resolve it quickly."
@@ -460,6 +462,7 @@ function FeedbackQueue() {
   return (
     <>
       <PageHeader
+        accent="info"
         eyebrow="Voice of the operation"
         title="Feedback center"
         description="Customers report on delivery and quality; workers report on stock accuracy, layout and equipment. Both land here and both drive fixes."

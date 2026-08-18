@@ -52,6 +52,7 @@ function Tracking() {
   return (
     <>
       <PageHeader
+        accent="info"
         eyebrow="End-to-end visibility"
         title="Live order tracking"
         description="Follow any order through every physical stage of fulfilment, with the live ETA and the carrier handling the final leg."

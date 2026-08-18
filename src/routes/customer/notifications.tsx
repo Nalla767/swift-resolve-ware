@@ -28,7 +28,7 @@ function CustomerNotifications() {
 
   return (
     <>
-      <PageHeader eyebrow="Updates" title="Notifications" description="Every update we have sent you about your orders." icon={Bell} />
+      <PageHeader accent="info" eyebrow="Updates" title="Notifications" description="Every update we have sent you about your orders." icon={Bell} />
       {notifications.length === 0 ? (
         <EmptyState title="Nothing new" description="You are all caught up." />
       ) : (

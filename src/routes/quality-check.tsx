@@ -48,6 +48,7 @@ function QualityCheck() {
   return (
     <>
       <PageHeader
+        accent="success"
         eyebrow="Verification"
         title="Quality check"
         description="Final inspection before dispatch. Approve to release, reject to send the order back to packing with a recorded reason."

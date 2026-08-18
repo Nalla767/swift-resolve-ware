@@ -80,6 +80,7 @@ function Exceptions() {
   return (
     <>
       <PageHeader
+        accent="critical"
         eyebrow="Resolution"
         title="Exception management"
         description="Every exception carries the problem, the system's recommended decision and the resolution that was applied."

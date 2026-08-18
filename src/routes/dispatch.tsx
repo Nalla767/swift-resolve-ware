@@ -112,6 +112,7 @@ function Dispatch() {
   return (
     <>
       <PageHeader
+        accent="success"
         eyebrow="Outbound"
         title="Dispatch"
         description="Assign carriers, clear SLA risk and confirm handover. Dispatching an order reconciles reserved inventory automatically."

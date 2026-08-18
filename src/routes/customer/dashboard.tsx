@@ -36,6 +36,7 @@ function CustomerDashboard() {
   return (
     <>
       <PageHeader
+        accent="info"
         eyebrow="Customer portal"
         title={`Welcome back, ${user?.name?.split(" ")[0] ?? "there"}`}
         description="Track every order as it moves through our fulfilment centre."

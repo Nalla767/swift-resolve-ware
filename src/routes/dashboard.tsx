@@ -10,13 +10,12 @@ import {
   Gauge as GaugeIcon,
   LayoutDashboard,
   PackageX,
-  Timer,
   Truck,
 } from "lucide-react";
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { BarSeries, ChartLegend, ColoredBars, Donut, FlowFunnel, Gauge, TrendArea } from "@/components/charts";
+import { BarSeries, ChartLegend, Donut, FlowFunnel, Gauge, TrendArea } from "@/components/charts";
 import { EmptyState, KpiCard, PageHeader, SectionTitle, StatLine, WorkflowProgress } from "@/components/shared";
 
 import { PriorityBadge, StageBadge } from "@/components/status";
@@ -266,8 +265,44 @@ function Dashboard() {
         </Card>
 
         <Card className="p-5 xl:col-span-2">
-          <SectionTitle title="Order status distribution" hint="Where every order sits in the workflow" />
-          <ColoredBars data={stageData} x="stage" y="count" height={260} />
+          <SectionTitle
+            title="Processing time by stage"
+            hint="Actual vs target handling time (minutes)"
+            right={
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/analytics">
+                  Bottleneck analysis <ArrowRight className="size-3.5" />
+                </Link>
+              </Button>
+            }
+          />
+          <BarSeries
+            data={STAGE_TIMES}
+            x="stage"
+            bars={[
+              { key: "actual", name: "Actual", color: "var(--color-chart-1)" },
+              { key: "target", name: "Target", color: "var(--color-chart-6)" },
+            ]}
+            height={230}
+          />
+          <div className="mt-3 grid gap-2 sm:grid-cols-5">
+            {STAGE_TIMES.map((s) => {
+              const ratio = s.actual / s.target;
+              return (
+                <div key={s.stage} className="rounded-lg border border-border bg-surface p-2.5">
+                  <p className="truncate text-[11px] text-muted-foreground">{s.stage}</p>
+                  <p className="font-display text-base font-bold tabular-nums">{s.actual}m</p>
+                  <div className="mt-1.5 h-1.5 rounded-full bg-secondary">
+                    <div
+                      className={ratio > 1 ? "h-1.5 rounded-full bg-critical" : "h-1.5 rounded-full bg-success"}
+                      style={{ width: `${Math.min(100, (s.actual / (s.target * 2)) * 100)}%` }}
+                    />
+                  </div>
+                  <p className="mt-1 text-[10px] text-muted-foreground">Queue {STAGE_QUEUES[s.stage]} · target {s.target}m</p>
+                </div>
+              );
+            })}
+          </div>
         </Card>
 
         <Card className="p-5">
@@ -276,76 +311,19 @@ function Dashboard() {
         </Card>
 
         <Card className="p-5 xl:col-span-2">
-          <SectionTitle title="Processing time by stage" hint="Actual vs target handling time (minutes)" />
-          <BarSeries
-            data={STAGE_TIMES}
-            x="stage"
-            bars={[
-              { key: "actual", name: "Actual", color: "var(--color-chart-1)" },
-              { key: "target", name: "Target", color: "var(--color-chart-6)" },
-            ]}
-            height={250}
-          />
-        </Card>
-
-        <Card className="p-5">
           <SectionTitle title="Fulfilment health" hint="Completed vs total in the current window" />
-          <Gauge value={stats.fulfilmentRate} label="Fulfilment rate" height={230} />
-          <div className="mt-2">
-            <StatLine label="On-time dispatch" value="92%" tone="success" />
-            <StatLine label="QC pass rate" value="96%" tone="info" />
-            <StatLine label="Orders at SLA risk" value={stats.atRisk} tone="warning" />
-          </div>
-        </Card>
-
-      </div>
-
-      {/* Bottleneck */}
-      <Card className="gap-4 border-warning/40 bg-warning/5 p-5">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-warning/40 bg-warning/15 text-warning">
-              <Timer className="size-5" />
-            </span>
+          <div className="grid gap-4 md:grid-cols-[minmax(0,260px)_1fr] md:items-center">
+            <Gauge value={stats.fulfilmentRate} label="Fulfilment rate" height={220} />
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-warning">Bottleneck detected</p>
-              <h2 className="font-display text-xl font-bold">{bn.stage} is the constraint right now</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Queue: <span className="font-semibold text-foreground">{bn.queue} orders</span> · Average processing:{" "}
-                <span className="font-semibold text-foreground">{bn.actual} min</span> · Target:{" "}
-                <span className="font-semibold text-foreground">{bn.target} min</span> · Running{" "}
-                <span className="font-semibold text-warning">{bn.over}% over target</span>
-              </p>
-              <p className="mt-2 rounded-lg border border-warning/30 bg-warning/10 px-3 py-2 text-sm">
-                <span className="font-semibold">Recommendation:</span> {bn.recommendation}
-              </p>
+              <StatLine label="On-time dispatch" value="92%" tone="success" />
+              <StatLine label="QC pass rate" value="96%" tone="info" />
+              <StatLine label="Orders at SLA risk" value={stats.atRisk} tone="warning" />
+              <StatLine label={`${bn.stage} over target`} value={`${bn.over}%`} tone="critical" />
             </div>
           </div>
-          <Button asChild variant="outline" size="sm">
-            <Link to="/analytics">
-              Bottleneck analysis <ArrowRight className="size-3.5" />
-            </Link>
-          </Button>
-        </div>
-        <div className="grid gap-2 sm:grid-cols-5">
-          {STAGE_TIMES.map((s) => {
-            const ratio = s.actual / s.target;
-            return (
-              <div key={s.stage} className="rounded-lg border border-border bg-card p-3">
-                <p className="text-xs text-muted-foreground">{s.stage}</p>
-                <p className="font-display text-lg font-bold tabular-nums">{s.actual}m</p>
-                <div className="mt-2 h-1.5 rounded-full bg-secondary">
-                  <div
-                    className={ratio > 1 ? "h-1.5 rounded-full bg-critical" : "h-1.5 rounded-full bg-success"}
-                    style={{ width: `${Math.min(100, (s.actual / (s.target * 2)) * 100)}%` }}
-                  />
-                </div>
-                <p className="mt-1 text-[11px] text-muted-foreground">Queue {STAGE_QUEUES[s.stage]} · target {s.target}m</p>
-              </div>
-            );
-          })}
-        </div>
-      </Card>
+        </Card>
+      </div>
+
 
       {/* Priority queue + activity */}
       <div className="grid gap-4 xl:grid-cols-3">

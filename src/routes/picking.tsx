@@ -50,6 +50,7 @@ function Picking() {
   return (
     <>
       <PageHeader
+        accent="success"
         eyebrow="Floor execution"
         title="Picking"
         description="Pick tasks ordered by priority score, with zone map and optimised bin routing to cut walking time."

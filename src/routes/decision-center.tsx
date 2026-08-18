@@ -58,6 +58,7 @@ function DecisionCenter() {
   return (
     <>
       <PageHeader
+        accent="decision"
         eyebrow="Detect → Analyse → Decide → Act → Measure"
         title="Decision center"
         description="SmartFulfill surfaces the problem, explains the reasoning and recommends the action. You accept, modify or reject — and the system state changes."

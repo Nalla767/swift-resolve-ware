@@ -29,7 +29,7 @@ function CustomerProfile() {
 
   return (
     <>
-      <PageHeader eyebrow="Account" title="My profile" description="Contact and delivery details we use for your orders." icon={User} />
+      <PageHeader accent="info" eyebrow="Account" title="My profile" description="Contact and delivery details we use for your orders." icon={User} />
       <div className="grid gap-4 xl:grid-cols-2">
         <Card className="p-5">
           <SectionTitle title="Account" />

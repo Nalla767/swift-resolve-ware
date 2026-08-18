@@ -61,6 +61,7 @@ function ExceptionDetail() {
       <BackLink to="/exceptions" label="Back to exceptions" />
 
       <PageHeader
+        accent="critical"
         eyebrow={ex.id}
         title={ex.type}
         description={`Detected ${fmtDate(ex.detectedAt)} · owner ${ex.owner}`}
