@@ -105,7 +105,90 @@ function Dashboard() {
         }
       />
 
+      {/* Judge-first briefing: health → problem → evidence → recommendation → action */}
+      <Card className="gap-4 p-5">
+        <SectionTitle title="Warehouse status" hint="Health now vs target, and the single most critical problem to act on" />
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,260px)_1fr]">
+          <div className="rounded-xl border border-border bg-surface p-4">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Overall health</p>
+            <p className="font-display text-4xl font-bold tabular-nums">{health.score}%</p>
+            <p className="text-xs text-muted-foreground">Target 95% · weakest area: {health.weakest.label}</p>
+            <div className="mt-3 space-y-2">
+              {health.parts.map((p) => (
+                <div key={p.label}>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-muted-foreground">{p.label}</span>
+                    <span className="font-mono font-semibold">
+                      {p.value}% <span className="text-muted-foreground">/ {p.target}%</span>
+                    </span>
+                  </div>
+                  <div className="mt-1 h-1.5 rounded-full bg-secondary">
+                    <div
+                      className={`h-1.5 rounded-full ${p.value >= p.target ? "bg-success" : p.value >= p.target * 0.85 ? "bg-warning" : "bg-critical"}`}
+                      style={{ width: `${Math.min(100, p.value)}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="rounded-xl border border-critical/40 bg-critical/10 p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-critical">Top problem</p>
+              <h2 className="font-display text-xl font-bold">
+                {topDecision ? topDecision.title : `${bn.stage} is running ${bn.over}% over target`}
+              </h2>
+            </div>
+            <div className="grid gap-3 md:grid-cols-2">
+              <div className="rounded-xl border border-border bg-surface p-3">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Evidence</p>
+                <ul className="mt-1 space-y-1 text-sm">
+                  {(topDecision?.context ?? [
+                    `${bn.stage} queue: ${bn.queue} orders`,
+                    `Average handling ${bn.actual} min vs ${bn.target} min target`,
+                  ]).slice(0, 3).map((c) => (
+                    <li key={c}>• {c}</li>
+                  ))}
+                  <li>• {stats.atRisk} order(s) at SLA risk · {stats.activeExceptions} active exception(s)</li>
+                </ul>
+              </div>
+              <div className="rounded-xl border border-decision/40 bg-decision/10 p-3">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-decision">Recommendation</p>
+                <p className="mt-1 text-sm">{topDecision?.recommendation ?? bn.recommendation}</p>
+                <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-success">Expected impact</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {topDecision?.expectedResult ?? "Restoring capacity at the constraint reduces SLA risk and lifts the fulfilment rate."}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button asChild size="sm">
+                <Link to="/decision-center">
+                  <Brain className="size-4" /> Act on this decision
+                </Link>
+              </Button>
+              <Button asChild size="sm" variant="outline">
+                <Link to="/workforce">Rebalance workforce</Link>
+              </Button>
+              <Button asChild size="sm" variant="ghost">
+                <Link to="/analytics">
+                  Measured impact <ArrowRight className="size-3.5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Fulfilment flow */}
+      <Card className="p-5">
+        <SectionTitle title="Fulfilment flow" hint="Active orders at every stage — the most congested stage is highlighted" />
+        <FlowFunnel steps={stageData.map((s) => ({ stage: s.stage, count: s.count }))} />
+      </Card>
+
       {/* Total progress */}
+
       <Card className="p-5">
         <SectionTitle
           title="Total progress"
