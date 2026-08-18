@@ -3,7 +3,7 @@ import { CheckCircle2, MapPin, PackageX, Play, Route as RouteIcon, Scan, Triangl
 import { useState } from "react";
 
 import { AppShell } from "@/components/app-shell";
-import { EmptyState, PageHeader, SectionTitle, TableShell, Td, Th } from "@/components/shared";
+import { EmptyState, PageHeader, PipelineStrip, SectionTitle, TableShell, Td, Th } from "@/components/shared";
 import { Pill, PriorityBadge } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -68,6 +68,8 @@ function Picking() {
           </Select>
         }
       />
+
+      <PipelineStrip current="/picking" />
 
       <div className="grid gap-4 xl:grid-cols-3">
         <Card className="p-5 xl:col-span-2">

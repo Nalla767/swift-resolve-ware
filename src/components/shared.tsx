@@ -370,3 +370,64 @@ export function LoadingState({ label = "Loading warehouse data…" }: { label?: 
     </div>
   );
 }
+
+const PIPELINE = [
+  { stages: ["created", "prioritized"] as Stage[], label: "Intake", to: "/orders" },
+  { stages: ["allocated"] as Stage[], label: "Allocation", to: "/allocation" },
+  { stages: ["picking"] as Stage[], label: "Picking", to: "/picking" },
+  { stages: ["packing"] as Stage[], label: "Packing", to: "/packing" },
+  { stages: ["qc"] as Stage[], label: "Quality check", to: "/quality-check" },
+  { stages: ["dispatch"] as Stage[], label: "Dispatch", to: "/dispatch" },
+  { stages: ["completed"] as Stage[], label: "Completed", to: "/tracking" },
+] as const;
+
+/**
+ * Live fulfilment pipeline strip: order counts per workflow step, the busiest
+ * open step flagged as the constraint, every step links to its own console.
+ */
+export function PipelineStrip({ current }: { current?: (typeof PIPELINE)[number]["to"] }) {
+  const { orders } = useStore();
+  const counts = PIPELINE.map((p) => orders.filter((o) => p.stages.includes(o.stage)).length);
+  const openMax = Math.max(...counts.slice(0, -1));
+  const total = counts.reduce((a, b) => a + b, 0) || 1;
+
+  return (
+    <Card className="gap-3 p-4">
+      <div className="flex items-end justify-between gap-3">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Fulfilment pipeline</p>
+          <p className="text-xs text-muted-foreground">Live order volume at every step — the busiest open step is the current constraint.</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 xl:grid-cols-7">
+        {PIPELINE.map((p, i) => {
+          const count = counts[i]!;
+          const isCurrent = current === p.to;
+          const isHot = i < PIPELINE.length - 1 && count > 0 && count === openMax;
+          return (
+            <Link
+              key={p.to}
+              to={p.to}
+              className={cn(
+                "rounded-lg border p-2.5 transition-colors",
+                isCurrent ? "border-primary/60 bg-primary/10" : "border-border bg-surface hover:border-primary/40",
+              )}
+            >
+              <div className="flex items-baseline justify-between gap-2">
+                <span className="truncate text-[11px] text-muted-foreground">{p.label}</span>
+                {isHot && <span className="text-[9px] font-semibold uppercase tracking-wide text-warning">Constraint</span>}
+              </div>
+              <p className={cn("font-display text-xl font-bold tabular-nums", isCurrent && "text-primary")}>{count}</p>
+              <div className="mt-1 h-1.5 rounded-full bg-secondary">
+                <div
+                  className={cn("h-1.5 rounded-full", isHot ? "bg-warning" : isCurrent ? "bg-primary" : "bg-success")}
+                  style={{ width: `${Math.round((count / total) * 100)}%` }}
+                />
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </Card>
+  );
+}
