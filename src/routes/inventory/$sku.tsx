@@ -8,6 +8,7 @@ import { InventoryBadge, Pill } from "@/components/status";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { fmtDate, inventoryStatus, money } from "@/lib/engine";
+import { seedInventory } from "@/lib/mock-data";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/inventory/$sku")({
