@@ -12,12 +12,25 @@ import { useStore } from "@/lib/store";
 import { STAGES, STAGE_LABEL, type Stage } from "@/lib/types";
 import { Dot, type Tone } from "@/components/status";
 
+/** Coordinated per-section colour identities inside one SmartFulfill brand. */
+export type Accent = "primary" | "info" | "decision" | "warning" | "success" | "critical";
+
+const ACCENT: Record<Accent, { icon: string; eyebrow: string; rule: string }> = {
+  primary: { icon: "border-primary/30 bg-primary/10 text-primary", eyebrow: "text-primary", rule: "from-primary/60" },
+  info: { icon: "border-info/30 bg-info/10 text-info", eyebrow: "text-info", rule: "from-info/60" },
+  decision: { icon: "border-decision/30 bg-decision/10 text-decision", eyebrow: "text-decision", rule: "from-decision/60" },
+  warning: { icon: "border-warning/30 bg-warning/10 text-warning", eyebrow: "text-warning", rule: "from-warning/60" },
+  success: { icon: "border-success/30 bg-success/10 text-success", eyebrow: "text-success", rule: "from-success/60" },
+  critical: { icon: "border-critical/30 bg-critical/10 text-critical", eyebrow: "text-critical", rule: "from-critical/60" },
+};
+
 export function PageHeader({
   eyebrow,
   title,
   description,
   icon: Icon,
   actions,
+  accent = "primary",
   refreshable = true,
 }: {
   eyebrow: string;
@@ -25,18 +38,21 @@ export function PageHeader({
   description: string;
   icon: LucideIcon;
   actions?: React.ReactNode;
+  accent?: Accent;
   /** Set false for read-only/static pages that have nothing to re-read. */
   refreshable?: boolean;
 }) {
+  const a = ACCENT[accent];
   return (
-    <div className="flex flex-col gap-4 border-b border-border pb-6 md:flex-row md:items-end md:justify-between">
+    <div className="relative flex flex-col gap-4 pb-5 md:flex-row md:items-end md:justify-between">
+      <span className={cn("pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r to-transparent", a.rule)} />
       <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-4">
-        <div className="grid size-11 shrink-0 place-items-center rounded-xl border border-primary/30 bg-primary/10 text-primary shadow-sm">
+        <div className={cn("grid size-11 shrink-0 place-items-center rounded-xl border shadow-sm", a.icon)}>
           <Icon className="size-5" />
         </div>
         <div className="min-w-0">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">{eyebrow}</p>
-          <h1 className="mt-1 text-2xl font-bold leading-tight md:text-3xl">{title}</h1>
+          <p className={cn("text-[11px] font-semibold uppercase tracking-[0.18em]", a.eyebrow)}>{eyebrow}</p>
+          <h1 className="mt-1 font-display text-2xl font-bold leading-tight md:text-3xl">{title}</h1>
           <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">{description}</p>
         </div>
       </div>
@@ -54,6 +70,7 @@ export function PageHeader({
     </div>
   );
 }
+
 
 /** Shows when the operational data on screen was last re-read. */
 export function LastUpdated() {
