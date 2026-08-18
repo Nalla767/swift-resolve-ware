@@ -372,7 +372,7 @@ export function LoadingState({ label = "Loading warehouse data…" }: { label?: 
 }
 
 const PIPELINE = [
-  { stages: ["created", "prioritized"] as Stage[], label: "Order intake", to: "/orders" },
+  { stages: ["created", "prioritized"] as Stage[], label: "Intake", to: "/orders" },
   { stages: ["allocated"] as Stage[], label: "Allocation", to: "/allocation" },
   { stages: ["picking"] as Stage[], label: "Picking", to: "/picking" },
   { stages: ["packing"] as Stage[], label: "Packing", to: "/packing" },
