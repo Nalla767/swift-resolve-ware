@@ -10,14 +10,17 @@ import { fmtDate, fmtRelative, money, scoreOrder, slaRisk } from "@/lib/engine";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/orders/$orderId")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: "Order Detail — SmartFulfill" },
-      { name: "description", content: "Full order detail: priority reasoning, allocation, workflow timeline, exceptions and decisions." },
-      { property: "og:title", content: "Order Detail — SmartFulfill" },
+      { title: `Order ${params.orderId} — SmartFulfill` },
+      { name: "description", content: `Priority reasoning, allocation, workflow timeline, exceptions and decisions for order ${params.orderId}.` },
+      { property: "og:title", content: `Order ${params.orderId} — SmartFulfill` },
       { property: "og:description", content: "Priority reasoning, allocation state, timeline and exceptions for a single order." },
+      { property: "og:url", content: `https://swift-resolve-ware.lovable.app/orders/${params.orderId}` },
     ],
+    links: [{ rel: "canonical", href: `https://swift-resolve-ware.lovable.app/orders/${params.orderId}` }],
   }),
+
   component: () => (
     <AppShell role={["admin", "manager"]}>
       <OrderDetail />
